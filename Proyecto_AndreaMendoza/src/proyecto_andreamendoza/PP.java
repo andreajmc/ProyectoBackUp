@@ -48,6 +48,10 @@ import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
 import sun.audio.*;
+import java.net.*;
+import java.io.*;
+import java.util.*;
+
 
 public class PP extends javax.swing.JFrame {
 
@@ -2426,9 +2430,13 @@ public class PP extends javax.swing.JFrame {
 
     private void PlayPauseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PlayPauseMouseClicked
         if (play) {
+            if (!Playlist.isSelectionEmpty()) {
             URL source = Proyecto_AndreaMendoza.class.getResource("/Imagenes/pause-button.png");
             PlayPause.setIcon(new ImageIcon(source));
-            play = false;
+            play = false;   
+            } else {
+                JOptionPane.showMessageDialog(MusicPlayer,"No ha seleccionado ninguna canción.");
+            }       
         } else {
             URL source = Proyecto_AndreaMendoza.class.getResource("/Imagenes/play-button.png");
             PlayPause.setIcon(new ImageIcon(source));
@@ -2467,6 +2475,11 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_ImportMusicMouseClicked
 
     private void PlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PlaylistMouseClicked
+   File song = new File("./Sistema/"+USER.getNombre()+"/Mi Música/"+Playlist.getSelectedValue());
+   final Player p = Manager.createRealizedPlayer(song.toURI().toURL());
+        p.start();
+
+            p.stop();
    /*     InputStream song = null;
         try {
             int i = Playlist.getSelectedIndex();
