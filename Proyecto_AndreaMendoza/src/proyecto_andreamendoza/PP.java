@@ -58,6 +58,7 @@ public class PP extends javax.swing.JFrame {
     Usuario USER = new Usuario();
 
     public PP() {
+        this.Recycle = new ArrayList();
         initComponents();
         LogIn.setVisible(true);
         LogIn.setLocationRelativeTo(null);
@@ -267,7 +268,9 @@ public class PP extends javax.swing.JFrame {
         jLabel3 = new javax.swing.JLabel();
         jLabel4 = new javax.swing.JLabel();
         RecycleBin = new javax.swing.JDialog();
-        jLabel51 = new javax.swing.JLabel();
+        jPanel7 = new javax.swing.JPanel();
+        jScrollPane7 = new javax.swing.JScrollPane();
+        RecycleBinTable = new javax.swing.JTable();
         jPanel2 = new javax.swing.JPanel();
         ArchivesPM = new javax.swing.JPopupMenu();
         Copy = new javax.swing.JMenuItem();
@@ -275,6 +278,9 @@ public class PP extends javax.swing.JFrame {
         Paste = new javax.swing.JMenuItem();
         Rename = new javax.swing.JMenuItem();
         Delete = new javax.swing.JMenuItem();
+        RBPM = new javax.swing.JPopupMenu();
+        Restore = new javax.swing.JMenuItem();
+        DeleteP = new javax.swing.JMenuItem();
         MainMenu = new javax.swing.JToolBar();
         archives = new javax.swing.JButton();
         console = new javax.swing.JButton();
@@ -1038,7 +1044,6 @@ public class PP extends javax.swing.JFrame {
 
             MusicPlayer.setTitle("Reproductor de Música");
             MusicPlayer.setMinimumSize(new java.awt.Dimension(360, 330));
-            MusicPlayer.setPreferredSize(new java.awt.Dimension(360, 330));
             MusicPlayer.setResizable(false);
             MusicPlayer.setSize(new java.awt.Dimension(360, 315));
             MusicPlayer.addWindowListener(new java.awt.event.WindowAdapter() {
@@ -1371,9 +1376,71 @@ public class PP extends javax.swing.JFrame {
             NewBDay.getContentPane().add(jLabel4);
             jLabel4.setBounds(0, 0, 440, 210);
 
-            RecycleBin.setTitle("Papelería de Reciclaje");
+            RecycleBin.setTitle("Papelera de Reciclaje");
 
-            jLabel51.setText("jLabel51");
+            jScrollPane7.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    jScrollPane7MouseClicked(evt);
+                }
+            });
+
+            RecycleBinTable.setAutoCreateRowSorter(true);
+            RecycleBinTable.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+            RecycleBinTable.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+
+                },
+                new String [] {
+                    "Nombre", "Fecha de modificación", "Tipo", "Tamaño"
+                }
+            ) {
+                Class[] types = new Class [] {
+                    java.lang.String.class, java.lang.Object.class, java.lang.String.class, java.lang.String.class
+                };
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false
+                };
+
+                public Class getColumnClass(int columnIndex) {
+                    return types [columnIndex];
+                }
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            });
+            RecycleBinTable.setGridColor(new java.awt.Color(255, 255, 255));
+            RecycleBinTable.setShowHorizontalLines(false);
+            RecycleBinTable.setShowVerticalLines(false);
+            RecycleBinTable.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    RecycleBinTableMouseClicked(evt);
+                }
+            });
+            jScrollPane7.setViewportView(RecycleBinTable);
+
+            javax.swing.GroupLayout jPanel7Layout = new javax.swing.GroupLayout(jPanel7);
+            jPanel7.setLayout(jPanel7Layout);
+            jPanel7Layout.setHorizontalGroup(
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 547, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.DEFAULT_SIZE, 527, Short.MAX_VALUE)
+                        .addContainerGap()))
+            );
+            jPanel7Layout.setVerticalGroup(
+                jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGap(0, 323, Short.MAX_VALUE)
+                .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel7Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane7, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addContainerGap()))
+            );
+
+            RecycleBin.getContentPane().add(jPanel7, java.awt.BorderLayout.CENTER);
 
             javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
             jPanel2.setLayout(jPanel2Layout);
@@ -1425,7 +1492,33 @@ public class PP extends javax.swing.JFrame {
 
             Delete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Delete tc.png"))); // NOI18N
             Delete.setText("Delete");
+            Delete.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    DeleteMouseClicked(evt);
+                }
+            });
+            Delete.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    DeleteActionPerformed(evt);
+                }
+            });
             ArchivesPM.add(Delete);
+
+            Restore.setText("Restore");
+            Restore.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    RestoreActionPerformed(evt);
+                }
+            });
+            RBPM.add(Restore);
+
+            DeleteP.setText("Delete");
+            DeleteP.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    DeletePActionPerformed(evt);
+                }
+            });
+            RBPM.add(DeleteP);
 
             setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
             setTitle("Windows Simulator");
@@ -1919,6 +2012,11 @@ public class PP extends javax.swing.JFrame {
     private void b_shutdownMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_b_shutdownMouseClicked
         int resp = JOptionPane.showConfirmDialog(this, "¿Desea salir del Sistema?");
         if (resp == JOptionPane.YES_OPTION) {
+            RecycleBinTable.removeAll();
+            File RB = new File("./Papelera de Reciclaje");
+            for (File f : RB.listFiles()) {
+                f.delete();
+            }
             System.exit(0);
         }
     }//GEN-LAST:event_b_shutdownMouseClicked
@@ -2032,7 +2130,7 @@ public class PP extends javax.swing.JFrame {
     private void imagesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagesMouseClicked
         I.removeAll(I); //*
         Images.getContentPane().setBackground(Color.WHITE);
-        File Imagenes = new File("./Sistema/" + USER.getNombre() + "/Mis Imágenes");
+        File Imagenes = new File("./Sistema/" + USER.getNombre() + USER.getCImagenes());
         if (Imagenes.listFiles().length <= 0) {
             JOptionPane.showMessageDialog(this, "No se han encontrado imágenes asociadas a su carpeta."
                     + "\nAgregue archivos para poder visualizarlos correctamente.");
@@ -2052,11 +2150,11 @@ public class PP extends javax.swing.JFrame {
                     Files.copy(Paths.get(archive.getPath()),
                             Paths.get("./Sistema/"
                                     + USER.getNombre()
-                                    + "/Mis Imágenes/"
+                                    + USER.getCImagenes() + "/"
                                     + archive.getName()),
                             StandardCopyOption.REPLACE_EXISTING);
                 }
-                ImageIcon imageIcon = new ImageIcon(ig1);
+                ImageIcon imageIcon = new ImageIcon(I.get(0));
                 Image image = imageIcon.getImage();
                 Image newimg = image.getScaledInstance(-1, 373, java.awt.Image.SCALE_SMOOTH);
                 imageIcon = new ImageIcon(newimg);
@@ -2116,7 +2214,7 @@ public class PP extends javax.swing.JFrame {
         DefaultListModel m = (DefaultListModel) Playlist.getModel();
         m.removeAllElements();
         MusicPaths = new ArrayList();
-        File Music = new File("./Sistema/" + USER.getNombre() + "/Mi Música");
+        File Music = new File("./Sistema/" + USER.getNombre() + USER.getCMusica());
         for (int i = 1; i < Music.listFiles().length + 1; i++) {
             if (Music.listFiles()[i - 1].getName().contains("mp3")) {
                 MusicPaths.add(Music.listFiles()[i - 1].getPath());
@@ -2144,6 +2242,7 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_socialsMouseClicked
 
     private void recycleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_recycleMouseClicked
+
         RecycleBin.pack();
         RecycleBin.setLocationRelativeTo(this);
         RecycleBin.setVisible(true);
@@ -2263,7 +2362,7 @@ public class PP extends javax.swing.JFrame {
                 Files.copy(Paths.get(archive.getPath()),
                         Paths.get("./Sistema/"
                                 + USER.getNombre()
-                                + "/Mis Imágenes/"
+                                + USER.getCImagenes() + "/"
                                 + archive.getName()),
                         StandardCopyOption.REPLACE_EXISTING);
             }
@@ -2310,7 +2409,6 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_TableArchivesMouseClicked
 
     private void TreeArchivesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TreeArchivesMouseClicked
-        DefaultTreeModel m = (DefaultTreeModel) TreeArchives.getModel();
         DefaultTableModel m2 = (DefaultTableModel) TableArchives.getModel();
         m2.setRowCount(0);
 
@@ -2503,12 +2601,12 @@ public class PP extends javax.swing.JFrame {
                 Files.copy(Paths.get(FChooser.getSelectedFile().getPath()),
                         Paths.get("./Sistema/"
                                 + USER.getNombre()
-                                + "/Mi Música/"
+                                + USER.getCMusica() + "/"
                                 + FChooser.getSelectedFile().getName()),
                         StandardCopyOption.REPLACE_EXISTING);
                 MusicPaths.add("./Sistema/"
                         + USER.getNombre()
-                        + "/Mi Música/"
+                        + USER.getCMusica() + "/"
                         + FChooser.getSelectedFile().getName());
                 int i = MusicPaths.size();
                 m.addElement(i + ".-  " + FChooser.getSelectedFile().getName() + "\n");
@@ -2625,8 +2723,8 @@ public class PP extends javax.swing.JFrame {
         Cut.setEnabled(true);
         Copy.setEnabled(true);
         Archives.dispose();
-        String modifiedpath = "";
-        String modifiedpath2 = "";
+        modifiedpath = "";
+        modifiedpath2 = "";
         Paste.setEnabled(false);
     }//GEN-LAST:event_PasteActionPerformed
 
@@ -2638,15 +2736,127 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_CutActionPerformed
 
     private void RenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RenameActionPerformed
-        String NewName = JOptionPane.showInputDialog("Ingrese el nuevo nombre del archivo.")+Modified.getName().substring(Modified.getName().lastIndexOf("."));
+        String NewName = JOptionPane.showInputDialog("Ingrese el nuevo nombre del archivo.") + Modified.getName().substring(Modified.getName().lastIndexOf("."));
         Path source = Paths.get(Modified.getPath());
+        File Temp = new File(source.toString());
+        if (Temp.isDirectory()) {
+            String OG = Temp.getName();
+            if (OG.contains(USER.getCCalendario())) {
+                USER.setCCalendario("/" + NewName);
+            } else if (OG.contains(USER.getCCorreo())) {
+                USER.setCCorreo("/" + NewName);
+            } else if (OG.contains(USER.getCMusica())) {
+                USER.setCMusica("/" + NewName);
+            } else if (OG.contains(USER.getCImagenes())) {
+                USER.setCImagenes("/" + NewName);
+            } else if (OG.contains(USER.getCDocumentos())) {
+                USER.setCDocumentos("/" + NewName);
+            } else if (OG.contains(USER.getCMensaje())) {
+                USER.setCMensaje("/" + NewName);
+            }
+        }
         try {
             Files.move(source, source.resolveSibling(NewName));
         } catch (IOException ex) {
         }
-         JOptionPane.showMessageDialog(Archives, "¡Nombre cambiado exitósamente!");
-         Archives.dispose();
+        JOptionPane.showMessageDialog(Archives, "¡Nombre cambiado exitósamente!");
+        Archives.dispose();
     }//GEN-LAST:event_RenameActionPerformed
+
+    private void DeleteMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DeleteMouseClicked
+
+    }//GEN-LAST:event_DeleteMouseClicked
+
+    private void DeleteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeleteActionPerformed
+        int resp = JOptionPane.showConfirmDialog(Archives, "¿En realidad desea eliminar el archivo?\nPodrá restaurar el documento desde la Papelera de Reciclaje siempre y cuando no apague el Sistema.");
+        if (resp == JOptionPane.YES_OPTION) {
+            try {
+                String[] temp = new String[2];
+                temp[0] = Modified.getPath();
+                Files.copy(Paths.get(Modified.getPath()),
+                        Paths.get("./Papelera de Reciclaje/" + Modified.getName()),
+                        StandardCopyOption.REPLACE_EXISTING);
+                Files.delete(Paths.get(Modified.getPath()));
+                temp[1] = "./Papelera de Reciclaje/" + Modified.getName();
+                Recycle.add(temp);
+                JOptionPane.showMessageDialog(Archives, "¡Documento eliminado exitósamente!");
+            } catch (IOException ex) {
+                Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
+            }
+        }
+
+        String tipo;
+        DefaultTableModel m = (DefaultTableModel) RecycleBinTable.getModel();
+
+        try {
+            BasicFileAttributes attr = Files.readAttributes(Paths.get("./Papelera de Reciclaje/" + Modified.getName()), BasicFileAttributes.class);
+            if (Modified.getName().contains(".")) {
+                tipo = "Archivo " + Modified.getName().substring(Modified.getName().lastIndexOf("."));
+            } else {
+                tipo = "Carpeta de Archivos";
+            }
+            Object[] Directories = {Modified.getName(), attr.lastModifiedTime(), tipo, String.valueOf(attr.size() / 1000) + " KB"};
+            m.addRow(Directories);
+        } catch (IOException ex) {
+            JOptionPane.showMessageDialog(this, "Ha ocurrido un error al intentar localizar el archivo.");
+        }
+        RecycleBinTable.setModel(m);
+    }//GEN-LAST:event_DeleteActionPerformed
+
+    private void RecycleBinTableMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_RecycleBinTableMouseClicked
+        DefaultTableModel m = (DefaultTableModel) TableArchives.getModel();
+        if (RecycleBinTable.getSelectedRow() > -1) {
+            if (evt.isMetaDown()) {
+                RBPM.show(RecycleBinTable, evt.getX(), evt.getY());
+            }
+        }
+
+    }//GEN-LAST:event_RecycleBinTableMouseClicked
+
+    private void jScrollPane7MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jScrollPane7MouseClicked
+        // TODO add your handling code here:
+    }//GEN-LAST:event_jScrollPane7MouseClicked
+
+    private void DeletePActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_DeletePActionPerformed
+        DefaultTableModel m = (DefaultTableModel) RecycleBinTable.getModel();
+        try {
+            Files.delete(Paths.get("./Papelera de Reciclaje/" + m.getValueAt(RecycleBinTable.getSelectedRow(), 0).toString()));
+        } catch (IOException ex) {
+        }
+        JOptionPane.showMessageDialog(RecycleBin, "Archivo eliminado permanentemente.");
+    }//GEN-LAST:event_DeletePActionPerformed
+
+    private void RestoreActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RestoreActionPerformed
+        DefaultTableModel m = (DefaultTableModel) RecycleBinTable.getModel();
+        for (String[] s : Recycle) {
+            for (String string : s) {
+                if (string.contains(m.getValueAt(RecycleBinTable.getSelectedRow(), 0).toString())) {
+                    if (USER instanceof Administrador) {
+                        try {
+                            Files.copy(Paths.get(Recycle.get(Recycle.indexOf(s))[1]), Paths.get(Recycle.get(Recycle.indexOf(s))[0]),
+                                    StandardCopyOption.REPLACE_EXISTING);
+                            Files.delete(Paths.get(Recycle.get(Recycle.indexOf(s))[1]));
+                        } catch (IOException ex) {
+                            Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        JOptionPane.showMessageDialog(RecycleBin, "¡Archivo restaurado exitósamente!");
+                        break;
+                    } else if (string.contains(USER.getNombre())) {
+                        try {
+                            Files.copy(Paths.get(Recycle.get(Recycle.indexOf(s))[1]), Paths.get(Recycle.get(Recycle.indexOf(s))[0]),
+                                    StandardCopyOption.REPLACE_EXISTING);
+                            Files.delete(Paths.get(Recycle.get(RecycleBinTable.getSelectedRow())[1]));
+                        } catch (IOException ex) {
+                            Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
+                        }
+                        JOptionPane.showMessageDialog(RecycleBin, "¡Archivo restaurado exitósamente!");
+                    } else {
+                        JOptionPane.showMessageDialog(RecycleBin, "No tiene permitido restaurar archivos que no hayan sido suyos.");
+                    }
+                }
+            }
+        }
+    }//GEN-LAST:event_RestoreActionPerformed
 
     public void PlaySong(File song) {
         p = new Media(song.toURI().toString());
@@ -2753,6 +2963,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JMenuItem Cut;
     private javax.swing.JMenu Date;
     private javax.swing.JMenuItem Delete;
+    private javax.swing.JMenuItem DeleteP;
     private javax.swing.JMenu Edit;
     private javax.swing.JMenu File;
     private javax.swing.JMenu Help;
@@ -2780,8 +2991,11 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JList<String> Playlist;
     private javax.swing.JPopupMenu PopUpMain;
     private javax.swing.JButton PreviousSong;
+    private javax.swing.JPopupMenu RBPM;
     private javax.swing.JDialog RecycleBin;
+    private javax.swing.JTable RecycleBinTable;
     private javax.swing.JMenuItem Rename;
+    private javax.swing.JMenuItem Restore;
     private javax.swing.JButton SaveBDay;
     private javax.swing.JButton SaveNewU;
     private javax.swing.JDialog SocialMedia;
@@ -2858,7 +3072,6 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
-    private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
@@ -2883,11 +3096,13 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
+    private javax.swing.JPanel jPanel7;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
@@ -2960,4 +3175,5 @@ private File Sistema;
     String modifiedpath = "./";
     String modifiedpath2 = "./";
     boolean copyflag = false;
+    ArrayList<String[]> Recycle;
 }

@@ -16,6 +16,12 @@ public class Usuario implements Serializable {
     private String Correo;
     private String Pregunta;
     private Color C;
+    private String CMusica;
+    private String CImagenes;
+    private String CCorreo;
+    private String CMensaje;
+    private String CCalendario;
+    private String CDocumentos;
 
     public Usuario() {
     }
@@ -30,7 +36,13 @@ public class Usuario implements Serializable {
         this.Correo = setCorreo(Correo);
         this.Pregunta = Pregunta;
         this.C = C;
-   }
+        this.CMusica = "/Mi Música";
+        this.CImagenes = "/Mis Imágenes";
+        this.CCorreo = "/Mi Correo";
+        this.CMensaje = "/Mis Mensajes";
+        this.CCalendario = "/Mi Calendario";
+        this.CDocumentos = "/Mis Documentos";
+    }
 
     public String getNombre() {
         return Nombre;
@@ -132,8 +144,56 @@ public class Usuario implements Serializable {
     public void setC(Color C) {
         this.C = C;
     }
-    
 
+    public String getCMusica() {
+        return CMusica;
+    }
+
+    public void setCMusica(String CMusica) {
+        this.CMusica = CMusica;
+    }
+
+    public String getCImagenes() {
+        return CImagenes;
+    }
+
+    public void setCImagenes(String CImagenes) {
+        this.CImagenes = CImagenes;
+    }
+
+    public String getCCorreo() {
+        return CCorreo;
+    }
+
+    public void setCCorreo(String CCorreo) {
+        this.CCorreo = CCorreo;
+    }
+
+    public String getCMensaje() {
+        return CMensaje;
+    }
+
+    public void setCMensaje(String CMensaje) {
+        this.CMensaje = CMensaje;
+    }
+
+    public String getCCalendario() {
+        return CCalendario;
+    }
+
+    public void setCCalendario(String CCalendario) {
+        this.CCalendario = CCalendario;
+    }
+
+    public String getCDocumentos() {
+        return CDocumentos;
+    }
+
+    public void setCDocumentos(String CDocumentos) {
+        this.CDocumentos = CDocumentos;
+    }
+    
+    
 
     @Override
     public String toString() {
