@@ -47,11 +47,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeModel;
 import javax.swing.tree.TreeSelectionModel;
-import sun.audio.*;
-import java.net.*;
-import java.io.*;
-import java.util.*;
-
+import javafx.scene.media.Media;
+import javafx.scene.media.MediaPlayer;
+import javafx.scene.media.MediaPlayer.Status;
 
 public class PP extends javax.swing.JFrame {
 
@@ -72,6 +70,7 @@ public class PP extends javax.swing.JFrame {
         TimeThread t = new TimeThread(Time);
         Thread t2 = new Thread(t);
         t2.start();
+        bm = new BarMusic(MusicPB);
     }
 
     private void CurrentDateTime() {
@@ -205,7 +204,6 @@ public class PP extends javax.swing.JFrame {
         MusicPB = new javax.swing.JProgressBar();
         SongName = new javax.swing.JLabel();
         TotalTime = new javax.swing.JLabel();
-        TimePlayed1 = new javax.swing.JLabel();
         SongName1 = new javax.swing.JLabel();
         PreviousSong = new javax.swing.JButton();
         PlayPause = new javax.swing.JButton();
@@ -275,6 +273,8 @@ public class PP extends javax.swing.JFrame {
         Copy = new javax.swing.JMenuItem();
         Cut = new javax.swing.JMenuItem();
         Paste = new javax.swing.JMenuItem();
+        Rename = new javax.swing.JMenuItem();
+        Delete = new javax.swing.JMenuItem();
         MainMenu = new javax.swing.JToolBar();
         archives = new javax.swing.JButton();
         console = new javax.swing.JButton();
@@ -705,6 +705,7 @@ public class PP extends javax.swing.JFrame {
             LockUser.getContentPane().add(jLabel60);
             jLabel60.setBounds(0, 0, 1350, 910);
 
+            Archives.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             Archives.setTitle("Navegador de Archivos");
             Archives.addWindowListener(new java.awt.event.WindowAdapter() {
                 public void windowClosing(java.awt.event.WindowEvent evt) {
@@ -1036,30 +1037,48 @@ public class PP extends javax.swing.JFrame {
             );
 
             MusicPlayer.setTitle("Reproductor de Música");
-            MusicPlayer.setMinimumSize(new java.awt.Dimension(356, 302));
+            MusicPlayer.setMinimumSize(new java.awt.Dimension(360, 330));
+            MusicPlayer.setPreferredSize(new java.awt.Dimension(360, 330));
             MusicPlayer.setResizable(false);
-            MusicPlayer.setSize(new java.awt.Dimension(438, 338));
+            MusicPlayer.setSize(new java.awt.Dimension(360, 315));
+            MusicPlayer.addWindowListener(new java.awt.event.WindowAdapter() {
+                public void windowClosing(java.awt.event.WindowEvent evt) {
+                    MusicPlayerWindowClosing(evt);
+                }
+            });
+            MusicPlayer.getContentPane().setLayout(null);
+            MusicPlayer.getContentPane().add(MusicPB);
+            MusicPB.setBounds(10, 20, 336, 14);
 
             SongName.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-            SongName.setText(".");
+            MusicPlayer.getContentPane().add(SongName);
+            SongName.setBounds(110, 80, 236, 20);
 
             TotalTime.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-            TotalTime.setText("02:44");
-
-            TimePlayed1.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
-            TimePlayed1.setText("00:00");
+            TotalTime.setText("00:00");
+            MusicPlayer.getContentPane().add(TotalTime);
+            TotalTime.setBounds(315, 40, 31, 16);
 
             SongName1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
             SongName1.setText("Now Playing:");
+            MusicPlayer.getContentPane().add(SongName1);
+            SongName1.setBounds(10, 80, 89, 20);
 
             PreviousSong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/back-button.png"))); // NOI18N
             PreviousSong.setBorderPainted(false);
             PreviousSong.setContentAreaFilled(false);
+            PreviousSong.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    PreviousSongMouseClicked(evt);
+                }
+            });
             PreviousSong.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     PreviousSongActionPerformed(evt);
                 }
             });
+            MusicPlayer.getContentPane().add(PreviousSong);
+            PreviousSong.setBounds(10, 120, 49, 49);
 
             PlayPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play-button.png"))); // NOI18N
             PlayPause.setBorderPainted(false);
@@ -1069,10 +1088,19 @@ public class PP extends javax.swing.JFrame {
                     PlayPauseMouseClicked(evt);
                 }
             });
+            MusicPlayer.getContentPane().add(PlayPause);
+            PlayPause.setBounds(70, 120, 49, 49);
 
             NextSong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/next-button.png"))); // NOI18N
             NextSong.setBorderPainted(false);
             NextSong.setContentAreaFilled(false);
+            NextSong.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    NextSongMouseClicked(evt);
+                }
+            });
+            MusicPlayer.getContentPane().add(NextSong);
+            NextSong.setBounds(130, 120, 49, 49);
 
             ImportMusic.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
             ImportMusic.setText("Add New Song");
@@ -1081,6 +1109,12 @@ public class PP extends javax.swing.JFrame {
                     ImportMusicMouseClicked(evt);
                 }
             });
+            MusicPlayer.getContentPane().add(ImportMusic);
+            ImportMusic.setBounds(219, 131, 127, 32);
+            MusicPlayer.getContentPane().add(jSeparator6);
+            jSeparator6.setBounds(10, 110, 336, 10);
+            MusicPlayer.getContentPane().add(jSeparator7);
+            jSeparator7.setBounds(10, 70, 336, 10);
 
             Playlist.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
             Playlist.setModel(new DefaultListModel());
@@ -1091,68 +1125,8 @@ public class PP extends javax.swing.JFrame {
             });
             jScrollPane4.setViewportView(Playlist);
 
-            javax.swing.GroupLayout MusicPlayerLayout = new javax.swing.GroupLayout(MusicPlayer.getContentPane());
-            MusicPlayer.getContentPane().setLayout(MusicPlayerLayout);
-            MusicPlayerLayout.setHorizontalGroup(
-                MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(MusicPlayerLayout.createSequentialGroup()
-                    .addGap(10, 10, 10)
-                    .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(MusicPlayerLayout.createSequentialGroup()
-                            .addComponent(TimePlayed1)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(TotalTime))
-                        .addGroup(MusicPlayerLayout.createSequentialGroup()
-                            .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                                .addGroup(MusicPlayerLayout.createSequentialGroup()
-                                    .addComponent(PreviousSong, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(11, 11, 11)
-                                    .addComponent(PlayPause, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addGap(11, 11, 11)
-                                    .addComponent(NextSong, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                    .addComponent(ImportMusic))
-                                .addComponent(MusicPB, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGroup(MusicPlayerLayout.createSequentialGroup()
-                                    .addComponent(SongName1)
-                                    .addGap(11, 11, 11)
-                                    .addComponent(SongName, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE))
-                                .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 336, javax.swing.GroupLayout.PREFERRED_SIZE))
-                            .addGap(0, 0, Short.MAX_VALUE)))
-                    .addGap(0, 10, Short.MAX_VALUE))
-                .addGroup(MusicPlayerLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane4)
-                    .addContainerGap())
-            );
-            MusicPlayerLayout.setVerticalGroup(
-                MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(MusicPlayerLayout.createSequentialGroup()
-                    .addGap(20, 20, 20)
-                    .addComponent(MusicPB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(6, 6, 6)
-                    .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(TimePlayed1)
-                        .addComponent(TotalTime))
-                    .addGap(14, 14, 14)
-                    .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(SongName1)
-                        .addComponent(SongName))
-                    .addGap(10, 10, 10)
-                    .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(PreviousSong, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(PlayPause, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(NextSong, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(MusicPlayerLayout.createSequentialGroup()
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                            .addComponent(ImportMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGap(18, 18, 18)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-            );
+            MusicPlayer.getContentPane().add(jScrollPane4);
+            jScrollPane4.setBounds(10, 187, 336, 104);
 
             Messenger.setTitle("Mensajería");
 
@@ -1412,14 +1386,46 @@ public class PP extends javax.swing.JFrame {
                 .addGap(0, 100, Short.MAX_VALUE)
             );
 
-            Copy.setText("jMenuItem1");
+            Copy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/copy.png"))); // NOI18N
+            Copy.setText("Copy");
+            Copy.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    CopyActionPerformed(evt);
+                }
+            });
             ArchivesPM.add(Copy);
 
-            Cut.setText("jMenuItem2");
+            Cut.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Cut.png"))); // NOI18N
+            Cut.setText("Cut");
+            Cut.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    CutActionPerformed(evt);
+                }
+            });
             ArchivesPM.add(Cut);
 
-            Paste.setText("jMenuItem3");
+            Paste.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/paste bp.png"))); // NOI18N
+            Paste.setText("Paste");
+            Paste.setEnabled(false);
+            Paste.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    PasteActionPerformed(evt);
+                }
+            });
             ArchivesPM.add(Paste);
+
+            Rename.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Edit p.png"))); // NOI18N
+            Rename.setText("Rename...");
+            Rename.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    RenameActionPerformed(evt);
+                }
+            });
+            ArchivesPM.add(Rename);
+
+            Delete.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Delete tc.png"))); // NOI18N
+            Delete.setText("Delete");
+            ArchivesPM.add(Delete);
 
             setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
             setTitle("Windows Simulator");
@@ -1939,7 +1945,6 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_jb_forgotpwMouseClicked
 
     private void m_changecolor1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_changecolor1ActionPerformed
-        System.out.println("entra color");
         Color C = JColorChooser.showDialog(null, "Seleccione un nuevo color para el sistema.", Color.yellow);
         USER.setC(C);
         MainMenu.setBackground(C);
@@ -1972,18 +1977,24 @@ public class PP extends javax.swing.JFrame {
         TreeArchives.getSelectionModel().setSelectionMode(TreeSelectionModel.SINGLE_TREE_SELECTION);
         DefaultTreeModel m = (DefaultTreeModel) TreeArchives.getModel();
         DefaultTableModel m2 = (DefaultTableModel) TableArchives.getModel();
+        m.setRoot(new DefaultMutableTreeNode("Sistema"));
 
         if (USER instanceof Administrador) {
             DefaultMutableTreeNode Root = (DefaultMutableTreeNode) m.getRoot();
             SetTrees(new File("./Sistema/"), Root);
             m.reload();
         } else {
-            m.setRoot(new DefaultMutableTreeNode("Sistema"));
+
+            if (!flag) {
+                m.setRoot(new DefaultMutableTreeNode("Sistema"));
+                flag = true;
+            }
+
             DefaultMutableTreeNode Root = new DefaultMutableTreeNode(m.getRoot().toString());
             DefaultMutableTreeNode Child = new DefaultMutableTreeNode(USER.getNombre());
             Root.add(Child);
             m.setRoot(Root);
-            SetTrees(new File("./Sistema/" + USER.getNombre() + "/"), Child);
+            SetTrees(new File("./Sistema/" + USER.getNombre()), Child);
             m.reload();
         }
         m2.setRowCount(0);
@@ -2019,6 +2030,7 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_netbeansMouseClicked
 
     private void imagesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imagesMouseClicked
+        I.removeAll(I); //*
         Images.getContentPane().setBackground(Color.WHITE);
         File Imagenes = new File("./Sistema/" + USER.getNombre() + "/Mis Imágenes");
         if (Imagenes.listFiles().length <= 0) {
@@ -2037,7 +2049,6 @@ public class PP extends javax.swing.JFrame {
                     Image img = Toolkit.getDefaultToolkit().createImage(
                             archive.getPath());
                     I.add(img);
-                    // cut  archive.renameTo(new File("./Sistema/" + USER.getNombre() + "/Mis Imágenes/"+archive.getName()));
                     Files.copy(Paths.get(archive.getPath()),
                             Paths.get("./Sistema/"
                                     + USER.getNombre()
@@ -2099,7 +2110,11 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_imagesMouseClicked
 
     private void musicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_musicMouseClicked
+        bm.start();
+        com.sun.javafx.application.PlatformImpl.startup(() -> {
+        });
         DefaultListModel m = (DefaultListModel) Playlist.getModel();
+        m.removeAllElements();
         MusicPaths = new ArrayList();
         File Music = new File("./Sistema/" + USER.getNombre() + "/Mi Música");
         for (int i = 1; i < Music.listFiles().length + 1; i++) {
@@ -2271,13 +2286,34 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_jScrollPane5MouseClicked
 
     private void TableArchivesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TableArchivesMouseClicked
-        // copy paste
+        DefaultTableModel m = (DefaultTableModel) TableArchives.getModel();
+        String temp = "./";
+        if (TableArchives.getSelectedRow() > -1) {
+            if (evt.isMetaDown()) {
+                ArchivesPM.show(TableArchives, evt.getX(), evt.getY());
+                try {
+                    for (Object object : TreeArchives.getSelectionPath().getPath()) {
+                        temp += object.toString() + "/";
+                    }
+                } catch (Exception e) {
+                    System.out.println("error " + temp);
+                }
+                modifiedpath = temp.substring(0, temp.length() - 1) + "/" + m.getValueAt(TableArchives.getSelectedRow(), 0);
+                if (Paste.isEnabled()) {
+                    modifiedpath2 = temp.substring(0, modifiedpath.length());
+                }
+                System.out.println("path1 " + modifiedpath);
+                System.out.println("path2 " + modifiedpath2);
+                Modified = new File(modifiedpath);
+            }
+        }
     }//GEN-LAST:event_TableArchivesMouseClicked
 
     private void TreeArchivesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_TreeArchivesMouseClicked
         DefaultTreeModel m = (DefaultTreeModel) TreeArchives.getModel();
         DefaultTableModel m2 = (DefaultTableModel) TableArchives.getModel();
         m2.setRowCount(0);
+
         TreeArchives.addTreeSelectionListener(new TreeSelectionListener() {
             @Override
             public void valueChanged(TreeSelectionEvent tse) {
@@ -2293,7 +2329,6 @@ public class PP extends javax.swing.JFrame {
         } catch (Exception e) {
         }
         path = path.substring(0, path.length() - 1);
-        System.out.println("path " + path);
         f = new File(path);
         if (f.listFiles() != null) {
             ArrayList<File> Folder = new ArrayList(Arrays.asList(f.listFiles()));
@@ -2331,6 +2366,11 @@ public class PP extends javax.swing.JFrame {
                 Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
             }
             path = "./";
+        }
+        if (Paste.isEnabled()) {
+            if (evt.isMetaDown()) {
+                ArchivesPM.show(TreeArchives, evt.getX(), evt.getY());
+            }
         }
     }//GEN-LAST:event_TreeArchivesMouseClicked
 
@@ -2407,6 +2447,8 @@ public class PP extends javax.swing.JFrame {
         m.setRowCount(0);
         DefaultTreeModel m2 = new DefaultTreeModel(new DefaultMutableTreeNode("Sistema"));
         TreeArchives.setModel(m2);
+        modifiedpath = "";
+        modifiedpath = "";
     }//GEN-LAST:event_ArchivesClosed
 
     private void m_changebg1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_m_changebg1ActionPerformed
@@ -2431,15 +2473,19 @@ public class PP extends javax.swing.JFrame {
     private void PlayPauseMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PlayPauseMouseClicked
         if (play) {
             if (!Playlist.isSelectionEmpty()) {
-            URL source = Proyecto_AndreaMendoza.class.getResource("/Imagenes/pause-button.png");
-            PlayPause.setIcon(new ImageIcon(source));
-            play = false;   
+                URL source = Proyecto_AndreaMendoza.class.getResource("/Imagenes/pause-button.png");
+                PlayPause.setIcon(new ImageIcon(source));
+                MP.play();
+                bm.setAvanzar(true);
+                play = false;
             } else {
-                JOptionPane.showMessageDialog(MusicPlayer,"No ha seleccionado ninguna canción.");
-            }       
+                JOptionPane.showMessageDialog(MusicPlayer, "No ha seleccionado ninguna canción.");
+            }
         } else {
             URL source = Proyecto_AndreaMendoza.class.getResource("/Imagenes/play-button.png");
             PlayPause.setIcon(new ImageIcon(source));
+            MP.pause();
+            bm.setAvanzar(false);
             play = true;
         }
     }//GEN-LAST:event_PlayPauseMouseClicked
@@ -2471,27 +2517,166 @@ public class PP extends javax.swing.JFrame {
             }
         } catch (HeadlessException | IOException ex) {
             Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
-      }
+        }
     }//GEN-LAST:event_ImportMusicMouseClicked
 
     private void PlaylistMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PlaylistMouseClicked
-   File song = new File("./Sistema/"+USER.getNombre()+"/Mi Música/"+Playlist.getSelectedValue());
-   final Player p = Manager.createRealizedPlayer(song.toURI().toURL());
-        p.start();
+        if (flagthread) {
+            MusicPB.setValue(0);
+            bm.setAvanzar(false);
+            MP.stop();
+            flagthread = false;
+        }
+        URL source = Proyecto_AndreaMendoza.class.getResource("/Imagenes/pause-button.png");
+        PlayPause.setIcon(new ImageIcon(source));
 
-            p.stop();
-   /*     InputStream song = null;
-        try {
-            int i = Playlist.getSelectedIndex();
-            String musicpath = MusicPaths.get(i);
-            song = new FileInputStream(musicpath);
-            AudioPlayer.player.start(song);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        } 
-
-*/
+        PlaySong(new File(MusicPaths.get(Playlist.getSelectedIndex())));
     }//GEN-LAST:event_PlaylistMouseClicked
+
+    private void MusicPlayerWindowClosing(java.awt.event.WindowEvent evt) {//GEN-FIRST:event_MusicPlayerWindowClosing
+        bm.stop();
+        MP.stop();
+    }//GEN-LAST:event_MusicPlayerWindowClosing
+
+    private void NextSongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NextSongMouseClicked
+        if (Playlist.getSelectedIndex() + 1 <= Playlist.getLastVisibleIndex()) {
+            Playlist.setSelectedIndex(Playlist.getSelectedIndex() + 1);
+            if (flagthread) {
+                MusicPB.setValue(0);
+                bm.setAvanzar(false);
+                MP.stop();
+                flagthread = false;
+            }
+            URL source = Proyecto_AndreaMendoza.class.getResource("/Imagenes/pause-button.png");
+            PlayPause.setIcon(new ImageIcon(source));
+            PlaySong(new File(MusicPaths.get(Playlist.getSelectedIndex())));
+        } else {
+            Playlist.setSelectedIndex(Playlist.getMaxSelectionIndex());
+            if (flagthread) {
+                MusicPB.setValue(0);
+                bm.setAvanzar(false);
+                MP.stop();
+                flagthread = false;
+            }
+            URL source = Proyecto_AndreaMendoza.class.getResource("/Imagenes/pause-button.png");
+            PlayPause.setIcon(new ImageIcon(source));
+            PlaySong(new File(MusicPaths.get(Playlist.getSelectedIndex())));
+        }
+    }//GEN-LAST:event_NextSongMouseClicked
+
+    private void PreviousSongMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PreviousSongMouseClicked
+        if (Playlist.getSelectedIndex() - 1 >= Playlist.getFirstVisibleIndex()) {
+            Playlist.setSelectedIndex(Playlist.getSelectedIndex() - 1);
+            if (flagthread) {
+                MusicPB.setValue(0);
+                bm.setAvanzar(false);
+                MP.stop();
+                flagthread = false;
+            }
+            URL source = Proyecto_AndreaMendoza.class.getResource("/Imagenes/pause-button.png");
+            PlayPause.setIcon(new ImageIcon(source));
+            PlaySong(new File(MusicPaths.get(Playlist.getSelectedIndex())));
+        } else {
+            Playlist.setSelectedIndex(Playlist.getMinSelectionIndex());
+            Playlist.setSelectedIndex(Playlist.getSelectedIndex() - 1);
+            if (flagthread) {
+                MusicPB.setValue(0);
+                bm.setAvanzar(false);
+                MP.stop();
+                flagthread = false;
+            }
+            URL source = Proyecto_AndreaMendoza.class.getResource("/Imagenes/pause-button.png");
+            PlayPause.setIcon(new ImageIcon(source));
+            PlaySong(new File(MusicPaths.get(Playlist.getSelectedIndex())));
+        }
+    }//GEN-LAST:event_PreviousSongMouseClicked
+
+    private void CopyActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CopyActionPerformed
+        Paste.setEnabled(true);
+        Cut.setEnabled(false);
+        Copy.setEnabled(false);
+        copyflag = true;
+    }//GEN-LAST:event_CopyActionPerformed
+
+    private void PasteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PasteActionPerformed
+        try {
+            try {
+                for (Object object : TreeArchives.getSelectionPath().getPath()) {
+                    modifiedpath2 += object.toString() + "/";
+                }
+            } catch (Exception e) {
+                System.out.println("error " + modifiedpath2);
+            }
+            modifiedpath2 = modifiedpath2.substring(0, modifiedpath2.lastIndexOf("/"));
+            if (copyflag) {
+                Files.copy(Paths.get(Modified.getPath()),
+                        Paths.get(modifiedpath2 + "/" + Modified.getName()),
+                        StandardCopyOption.REPLACE_EXISTING);
+                JOptionPane.showMessageDialog(Archives, "¡Documento copiado!");
+            } else {
+                Files.copy(Paths.get(Modified.getPath()),
+                        Paths.get(modifiedpath2 + "/" + Modified.getName()),
+                        StandardCopyOption.REPLACE_EXISTING);
+                Files.delete(Paths.get(Modified.getPath()));
+                JOptionPane.showMessageDialog(Archives, "¡Documento cortado!");
+            }
+        } catch (IOException ex) {
+        }
+        Cut.setEnabled(true);
+        Copy.setEnabled(true);
+        Archives.dispose();
+        String modifiedpath = "";
+        String modifiedpath2 = "";
+        Paste.setEnabled(false);
+    }//GEN-LAST:event_PasteActionPerformed
+
+    private void CutActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CutActionPerformed
+        Paste.setEnabled(true);
+        Cut.setEnabled(false);
+        Copy.setEnabled(false);
+        copyflag = false;
+    }//GEN-LAST:event_CutActionPerformed
+
+    private void RenameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_RenameActionPerformed
+        String NewName = JOptionPane.showInputDialog("Ingrese el nuevo nombre del archivo.")+Modified.getName().substring(Modified.getName().lastIndexOf("."));
+        Path source = Paths.get(Modified.getPath());
+        try {
+            Files.move(source, source.resolveSibling(NewName));
+        } catch (IOException ex) {
+        }
+         JOptionPane.showMessageDialog(Archives, "¡Nombre cambiado exitósamente!");
+         Archives.dispose();
+    }//GEN-LAST:event_RenameActionPerformed
+
+    public void PlaySong(File song) {
+        p = new Media(song.toURI().toString());
+        MusicPB.setValue(0);
+        MP = new MediaPlayer(p);
+        MP.play();
+
+        try {
+            try {
+                MP.setOnReady(new Runnable() {
+                    @Override
+                    public void run() {
+                        double time = p.getDuration().toSeconds();
+                        int min = (int) p.getDuration().toMinutes();
+                        int secs = (int) time % 60;
+                        String m = String.format("%02d", min);
+                        String s = String.format("%02d", secs);
+                        TotalTime.setText(m + ":" + s);
+                        SongName.setText(song.getName());
+                        MusicPB.setMaximum((int) p.getDuration().toSeconds());
+                        flagthread = true;
+                        bm.setAvanzar(true);
+                        play = false;
+                    }
+                });
+            } catch (Exception e) {
+            }
+        } catch (Exception e) {
+        }
+    }
 
     public static void main(String args[]) throws Exceptions {
 
@@ -2567,6 +2752,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JMenuItem Copy;
     private javax.swing.JMenuItem Cut;
     private javax.swing.JMenu Date;
+    private javax.swing.JMenuItem Delete;
     private javax.swing.JMenu Edit;
     private javax.swing.JMenu File;
     private javax.swing.JMenu Help;
@@ -2595,6 +2781,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JPopupMenu PopUpMain;
     private javax.swing.JButton PreviousSong;
     private javax.swing.JDialog RecycleBin;
+    private javax.swing.JMenuItem Rename;
     private javax.swing.JButton SaveBDay;
     private javax.swing.JButton SaveNewU;
     private javax.swing.JDialog SocialMedia;
@@ -2603,7 +2790,6 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JTable TableArchives;
     private javax.swing.JDialog TextEditor;
     private javax.swing.JLabel Time;
-    private javax.swing.JLabel TimePlayed1;
     private javax.swing.JLabel TotalTime;
     private javax.swing.JTree TreeArchives;
     private javax.swing.JTable agenda;
@@ -2765,8 +2951,13 @@ private File Sistema;
     Image ig6;
     boolean play = true;
     ArrayList<String> MusicPaths;
-    AudioPlayer AP = AudioPlayer.player;
-    AudioStream AS;
-    AudioData AD;
-
+    Media p;
+    MediaPlayer MP;
+    BarMusic bm;
+    boolean flag = false;
+    boolean flagthread = false;
+    File Modified;
+    String modifiedpath = "./";
+    String modifiedpath2 = "./";
+    boolean copyflag = false;
 }
