@@ -4,6 +4,9 @@ import java.awt.Color;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.event.KeyEvent;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileInputStream;
@@ -26,6 +29,7 @@ import java.util.Arrays;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.Scanner;
 import java.util.logging.Level;
 import java.util.logging.Logger;
 import javax.imageio.ImageIO;
@@ -72,6 +76,15 @@ public class PP extends javax.swing.JFrame {
         Thread t2 = new Thread(t);
         t2.start();
         bm = new BarMusic(MusicPB);
+        CodeWords.add("mkdir");
+        CodeWords.add("rm");
+        CodeWords.add("cd");
+        CodeWords.add("cd...");
+        CodeWords.add("dir");
+        CodeWords.add("date");
+        CodeWords.add("time");
+        CodeWords.add("help");
+
     }
 
     private void CurrentDateTime() {
@@ -180,6 +193,8 @@ public class PP extends javax.swing.JFrame {
         jScrollPane5 = new javax.swing.JScrollPane();
         TableArchives = new javax.swing.JTable();
         Console = new javax.swing.JDialog();
+        jScrollPane6 = new javax.swing.JScrollPane();
+        ConsoleText = new javax.swing.JTextArea();
         TextEditor = new javax.swing.JDialog();
         jMenuBar2 = new javax.swing.JMenuBar();
         jMenu2 = new javax.swing.JMenu();
@@ -214,6 +229,7 @@ public class PP extends javax.swing.JFrame {
         jSeparator7 = new javax.swing.JSeparator();
         jScrollPane4 = new javax.swing.JScrollPane();
         Playlist = new javax.swing.JList<>();
+        StopButton = new javax.swing.JButton();
         Messenger = new javax.swing.JDialog();
         SocialMedia = new javax.swing.JDialog();
         Icons = new javax.swing.JDialog();
@@ -801,7 +817,22 @@ public class PP extends javax.swing.JFrame {
                     .addGap(17, 17, 17))
             );
 
+            Console.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             Console.setTitle("Consola");
+
+            ConsoleText.setBackground(new java.awt.Color(0, 0, 0));
+            ConsoleText.setColumns(20);
+            ConsoleText.setForeground(new java.awt.Color(255, 255, 255));
+            ConsoleText.setRows(5);
+            ConsoleText.setMinimumSize(new java.awt.Dimension(550, 340));
+            ConsoleText.addKeyListener(new java.awt.event.KeyAdapter() {
+                public void keyPressed(java.awt.event.KeyEvent evt) {
+                    ConsoleTextKeyPressed(evt);
+                }
+            });
+            jScrollPane6.setViewportView(ConsoleText);
+
+            Console.getContentPane().add(jScrollPane6, java.awt.BorderLayout.CENTER);
 
             TextEditor.setTitle("Editor de Texto");
 
@@ -1051,23 +1082,14 @@ public class PP extends javax.swing.JFrame {
                     MusicPlayerWindowClosing(evt);
                 }
             });
-            MusicPlayer.getContentPane().setLayout(null);
-            MusicPlayer.getContentPane().add(MusicPB);
-            MusicPB.setBounds(10, 20, 336, 14);
 
             SongName.setFont(new java.awt.Font("Segoe UI", 2, 14)); // NOI18N
-            MusicPlayer.getContentPane().add(SongName);
-            SongName.setBounds(110, 80, 236, 20);
 
             TotalTime.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
             TotalTime.setText("00:00");
-            MusicPlayer.getContentPane().add(TotalTime);
-            TotalTime.setBounds(315, 40, 31, 16);
 
             SongName1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
             SongName1.setText("Now Playing:");
-            MusicPlayer.getContentPane().add(SongName1);
-            SongName1.setBounds(10, 80, 89, 20);
 
             PreviousSong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/back-button.png"))); // NOI18N
             PreviousSong.setBorderPainted(false);
@@ -1082,8 +1104,6 @@ public class PP extends javax.swing.JFrame {
                     PreviousSongActionPerformed(evt);
                 }
             });
-            MusicPlayer.getContentPane().add(PreviousSong);
-            PreviousSong.setBounds(10, 120, 49, 49);
 
             PlayPause.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/play-button.png"))); // NOI18N
             PlayPause.setBorderPainted(false);
@@ -1093,8 +1113,6 @@ public class PP extends javax.swing.JFrame {
                     PlayPauseMouseClicked(evt);
                 }
             });
-            MusicPlayer.getContentPane().add(PlayPause);
-            PlayPause.setBounds(70, 120, 49, 49);
 
             NextSong.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/next-button.png"))); // NOI18N
             NextSong.setBorderPainted(false);
@@ -1104,8 +1122,6 @@ public class PP extends javax.swing.JFrame {
                     NextSongMouseClicked(evt);
                 }
             });
-            MusicPlayer.getContentPane().add(NextSong);
-            NextSong.setBounds(130, 120, 49, 49);
 
             ImportMusic.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
             ImportMusic.setText("Add New Song");
@@ -1114,12 +1130,6 @@ public class PP extends javax.swing.JFrame {
                     ImportMusicMouseClicked(evt);
                 }
             });
-            MusicPlayer.getContentPane().add(ImportMusic);
-            ImportMusic.setBounds(219, 131, 127, 32);
-            MusicPlayer.getContentPane().add(jSeparator6);
-            jSeparator6.setBounds(10, 110, 336, 10);
-            MusicPlayer.getContentPane().add(jSeparator7);
-            jSeparator7.setBounds(10, 70, 336, 10);
 
             Playlist.setFont(new java.awt.Font("Segoe UI Semibold", 0, 14)); // NOI18N
             Playlist.setModel(new DefaultListModel());
@@ -1130,8 +1140,81 @@ public class PP extends javax.swing.JFrame {
             });
             jScrollPane4.setViewportView(Playlist);
 
-            MusicPlayer.getContentPane().add(jScrollPane4);
-            jScrollPane4.setBounds(10, 187, 336, 104);
+            StopButton.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/square-inside-a-circle.png"))); // NOI18N
+            StopButton.setBorderPainted(false);
+            StopButton.setContentAreaFilled(false);
+            StopButton.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    StopButtonMouseClicked(evt);
+                }
+            });
+
+            javax.swing.GroupLayout MusicPlayerLayout = new javax.swing.GroupLayout(MusicPlayer.getContentPane());
+            MusicPlayer.getContentPane().setLayout(MusicPlayerLayout);
+            MusicPlayerLayout.setHorizontalGroup(
+                MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(MusicPlayerLayout.createSequentialGroup()
+                    .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(MusicPlayerLayout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(MusicPB, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(MusicPlayerLayout.createSequentialGroup()
+                            .addGap(430, 430, 430)
+                            .addComponent(TotalTime))
+                        .addGroup(MusicPlayerLayout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(MusicPlayerLayout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(PreviousSong, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(11, 11, 11)
+                            .addComponent(PlayPause, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(11, 11, 11)
+                            .addComponent(NextSong, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(82, 82, 82)
+                            .addComponent(StopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(30, 30, 30)
+                            .addComponent(ImportMusic))
+                        .addGroup(MusicPlayerLayout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(MusicPlayerLayout.createSequentialGroup()
+                            .addGap(10, 10, 10)
+                            .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                .addGroup(MusicPlayerLayout.createSequentialGroup()
+                                    .addComponent(SongName1)
+                                    .addGap(11, 11, 11)
+                                    .addComponent(SongName, javax.swing.GroupLayout.PREFERRED_SIZE, 350, javax.swing.GroupLayout.PREFERRED_SIZE))
+                                .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 450, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
+            MusicPlayerLayout.setVerticalGroup(
+                MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(MusicPlayerLayout.createSequentialGroup()
+                    .addGap(20, 20, 20)
+                    .addComponent(MusicPB, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(6, 6, 6)
+                    .addComponent(TotalTime)
+                    .addGap(14, 14, 14)
+                    .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(MusicPlayerLayout.createSequentialGroup()
+                            .addComponent(jSeparator7, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(SongName1)
+                                .addComponent(SongName, javax.swing.GroupLayout.PREFERRED_SIZE, 20, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGap(10, 10, 10)
+                            .addComponent(jSeparator6, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(MusicPlayerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(PreviousSong, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(PlayPause, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addComponent(NextSong, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(MusicPlayerLayout.createSequentialGroup()
+                                    .addGap(10, 10, 10)
+                                    .addComponent(ImportMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addComponent(StopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(18, 18, 18)
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+            );
 
             Messenger.setTitle("Mensajería");
 
@@ -2858,6 +2941,100 @@ public class PP extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_RestoreActionPerformed
 
+    private void ConsoleTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ConsoleTextKeyPressed
+        boolean a = false;
+        Scanner c = new Scanner(ConsoleText.getText());
+        String command = "";
+        if (evt.getKeyCode() == KeyEvent.VK_ENTER) {
+            while (c.hasNext()) {
+                command = c.nextLine();
+            }
+            for (String cw : CodeWords) {
+                if (command.contains(cw) || a == true) {
+                    if (command.matches("mkdir<+[a-zA-Z_0-9]+>")) {
+                        String[] temp = command.split("<");
+                        String name = temp[1].substring(0, temp[1].length() - 1);
+                        File nf = new File("./Sistema/" + USER.getNombre() + "/" + name);
+                        nf.mkdir();
+                        ConsoleText.append("\n Directorio " + name + " creado.");
+                        break;
+                    } else if (command.matches("rm<+[a-zA-Z_0-9]+>")) {
+                        String[] temp = command.split("<");
+                        String name = temp[1].substring(0, temp[1].length() - 1);
+                        for (String path : PathsNodes) {
+                            if ((!(path.contains(name + "/")) && (path.contains(name)))) {
+                                try {
+                                    String[] temp2 = new String[2];
+                                    temp2[0] = path;
+                                    Files.copy(Paths.get(path),
+                                            Paths.get("./Papelera de Reciclaje/" + name),
+                                            StandardCopyOption.REPLACE_EXISTING);
+                                    Files.delete(Paths.get(path));
+                                    temp2[1] = "./Papelera de Reciclaje/" + name;
+                                    Recycle.add(temp);
+                                    String tipo;
+                                    DefaultTableModel m = (DefaultTableModel) RecycleBinTable.getModel();
+
+                                    try {
+                                        BasicFileAttributes attr = Files.readAttributes(Paths.get("./Papelera de Reciclaje/" + name), BasicFileAttributes.class);
+                                        if (name.contains(".")) {
+                                            tipo = "Archivo " + name.substring(name.lastIndexOf("."));
+                                        } else {
+                                            tipo = "Carpeta de Archivos";
+                                        }
+                                        Object[] Directories = {name, attr.lastModifiedTime(), tipo, String.valueOf(attr.size() / 1000) + " KB"};
+                                        m.addRow(Directories);
+                                    } catch (IOException ex) {
+                                        JOptionPane.showMessageDialog(this, "Ha ocurrido un error al intentar localizar el archivo.");
+                                    }
+                                    RecycleBinTable.setModel(m);
+                                    break;
+                                } catch (IOException ex) {
+                                    Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            }
+                        }
+                        ConsoleText.append("\n Archivo " + name + " eliminado.");
+                        break;
+                    } else if (command.matches("cd<+[a-zA-Z_0-9]+>")) {
+                        break;
+                    } else if (command.matches("cd..")) {
+                        break;
+                    } else if (command.equalsIgnoreCase("time")) {
+                        Date h = new Date();
+                        DateFormat f = new SimpleDateFormat("hh:mm:ss a");
+                        ConsoleText.append("\n La hora actual es: " + f.format(h));
+                        break;
+                    } else if (command.equalsIgnoreCase("date")) {
+                        Date h = new Date();
+                        DateFormat f = new SimpleDateFormat("EEEEE, MMMMM dd yyyy");
+                        ConsoleText.append("\n La fecha actual es: " + f.format(h) + ".");
+                        break;
+                    } else if (command.equalsIgnoreCase("dir")) {
+                        break;
+                    } else if (command.equalsIgnoreCase("help")) {
+                        ConsoleText.append("\n Instrucciones Válidas:\n"
+                                + "  a. Mkdir <nombre>: Nueva carpeta.\n"
+                                + "  b. Rm <nombre>: Eliminar carpeta.\n"
+                                + "  c. Cd <nombre carpeta>: Cambiar de carpeta actual.\n"
+                                + "  d. Cd.. Regresar de Carpeta.\n"
+                                + "  e. Dir: Listar todas las carpetas y archivos en la carpeta actual.\n"
+                                + "  f. Date: Ver fecha actual.\n"
+                                + "  g. Time: Ver hora actual.\n");
+                        break;
+                    } else if (CodeWords.indexOf(cw) == CodeWords.size() - 1) {
+                        ConsoleText.append("\n INTRUCCIÓN INVÁLIDA. Escriba HELP para ver los comandos permitidos.");
+                    }
+                }
+            }
+    }//GEN-LAST:event_ConsoleTextKeyPressed
+
+    private void StopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StopButtonMouseClicked
+        MP.stop();
+        bm.setAvanzar(false);
+        MusicPB.setValue(0);
+    }//GEN-LAST:event_StopButtonMouseClicked
+
     public void PlaySong(File song) {
         p = new Media(song.toURI().toString());
         MusicPB.setValue(0);
@@ -2959,6 +3136,7 @@ public class PP extends javax.swing.JFrame {
     private com.toedter.calendar.JCalendar CalendarBday;
     private javax.swing.JDialog ChangeBG;
     private javax.swing.JDialog Console;
+    private javax.swing.JTextArea ConsoleText;
     private javax.swing.JMenuItem Copy;
     private javax.swing.JMenuItem Cut;
     private javax.swing.JMenu Date;
@@ -3001,6 +3179,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JDialog SocialMedia;
     private javax.swing.JLabel SongName;
     private javax.swing.JLabel SongName1;
+    private javax.swing.JButton StopButton;
     private javax.swing.JTable TableArchives;
     private javax.swing.JDialog TextEditor;
     private javax.swing.JLabel Time;
@@ -3102,6 +3281,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
+    private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
@@ -3176,4 +3356,6 @@ private File Sistema;
     String modifiedpath2 = "./";
     boolean copyflag = false;
     ArrayList<String[]> Recycle;
+    ArrayList<String> CodeWords = new ArrayList();
+
 }
