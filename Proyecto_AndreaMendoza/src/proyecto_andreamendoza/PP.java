@@ -196,9 +196,11 @@ public class PP extends javax.swing.JFrame {
         jScrollPane6 = new javax.swing.JScrollPane();
         ConsoleText = new javax.swing.JTextArea();
         TextEditor = new javax.swing.JDialog();
-        jMenuBar2 = new javax.swing.JMenuBar();
-        jMenu2 = new javax.swing.JMenu();
-        jMenu3 = new javax.swing.JMenu();
+        jScrollPane8 = new javax.swing.JScrollPane();
+        jTextPane1 = new javax.swing.JTextPane();
+        jMenuBar3 = new javax.swing.JMenuBar();
+        jMenu4 = new javax.swing.JMenu();
+        jMenu5 = new javax.swing.JMenu();
         Netbeans = new javax.swing.JDialog();
         Agenda = new javax.swing.JDialog();
         jPanel5 = new javax.swing.JPanel();
@@ -297,6 +299,9 @@ public class PP extends javax.swing.JFrame {
         RBPM = new javax.swing.JPopupMenu();
         Restore = new javax.swing.JMenuItem();
         DeleteP = new javax.swing.JMenuItem();
+        TextPM = new javax.swing.JPopupMenu();
+        EditText = new javax.swing.JMenuItem();
+        Save = new javax.swing.JMenuItem();
         MainMenu = new javax.swing.JToolBar();
         archives = new javax.swing.JButton();
         console = new javax.swing.JButton();
@@ -836,13 +841,31 @@ public class PP extends javax.swing.JFrame {
 
             TextEditor.setTitle("Editor de Texto");
 
-            jMenu2.setText("File");
-            jMenuBar2.add(jMenu2);
+            jTextPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    jTextPane1MouseClicked(evt);
+                }
+            });
+            jScrollPane8.setViewportView(jTextPane1);
 
-            jMenu3.setText("Edit");
-            jMenuBar2.add(jMenu3);
+            jMenu4.setText("File");
+            jMenuBar3.add(jMenu4);
 
-            TextEditor.setJMenuBar(jMenuBar2);
+            jMenu5.setText("Edit");
+            jMenuBar3.add(jMenu5);
+
+            TextEditor.setJMenuBar(jMenuBar3);
+
+            javax.swing.GroupLayout TextEditorLayout = new javax.swing.GroupLayout(TextEditor.getContentPane());
+            TextEditor.getContentPane().setLayout(TextEditorLayout);
+            TextEditorLayout.setHorizontalGroup(
+                TextEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 789, Short.MAX_VALUE)
+            );
+            TextEditorLayout.setVerticalGroup(
+                TextEditorLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
+            );
 
             Netbeans.setTitle("NetBeans");
 
@@ -1213,7 +1236,8 @@ public class PP extends javax.swing.JFrame {
                                     .addComponent(ImportMusic, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
                         .addComponent(StopButton, javax.swing.GroupLayout.PREFERRED_SIZE, 49, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGap(18, 18, 18)
-                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addComponent(jScrollPane4, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
 
             Messenger.setTitle("Mensajería");
@@ -1602,6 +1626,12 @@ public class PP extends javax.swing.JFrame {
                 }
             });
             RBPM.add(DeleteP);
+
+            EditText.setText("Properties");
+            TextPM.add(EditText);
+
+            Save.setText("Save");
+            TextPM.add(Save);
 
             setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
             setTitle("Windows Simulator");
@@ -3027,6 +3057,7 @@ public class PP extends javax.swing.JFrame {
                     }
                 }
             }
+        }
     }//GEN-LAST:event_ConsoleTextKeyPressed
 
     private void StopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StopButtonMouseClicked
@@ -3034,6 +3065,13 @@ public class PP extends javax.swing.JFrame {
         bm.setAvanzar(false);
         MusicPB.setValue(0);
     }//GEN-LAST:event_StopButtonMouseClicked
+
+    private void jTextPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextPane1MouseClicked
+
+        if(evt.isMetaDown()) {
+        TextPM.show(TextEditor, evt.getX(), evt.getY());
+    }
+    }//GEN-LAST:event_jTextPane1MouseClicked
 
     public void PlaySong(File song) {
         p = new Media(song.toURI().toString());
@@ -3143,6 +3181,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JMenuItem Delete;
     private javax.swing.JMenuItem DeleteP;
     private javax.swing.JMenu Edit;
+    private javax.swing.JMenuItem EditText;
     private javax.swing.JMenu File;
     private javax.swing.JMenu Help;
     private javax.swing.JLabel Icon1;
@@ -3174,6 +3213,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JTable RecycleBinTable;
     private javax.swing.JMenuItem Rename;
     private javax.swing.JMenuItem Restore;
+    private javax.swing.JMenuItem Save;
     private javax.swing.JButton SaveBDay;
     private javax.swing.JButton SaveNewU;
     private javax.swing.JDialog SocialMedia;
@@ -3182,6 +3222,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JButton StopButton;
     private javax.swing.JTable TableArchives;
     private javax.swing.JDialog TextEditor;
+    private javax.swing.JPopupMenu TextPM;
     private javax.swing.JLabel Time;
     private javax.swing.JLabel TotalTime;
     private javax.swing.JTree TreeArchives;
@@ -3265,10 +3306,10 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
-    private javax.swing.JMenu jMenu2;
-    private javax.swing.JMenu jMenu3;
+    private javax.swing.JMenu jMenu4;
+    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
-    private javax.swing.JMenuBar jMenuBar2;
+    private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
@@ -3283,6 +3324,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane5;
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
+    private javax.swing.JScrollPane jScrollPane8;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
@@ -3290,6 +3332,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JButton jb_forgotpw;
     private com.toedter.calendar.JDateChooser jd_newbday;
     private javax.swing.JTextField jt_userlogin;
