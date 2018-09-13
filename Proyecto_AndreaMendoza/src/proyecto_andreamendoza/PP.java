@@ -84,6 +84,9 @@ public class PP extends javax.swing.JFrame {
         CodeWords.add("date");
         CodeWords.add("time");
         CodeWords.add("help");
+        DefaultTreeModel m = (DefaultTreeModel) TreeArchives.getModel();
+        DefaultMutableTreeNode Root = (DefaultMutableTreeNode) m.getRoot();
+        SetTrees(new File("./Sistema/"), Root);
 
     }
 
@@ -824,12 +827,18 @@ public class PP extends javax.swing.JFrame {
 
             Console.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             Console.setTitle("Consola");
+            Console.setMinimumSize(new java.awt.Dimension(630, 370));
+            Console.setPreferredSize(new java.awt.Dimension(630, 370));
 
             ConsoleText.setBackground(new java.awt.Color(0, 0, 0));
             ConsoleText.setColumns(20);
-            ConsoleText.setForeground(new java.awt.Color(255, 255, 255));
+            ConsoleText.setFont(new java.awt.Font("Consolas", 0, 14)); // NOI18N
+            ConsoleText.setForeground(new java.awt.Color(204, 204, 204));
             ConsoleText.setRows(5);
-            ConsoleText.setMinimumSize(new java.awt.Dimension(550, 340));
+            ConsoleText.setCursor(new java.awt.Cursor(java.awt.Cursor.TEXT_CURSOR));
+            ConsoleText.setMaximumSize(null);
+            ConsoleText.setMinimumSize(new java.awt.Dimension(630, 370));
+            ConsoleText.setPreferredSize(new java.awt.Dimension(630, 370));
             ConsoleText.addKeyListener(new java.awt.event.KeyAdapter() {
                 public void keyPressed(java.awt.event.KeyEvent evt) {
                     ConsoleTextKeyPressed(evt);
@@ -2212,6 +2221,8 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_archivesMouseClicked
 
     private void consoleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consoleMouseClicked
+        ConsoleText.append("Mini Windows [Versión 1.00]\n"
+                + "(c) 2018 Andrea J. Mendoza. Todos los derechos reservados.\n\nSistema:\\" + USER.getNombre() + ">");
         Console.pack();
         Console.setLocationRelativeTo(this);
         Console.setVisible(true);
@@ -2972,6 +2983,8 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_RestoreActionPerformed
 
     private void ConsoleTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ConsoleTextKeyPressed
+        String currentpath = "\n\nSistema:/" + USER.getNombre() + ">";
+        String pathaesthetic = "\n\nSistema:\\" + USER.getNombre() + ">";
         boolean a = false;
         Scanner c = new Scanner(ConsoleText.getText());
         String command = "";
@@ -2979,56 +2992,93 @@ public class PP extends javax.swing.JFrame {
             while (c.hasNext()) {
                 command = c.nextLine();
             }
+            Scanner c2 = new Scanner(command);
+            c2.useDelimiter(">");
+            while (c2.hasNext()) {
+                command = c2.next();
+            }
+
             for (String cw : CodeWords) {
                 if (command.contains(cw) || a == true) {
-                    if (command.matches("mkdir<+[a-zA-Z_0-9]+>")) {
+                    if (command.matches("mkdir<.*")) {
                         String[] temp = command.split("<");
-                        String name = temp[1].substring(0, temp[1].length() - 1);
+                        String name = temp[1].substring(0, temp[1].length());
                         File nf = new File("./Sistema/" + USER.getNombre() + "/" + name);
                         nf.mkdir();
+                        PathsNodes.add(nf.getPath());
                         ConsoleText.append("\n Directorio " + name + " creado.");
                         break;
-                    } else if (command.matches("rm<+[a-zA-Z_0-9]+>")) {
+                    } else if (command.matches("rm<.*")) {
                         String[] temp = command.split("<");
-                        String name = temp[1].substring(0, temp[1].length() - 1);
-                        for (String path : PathsNodes) {
-                            if ((!(path.contains(name + "/")) && (path.contains(name)))) {
-                                try {
-                                    String[] temp2 = new String[2];
-                                    temp2[0] = path;
-                                    Files.copy(Paths.get(path),
-                                            Paths.get("./Papelera de Reciclaje/" + name),
-                                            StandardCopyOption.REPLACE_EXISTING);
-                                    Files.delete(Paths.get(path));
-                                    temp2[1] = "./Papelera de Reciclaje/" + name;
-                                    Recycle.add(temp);
-                                    String tipo;
-                                    DefaultTableModel m = (DefaultTableModel) RecycleBinTable.getModel();
-
+                        String name = temp[1].substring(0, temp[1].length());
+                        for (String p : PathsNodes) {
+                            if ((!(p.contains(name + "/")) && (p.contains(name)))) {
+                                if ((USER instanceof Administrador) || (p.contains(USER.getNombre()))) {
                                     try {
-                                        BasicFileAttributes attr = Files.readAttributes(Paths.get("./Papelera de Reciclaje/" + name), BasicFileAttributes.class);
-                                        if (name.contains(".")) {
-                                            tipo = "Archivo " + name.substring(name.lastIndexOf("."));
-                                        } else {
-                                            tipo = "Carpeta de Archivos";
+                                        String[] temp2 = new String[2];
+                                        temp2[0] = p;
+                                        Files.copy(Paths.get(p),
+                                                Paths.get("./Papelera de Reciclaje/" + name),
+                                                StandardCopyOption.REPLACE_EXISTING);
+                                        Files.delete(Paths.get(p));
+                                        temp2[1] = "./Papelera de Reciclaje/" + name;
+                                        Recycle.add(temp2);
+                                        ConsoleText.append("\n Archivo " + name + " eliminado.");
+                                        String tipo;
+                                        DefaultTableModel m = (DefaultTableModel) RecycleBinTable.getModel();
+
+                                        try {
+                                            BasicFileAttributes attr = Files.readAttributes(Paths.get("./Papelera de Reciclaje/" + name), BasicFileAttributes.class);
+                                            if (name.contains(".")) {
+                                                tipo = "Archivo " + name.substring(name.lastIndexOf("."));
+                                            } else {
+                                                tipo = "Carpeta de Archivos";
+                                            }
+                                            Object[] Directories = {name, attr.lastModifiedTime(), tipo, String.valueOf(attr.size() / 1000) + " KB"};
+                                            m.addRow(Directories);
+                                        } catch (IOException ex) {
+                                            JOptionPane.showMessageDialog(this, "Ha ocurrido un error al intentar localizar el archivo.");
                                         }
-                                        Object[] Directories = {name, attr.lastModifiedTime(), tipo, String.valueOf(attr.size() / 1000) + " KB"};
-                                        m.addRow(Directories);
+                                        RecycleBinTable.setModel(m);
+                                        break;
                                     } catch (IOException ex) {
-                                        JOptionPane.showMessageDialog(this, "Ha ocurrido un error al intentar localizar el archivo.");
+                                        Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
                                     }
-                                    RecycleBinTable.setModel(m);
+                                } else {
+                                    ConsoleText.append("\nNo tiene acceso a este archivo.");
                                     break;
-                                } catch (IOException ex) {
-                                    Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
+                                }
+                            } else if (PathsNodes.indexOf(p) == PathsNodes.size() - 1) {
+                                ConsoleText.append("\nNo se puede localizar el archivo.");
+                                break;
+                            }
+                        }
+                    } else if (command.matches("cd<.*")) {
+                        System.out.println("entra cd");
+                        String[] temp = command.split("<");
+                        String name = temp[1].substring(0, temp[1].length());
+                        for (String p : PathsNodes) {
+                            if ((!(p.contains(name + "/")) && (p.contains(name)))) {
+                                if ((USER instanceof Administrador) || (p.contains(USER.getNombre()))) {
+                                    currentpath = p;
+                                    pathaesthetic = "\n\nSistema:\\"+p.substring(9)+">";
+                                    break;
+                                } else if (PathsNodes.indexOf(p) == PathsNodes.size() - 1 && (!(p.contains(USER.getNombre())))) {
+                                    ConsoleText.append("\nNo se puede localizar el archivo o no tiene acceso a él.");
+                                    break;
                                 }
                             }
                         }
-                        ConsoleText.append("\n Archivo " + name + " eliminado.");
                         break;
-                    } else if (command.matches("cd<+[a-zA-Z_0-9]+>")) {
-                        break;
-                    } else if (command.matches("cd..")) {
+                    } else if (command.matches("cd..")) { // Corregir
+                        File f = new File(currentpath);
+                        if (f.getParent().contains("Sistema")) {
+                            currentpath = f.getParent();
+                            System.out.println(f.getParent());
+                            pathaesthetic = "\n\nSistema:\\"+f.getParent().substring(9)+">";
+                        } else {
+                             ConsoleText.append("\nHa llegado al archivo raíz.");
+                        }
                         break;
                     } else if (command.equalsIgnoreCase("time")) {
                         Date h = new Date();
@@ -3052,12 +3102,13 @@ public class PP extends javax.swing.JFrame {
                                 + "  f. Date: Ver fecha actual.\n"
                                 + "  g. Time: Ver hora actual.\n");
                         break;
-                    } else if (CodeWords.indexOf(cw) == CodeWords.size() - 1) {
-                        ConsoleText.append("\n INTRUCCIÓN INVÁLIDA. Escriba HELP para ver los comandos permitidos.");
                     }
+                    ConsoleText.append("\n INTRUCCIÓN INVÁLIDA. Escriba HELP para ver los comandos permitidos.");
                 }
             }
+            ConsoleText.append(pathaesthetic);
         }
+
     }//GEN-LAST:event_ConsoleTextKeyPressed
 
     private void StopButtonMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_StopButtonMouseClicked
@@ -3068,9 +3119,9 @@ public class PP extends javax.swing.JFrame {
 
     private void jTextPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextPane1MouseClicked
 
-        if(evt.isMetaDown()) {
-        TextPM.show(TextEditor, evt.getX(), evt.getY());
-    }
+        if (evt.isMetaDown()) {
+            TextPM.show(TextEditor, evt.getX(), evt.getY());
+        }
     }//GEN-LAST:event_jTextPane1MouseClicked
 
     public void PlaySong(File song) {
