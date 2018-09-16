@@ -22,6 +22,7 @@ public class Usuario implements Serializable {
     private String CMensaje;
     private String CCalendario;
     private String CDocumentos;
+    private boolean msn;
 
     public Usuario() {
     }
@@ -42,6 +43,7 @@ public class Usuario implements Serializable {
         this.CMensaje = "/Mis Mensajes";
         this.CCalendario = "/Mi Calendario";
         this.CDocumentos = "/Mis Documentos";
+        msn = false;
     }
 
     public String getNombre() {
@@ -192,8 +194,14 @@ public class Usuario implements Serializable {
     public void setCDocumentos(String CDocumentos) {
         this.CDocumentos = CDocumentos;
     }
-    
-    
+
+    public boolean isMsn() {
+        return msn;
+    }
+
+    public void setMsn(boolean msn) {
+        this.msn = msn;
+    }
 
     @Override
     public String toString() {

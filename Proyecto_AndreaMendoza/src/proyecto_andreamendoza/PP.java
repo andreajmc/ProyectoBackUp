@@ -1306,6 +1306,11 @@ public class PP extends javax.swing.JFrame {
             Contacts.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contactos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 12))); // NOI18N
             Contacts.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
             Contacts.setModel(new DefaultListModel());
+            Contacts.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    ContactsMouseClicked(evt);
+                }
+            });
             jScrollPane12.setViewportView(Contacts);
 
             SendM.setText("Send");
@@ -2360,6 +2365,15 @@ public class PP extends javax.swing.JFrame {
                 LogIn.setVisible(false);
                 this.setVisible(true);
                 this.setLocationRelativeTo(null);
+                if (USER.isMsn()) {
+                    int resp = JOptionPane.showConfirmDialog(this, "¡Tiene un mensaje nuevo!\n¿Desea leerlo ahora?");
+                    if (resp == JOptionPane.YES_OPTION) {
+                        Messenger.pack();
+                        Messenger.setLocationRelativeTo(null);
+                        Messenger.setVisible(true);
+                    }
+                    USER.setMsn(false);
+                }
                 break;
             } else if (U.getUsername().equalsIgnoreCase(un) && (!U.getPW().equals(pw))) {
                 pf_pwlogin.setBackground(Color.pink);
@@ -3410,11 +3424,29 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_txtMouseClicked
 
     private void SendMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SendMMouseClicked
+        boolean emptym = true;
+        boolean emptyc = true;
+        DefaultListModel m = (DefaultListModel) Contacts.getModel();
         if (Contacts.isSelectionEmpty()) {
-            JOptionPane.showMessageDialog(Messenger, "Por favor, selecciona un recepto del mensaje antes de continua.");
+            JOptionPane.showMessageDialog(Messenger, "Por favor, selecciona un receptor del mensaje antes de continuar.");
+            emptym = false;
         }
         if (Message.getText().equals("")) {
             JOptionPane.showMessageDialog(Messenger, "No puede enviar un mensaje en blanco.");
+            emptyc = false;
+        }
+        if (emptym == true && emptyc == true) {
+            U2 = (Usuario) m.getElementAt(Contacts.getSelectedIndex());
+            String message = USER.getNombre() + ": " + Message.getText();
+            Convo.append(message);
+            Message.setText("");
+            File convo = new File("./Sistema/" + USER.getNombre() + "/" + USER.getCMensaje() + "/Conversación con " + U2.getNombre() + ".txt");
+            File convo2 = new File("./Sistema/" + U2.getNombre() + "/" + U2.getCMensaje() + "/Conversación con " + USER.getNombre() + ".txt");
+            NormalDocsAdmin nd = new NormalDocsAdmin(convo, Message);
+            NormalDocsAdmin nd2 = new NormalDocsAdmin(convo2, Message);
+            nd.writeMessages();
+            nd2.writeMessages();
+            U2.setMsn(true);
         }
     }//GEN-LAST:event_SendMMouseClicked
 
@@ -3493,6 +3525,18 @@ public class PP extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(TextEditor, "¡Documento guardado exitósamente!");
     }//GEN-LAST:event_SaveDocActionPerformed
 
+    private void ContactsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ContactsMouseClicked
+        try {
+            DefaultListModel m = (DefaultListModel) Contacts.getModel();
+            U2 = (Usuario) m.getElementAt(Contacts.getSelectedIndex());
+            File convo = new File("./Sistema/" + USER.getNombre() + "/" + USER.getCMensaje() + "/Conversación con " + U2.getNombre() + ".txt");
+            NormalDocsAdmin nd = new NormalDocsAdmin(convo, Convo);
+            nd.readMessages();
+            Message.setText("");
+        } catch (IOException ex) {
+        }
+    }//GEN-LAST:event_ContactsMouseClicked
+
     public void PlaySong(File song) {
         p = new Media(song.toURI().toString());
         MusicPB.setValue(0);
@@ -3527,11 +3571,16 @@ public class PP extends javax.swing.JFrame {
 
         Calendar Cal = new GregorianCalendar(1999, 11, 24);
         Date bday = Cal.getTime();
+        // ArrayList<Usuario> Usuarios, String Nombre, int Edad, Date Bday, String Username, String PW, String RespPW, String Correo, String Pregunta, Color C) throws Exceptions {
 
         BinaryArchivesAdmin BAA = new BinaryArchivesAdmin("./User Information.aj");
         BAA.loadArchive();
+        
+        Administrador A = new Administrador(new ArrayList(), "Andrea J. Mendoza", 18, bday, "andreaj", "andreA1", "Rosado", "andreaj@unitec.edu", "¿Cuál es su color favorito?", new Color(255, 204, 255));
+        BAA.getUsers().add(A);
         Users = BAA.getUsers();
         BAA.overrideArchive();
+        System.out.println(BAA.getUsers());
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -3826,5 +3875,5 @@ private File Sistema;
     ArrayList<String> CodeWords = new ArrayList();
     String currentpath;
     String pathaesthetic;
-
+    Usuario U2;
 }

@@ -6,6 +6,7 @@ import java.util.Date;
 
 public class Administrador extends Usuario {
     private ArrayList <Usuario> Usuarios;
+    private boolean msn;
 
     public Administrador() {
     }
@@ -17,6 +18,7 @@ public class Administrador extends Usuario {
     public Administrador(ArrayList<Usuario> Usuarios, String Nombre, int Edad, Date Bday, String Username, String PW, String RespPW, String Correo, String Pregunta, Color C) throws Exceptions {
         super(Nombre, Edad, Bday, Username, PW, RespPW, Correo, Pregunta, C);
         this.Usuarios = Usuarios;
+        msn = false;
     }
 
     public ArrayList<Usuario> getUsuarios() {
