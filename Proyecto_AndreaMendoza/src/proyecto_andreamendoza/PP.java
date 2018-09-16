@@ -59,6 +59,8 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
+import javax.swing.SpinnerDateModel;
+import javax.swing.SpinnerModel;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -951,11 +953,18 @@ public class PP extends javax.swing.JFrame {
             jTabbedPane1.setMinimumSize(new java.awt.Dimension(300, 426));
             jTabbedPane1.setName(""); // NOI18N
 
+            jPanel10.setBackground(new java.awt.Color(255, 255, 255));
+
             jPanel6.setBackground(new java.awt.Color(255, 255, 255));
 
             cal.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     calMouseClicked(evt);
+                }
+            });
+            cal.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+                public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                    calPropertyChange(evt);
                 }
             });
 
@@ -988,9 +997,16 @@ public class PP extends javax.swing.JFrame {
                 Class[] types = new Class [] {
                     java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class
                 };
+                boolean[] canEdit = new boolean [] {
+                    false, false, false
+                };
 
                 public Class getColumnClass(int columnIndex) {
                     return types [columnIndex];
+                }
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
                 }
             });
             agenda.setAutoscrolls(false);
@@ -1044,6 +1060,12 @@ public class PP extends javax.swing.JFrame {
             jLabel62.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
             jLabel62.setText("Título");
 
+            Fecha.addPropertyChangeListener(new java.beans.PropertyChangeListener() {
+                public void propertyChange(java.beans.PropertyChangeEvent evt) {
+                    FechaPropertyChange(evt);
+                }
+            });
+
             jLabel63.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
             jLabel63.setText("Fecha");
 
@@ -1053,10 +1075,10 @@ public class PP extends javax.swing.JFrame {
             Content.setEnabled(false);
             jScrollPane15.setViewportView(Content);
 
-            start.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(), null, java.util.Calendar.HOUR));
+            start.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(), null, java.util.Calendar.MINUTE));
             start.setEnabled(false);
 
-            end.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(1537083105508L), null, java.util.Calendar.HOUR));
+            end.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(1537083105508L), null, java.util.Calendar.MINUTE));
             end.setEnabled(false);
 
             jLabel64.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
@@ -1073,6 +1095,11 @@ public class PP extends javax.swing.JFrame {
 
             Notes.setText("Seleccionar Notas");
             Notes.setEnabled(false);
+            Notes.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    NotesMouseClicked(evt);
+                }
+            });
 
             savedate.setText("Guardar");
             savedate.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -3704,40 +3731,87 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_TypeItemStateChanged
 
     private void savedateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_savedateMouseClicked
-        boolean rec = false;
-        int resp = JOptionPane.showConfirmDialog(Agenda, "¿Desea guardar un recordatorio para la actividad?");
-        int mins = 0;
-        if (resp == JOptionPane.YES_OPTION) {
-            rec = true;
-            mins = Integer.parseInt(JOptionPane.showInputDialog(Agenda, "Ingrese cuántos minutos antes de la actividad desea enviar una alarma."));
+        try {
+            boolean rec = false;
+            int resp = JOptionPane.showConfirmDialog(Agenda, "¿Desea guardar un recordatorio para la actividad?");
+            int mins = 0;
+            if (resp == JOptionPane.YES_OPTION) {
+                rec = true;
+                try {
+                    mins = Integer.parseInt(JOptionPane.showInputDialog(Agenda, "Ingrese cuántos minutos antes\nde la actividad desea enviar una alarma."));
+                } catch (Exception e) {
+                    JOptionPane.showMessageDialog(agenda, "Ingrese un número válido.");
+                }
+            }
+            if (Type.getSelectedItem().toString().equals("Evento")) {
+                USER.addAs(new Eventos((Date) start.getValue(), (Date) end.getValue(), Fecha.getDate(), Title.getText(), rec, mins));
+            } else if (Type.getSelectedIndex() != 0) {
+                USER.addAs(new Tareas(Content.getText(), TempFiles, Fecha.getDate(), Title.getText(), rec, mins));
+            }
+            Files.createDirectory(Paths.get(new File(".\\Sistema\\" + USER.getNombre() + "\\" + USER.getCCalendario() + "\\" + Title.getText()).getPath()));
+            for (File tf : TempFiles) {
+                try {
+                    Files.copy(Paths.get(tf.getPath()),
+                            Paths.get(new File(".\\Sistema\\" + USER.getNombre() + "\\" + USER.getCCalendario() + "\\" + Title.getText()).getPath() + "\\" + tf.getName()),
+                            StandardCopyOption.REPLACE_EXISTING);
+                } catch (IOException ex) {
+                }
+            }
+            JOptionPane.showMessageDialog(Agenda, "¡Actividad guardada exitósamente.");
+            Title.setText("");
+            rec = false;
+            mins = 0;
+            Content.setText("");
+            TempFiles = new ArrayList();
+            Content.setEnabled(false);
+            Notes.setEnabled(false);
+            Notes.setText("Seleccionar Notas");
+            start.setEnabled(false);
+            end.setEnabled(false);
+            Type.setSelectedIndex(0);
+        } catch (IOException ex) {
+            Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
         }
-        if (Type.getSelectedItem().toString().equals("Evento")) {
-            USER.addAs(new Eventos(start.toString(), end.toString(), Fecha.getDate(), Title.getText(), rec, mins));
-        } else if (Type.getSelectedIndex() != 0) {
-            USER.addAs(new Tareas(Content.getText(), TempFiles, Fecha.getDate(), Title.getText(), rec, mins));
-        }
-        JOptionPane.showMessageDialog(Agenda, "¡Actividad guardada exitósamente.");
-        Title.setText("");
-        rec = false;
-        mins = 0;
-        Content.setText("");
-        TempFiles = new ArrayList();
-        Content.setEnabled(false);
-        Notes.setEnabled(false);
-        start.setEnabled(false);
-        end.setEnabled(false);
-        Type.setSelectedIndex(0);
     }//GEN-LAST:event_savedateMouseClicked
 
     private void calMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_calMouseClicked
+
+    }//GEN-LAST:event_calMouseClicked
+
+    private void calPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_calPropertyChange
+        System.out.println("entra?");
         DefaultTableModel m = (DefaultTableModel) agenda.getModel();
         for (Actividades a : USER.getAs()) {
-            if (a.getDate().equals(cal.getDate())) {
-                Object[] temp = {a.getClass().toString(), a.getTitle(), a.isReminder()};
+            System.out.println(a.getDate());
+            System.out.println(cal.getDate());
+            if ((a.getDate().getDate() == cal.getDate().getDate()) && (a.getDate().getMonth() == cal.getDate().getMonth())) {
+            } else {
+                Object[] temp = {a.getClass().getName(), a.getTitle(), a.isReminder()};
                 m.addRow(temp);
             }
         }
-    }//GEN-LAST:event_calMouseClicked
+        agenda.setModel(m);
+    }//GEN-LAST:event_calPropertyChange
+
+    private void FechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_FechaPropertyChange
+        SpinnerModel m = (SpinnerDateModel) start.getModel();
+//        m.setValue(Fecha.getDate());
+    }//GEN-LAST:event_FechaPropertyChange
+
+    private void NotesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotesMouseClicked
+        JFileChooser FChooser = new JFileChooser();
+        FileFilter Filter = new FileNameExtensionFilter("Notas",
+                "doc", "docx", "txt");
+        FChooser.setFileFilter(Filter);
+        File archive = null;
+        int op = FChooser.showOpenDialog(this);
+        if (op == JFileChooser.APPROVE_OPTION) {
+            archive = FChooser.getSelectedFile();
+        }
+        TempFiles.add(archive);
+        JOptionPane.showMessageDialog(agenda, "¡Nota importada exitósamente!");
+        Notes.setText("Agregar otra nota.");
+    }//GEN-LAST:event_NotesMouseClicked
 
     public void PlaySong(File song) {
         p = new Media(song.toURI().toString());
@@ -3773,23 +3847,20 @@ public class PP extends javax.swing.JFrame {
 
         Calendar Cal = new GregorianCalendar(1999, 11, 24);
         Date bday = Cal.getTime();
- 
-        // ArrayList<Usuario> Usuarios, String Nombre, int Edad, Date Bday, String Username, String PW, String RespPW, String Correo, String Pregunta, Color C) throws Exceptions {
 
-        /*METER ADMIN DONT DELETE JUST IN CASE
+        // ArrayList<Usuario> Usuarios, String Nombre, int Edad, Date Bday, String Username, String PW, String RespPW, String Correo, String Pregunta, Color C) throws Exceptions {
+        //METER ADMIN DONT DELETE JUST IN CASE
         BinaryArchivesAdmin BAA = new BinaryArchivesAdmin("./User Information.aj");
-        BAA.loadArchive();     
+        BAA.loadArchive();
         Administrador A = new Administrador(new ArrayList(), "Andrea J. Mendoza", 18, bday, "andreaj", "andreA1", "Rosado", "andreaj@unitec.edu", "¿Cuál es su color favorito?", new Color(255, 204, 255));
         BAA.getUsers().add(A);
         Users = BAA.getUsers();
         BAA.overrideArchive();
         System.out.println(BAA.getUsers());
-         */
-        
-        BinaryArchivesAdmin BAA = new BinaryArchivesAdmin("./User Information.aj");
-        BAA.loadArchive();
-        Users = BAA.getUsers();
 
+        //BinaryArchivesAdmin BAA = new BinaryArchivesAdmin("./User Information.aj");
+        //BAA.loadArchive();
+        //Users = BAA.getUsers();
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
                 if ("Windows".equals(info.getName())) {
