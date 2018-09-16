@@ -1,0 +1,15 @@
+<html>
+  <head>
+    <style type="text/css">
+      <!--
+        miEstilo { color: #cc6600; font-family: Gigi; font-weight: bold; font-style: italic; font-size: 7 }
+      -->
+    </style>
+    
+  </head>
+  <body>
+    <p style="margin-top: 0">
+      aaaaa<font color="#cc6600" face="Gigi" size="7"><b><i><miEstilo></i></b></font>aaa
+    </p>
+  </body>
+</html>

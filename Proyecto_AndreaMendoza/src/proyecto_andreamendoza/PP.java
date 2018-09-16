@@ -1,6 +1,8 @@
 package proyecto_andreamendoza;
 
 import java.awt.Color;
+import java.awt.Font;
+import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
 import java.awt.Image;
 import java.awt.Toolkit;
@@ -54,6 +56,10 @@ import javax.swing.tree.TreeSelectionModel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
+import javax.swing.text.BadLocationException;
+import javax.swing.text.Style;
+import javax.swing.text.StyleConstants;
+import javax.swing.text.StyledDocument;
 
 public class PP extends javax.swing.JFrame {
 
@@ -87,6 +93,7 @@ public class PP extends javax.swing.JFrame {
         DefaultTreeModel m = (DefaultTreeModel) TreeArchives.getModel();
         DefaultMutableTreeNode Root = (DefaultMutableTreeNode) m.getRoot();
         SetTrees(new File("./Sistema/"), Root);
+        txt.setContentType("text/html");
 
     }
 
@@ -200,10 +207,13 @@ public class PP extends javax.swing.JFrame {
         ConsoleText = new javax.swing.JTextArea();
         TextEditor = new javax.swing.JDialog();
         jScrollPane8 = new javax.swing.JScrollPane();
-        jTextPane1 = new javax.swing.JTextPane();
+        txt = new javax.swing.JTextPane();
         jMenuBar3 = new javax.swing.JMenuBar();
         jMenu4 = new javax.swing.JMenu();
+        Open = new javax.swing.JMenuItem();
+        SaveDoc = new javax.swing.JMenuItem();
         jMenu5 = new javax.swing.JMenu();
+        Prop = new javax.swing.JMenuItem();
         Netbeans = new javax.swing.JDialog();
         Agenda = new javax.swing.JDialog();
         jPanel5 = new javax.swing.JPanel();
@@ -236,6 +246,15 @@ public class PP extends javax.swing.JFrame {
         Playlist = new javax.swing.JList<>();
         StopButton = new javax.swing.JButton();
         Messenger = new javax.swing.JDialog();
+        jPanel2 = new javax.swing.JPanel();
+        jScrollPane12 = new javax.swing.JScrollPane();
+        Contacts = new javax.swing.JList<>();
+        SendM = new javax.swing.JButton();
+        jPanel8 = new javax.swing.JPanel();
+        jScrollPane9 = new javax.swing.JScrollPane();
+        Message = new javax.swing.JTextArea();
+        jScrollPane10 = new javax.swing.JScrollPane();
+        Convo = new javax.swing.JTextArea();
         SocialMedia = new javax.swing.JDialog();
         Icons = new javax.swing.JDialog();
         jLabel1 = new javax.swing.JLabel();
@@ -292,7 +311,6 @@ public class PP extends javax.swing.JFrame {
         jPanel7 = new javax.swing.JPanel();
         jScrollPane7 = new javax.swing.JScrollPane();
         RecycleBinTable = new javax.swing.JTable();
-        jPanel2 = new javax.swing.JPanel();
         ArchivesPM = new javax.swing.JPopupMenu();
         Copy = new javax.swing.JMenuItem();
         Cut = new javax.swing.JMenuItem();
@@ -305,6 +323,18 @@ public class PP extends javax.swing.JFrame {
         TextPM = new javax.swing.JPopupMenu();
         EditText = new javax.swing.JMenuItem();
         Save = new javax.swing.JMenuItem();
+        FontChooser = new javax.swing.JDialog();
+        jPanel9 = new javax.swing.JPanel();
+        jScrollPane11 = new javax.swing.JScrollPane();
+        fonts = new javax.swing.JList<>();
+        jScrollPane13 = new javax.swing.JScrollPane();
+        style = new javax.swing.JList<>();
+        jScrollPane14 = new javax.swing.JScrollPane();
+        size = new javax.swing.JList<>();
+        jButton4 = new javax.swing.JButton();
+        Okay = new javax.swing.JButton();
+        jButton5 = new javax.swing.JButton();
+        muestra = new javax.swing.JLabel();
         MainMenu = new javax.swing.JToolBar();
         archives = new javax.swing.JButton();
         console = new javax.swing.JButton();
@@ -828,7 +858,6 @@ public class PP extends javax.swing.JFrame {
             Console.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             Console.setTitle("Consola");
             Console.setMinimumSize(new java.awt.Dimension(630, 370));
-            Console.setPreferredSize(new java.awt.Dimension(630, 370));
 
             ConsoleText.setBackground(new java.awt.Color(0, 0, 0));
             ConsoleText.setColumns(20);
@@ -850,17 +879,49 @@ public class PP extends javax.swing.JFrame {
 
             TextEditor.setTitle("Editor de Texto");
 
-            jTextPane1.addMouseListener(new java.awt.event.MouseAdapter() {
+            txt.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
-                    jTextPane1MouseClicked(evt);
+                    txtMouseClicked(evt);
                 }
             });
-            jScrollPane8.setViewportView(jTextPane1);
+            jScrollPane8.setViewportView(txt);
 
             jMenu4.setText("File");
+
+            Open.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_A, java.awt.event.InputEvent.CTRL_MASK));
+            Open.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/newuser.png"))); // NOI18N
+            Open.setText("Abrir Documento...");
+            Open.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    OpenActionPerformed(evt);
+                }
+            });
+            jMenu4.add(Open);
+
+            SaveDoc.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_S, java.awt.event.InputEvent.CTRL_MASK));
+            SaveDoc.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save.png"))); // NOI18N
+            SaveDoc.setText("Guardar");
+            SaveDoc.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    SaveDocActionPerformed(evt);
+                }
+            });
+            jMenu4.add(SaveDoc);
+
             jMenuBar3.add(jMenu4);
 
             jMenu5.setText("Edit");
+
+            Prop.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
+            Prop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Edit p.png"))); // NOI18N
+            Prop.setText("Editar Texto");
+            Prop.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    PropActionPerformed(evt);
+                }
+            });
+            jMenu5.add(Prop);
+
             jMenuBar3.add(jMenu5);
 
             TextEditor.setJMenuBar(jMenuBar3);
@@ -1250,6 +1311,101 @@ public class PP extends javax.swing.JFrame {
             );
 
             Messenger.setTitle("Mensajería");
+            Messenger.setBackground(new java.awt.Color(255, 255, 255));
+
+            jPanel2.setBackground(new java.awt.Color(176, 244, 244));
+            jPanel2.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+            Contacts.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Contactos", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 12))); // NOI18N
+            Contacts.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+            Contacts.setModel(new DefaultListModel());
+            jScrollPane12.setViewportView(Contacts);
+
+            SendM.setText("Send");
+            SendM.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    SendMMouseClicked(evt);
+                }
+            });
+
+            javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
+            jPanel2.setLayout(jPanel2Layout);
+            jPanel2Layout.setHorizontalGroup(
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addGroup(jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 152, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel2Layout.createSequentialGroup()
+                            .addGap(35, 35, 35)
+                            .addComponent(SendM, javax.swing.GroupLayout.PREFERRED_SIZE, 93, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+            );
+            jPanel2Layout.setVerticalGroup(
+                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel2Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane12, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 59, Short.MAX_VALUE)
+                    .addComponent(SendM, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(37, 37, 37))
+            );
+
+            jPanel8.setBackground(new java.awt.Color(220, 245, 253));
+            jPanel8.setBorder(javax.swing.BorderFactory.createEtchedBorder());
+
+            Message.setColumns(20);
+            Message.setRows(5);
+            jScrollPane9.setViewportView(Message);
+
+            Convo.setEditable(false);
+            Convo.setColumns(20);
+            Convo.setRows(5);
+            Convo.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Conversación", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 12))); // NOI18N
+            jScrollPane10.setViewportView(Convo);
+
+            javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
+            jPanel8.setLayout(jPanel8Layout);
+            jPanel8Layout.setHorizontalGroup(
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel8Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.DEFAULT_SIZE, 471, Short.MAX_VALUE)
+                    .addContainerGap())
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane10, javax.swing.GroupLayout.DEFAULT_SIZE, 454, Short.MAX_VALUE)
+                        .addContainerGap()))
+            );
+            jPanel8Layout.setVerticalGroup(
+                jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel8Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(jScrollPane9, javax.swing.GroupLayout.PREFERRED_SIZE, 84, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap())
+                .addGroup(jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(jPanel8Layout.createSequentialGroup()
+                        .addContainerGap()
+                        .addComponent(jScrollPane10, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addContainerGap(109, Short.MAX_VALUE)))
+            );
+
+            javax.swing.GroupLayout MessengerLayout = new javax.swing.GroupLayout(Messenger.getContentPane());
+            Messenger.getContentPane().setLayout(MessengerLayout);
+            MessengerLayout.setHorizontalGroup(
+                MessengerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, MessengerLayout.createSequentialGroup()
+                    .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+            );
+            MessengerLayout.setVerticalGroup(
+                MessengerLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel8, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
 
             SocialMedia.setTitle("Red Social");
 
@@ -1558,17 +1714,6 @@ public class PP extends javax.swing.JFrame {
 
             RecycleBin.getContentPane().add(jPanel7, java.awt.BorderLayout.CENTER);
 
-            javax.swing.GroupLayout jPanel2Layout = new javax.swing.GroupLayout(jPanel2);
-            jPanel2.setLayout(jPanel2Layout);
-            jPanel2Layout.setHorizontalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 100, Short.MAX_VALUE)
-            );
-            jPanel2Layout.setVerticalGroup(
-                jPanel2Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 100, Short.MAX_VALUE)
-            );
-
             Copy.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/copy.png"))); // NOI18N
             Copy.setText("Copy");
             Copy.addActionListener(new java.awt.event.ActionListener() {
@@ -1636,11 +1781,128 @@ public class PP extends javax.swing.JFrame {
             });
             RBPM.add(DeleteP);
 
+            EditText.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/settings.png"))); // NOI18N
             EditText.setText("Properties");
+            EditText.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    EditTextActionPerformed(evt);
+                }
+            });
             TextPM.add(EditText);
 
+            Save.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/save.png"))); // NOI18N
             Save.setText("Save");
             TextPM.add(Save);
+
+            FontChooser.setTitle("Edit Text");
+
+            jPanel9.setBackground(new java.awt.Color(218, 212, 206));
+
+            fonts.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Font", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 11))); // NOI18N
+            fonts.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+            fonts.setModel(new DefaultListModel());
+            jScrollPane11.setViewportView(fonts);
+
+            style.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Style", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 11))); // NOI18N
+            style.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+            style.setModel(new javax.swing.AbstractListModel<String>() {
+                String[] strings = { "Plain", "Bold", "Italic", "Bold Italic", "Underline" };
+                public int getSize() { return strings.length; }
+                public String getElementAt(int i) { return strings[i]; }
+            });
+            style.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+            jScrollPane13.setViewportView(style);
+
+            size.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Size", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 11))); // NOI18N
+            size.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+            size.setModel(new javax.swing.AbstractListModel<String>() {
+                String[] strings = { "12", "14", "16", "18", "20", "22", "24", "26", "28", "36", "48", "72" };
+                public int getSize() { return strings.length; }
+                public String getElementAt(int i) { return strings[i]; }
+            });
+            size.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_SELECTION);
+            jScrollPane14.setViewportView(size);
+
+            jButton4.setText("Cancel");
+            jButton4.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    jButton4MouseClicked(evt);
+                }
+            });
+
+            Okay.setText("OK");
+            Okay.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    OkayMouseClicked(evt);
+                }
+            });
+
+            jButton5.setText("Elegir Color");
+            jButton5.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    jButton5MouseClicked(evt);
+                }
+            });
+
+            muestra.setBackground(new java.awt.Color(0, 0, 0));
+            muestra.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
+            muestra.setOpaque(true);
+
+            javax.swing.GroupLayout jPanel9Layout = new javax.swing.GroupLayout(jPanel9);
+            jPanel9.setLayout(jPanel9Layout);
+            jPanel9Layout.setHorizontalGroup(
+                jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel9Layout.createSequentialGroup()
+                    .addGap(15, 15, 15)
+                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel9Layout.createSequentialGroup()
+                            .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(10, 10, 10)
+                            .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(10, 10, 10)
+                            .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel9Layout.createSequentialGroup()
+                            .addGap(1, 1, 1)
+                            .addComponent(muestra, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                            .addComponent(jButton5)
+                            .addGap(60, 60, 60)
+                            .addComponent(Okay)
+                            .addGap(6, 6, 6)
+                            .addComponent(jButton4))))
+            );
+            jPanel9Layout.setVerticalGroup(
+                jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel9Layout.createSequentialGroup()
+                    .addGap(24, 24, 24)
+                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane11, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane13, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jScrollPane14, javax.swing.GroupLayout.PREFERRED_SIZE, 161, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel9Layout.createSequentialGroup()
+                            .addGap(14, 14, 14)
+                            .addComponent(muestra, javax.swing.GroupLayout.PREFERRED_SIZE, 40, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel9Layout.createSequentialGroup()
+                            .addGap(18, 18, 18)
+                            .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(jPanel9Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                                    .addComponent(Okay)
+                                    .addComponent(jButton4))
+                                .addComponent(jButton5))))
+                    .addContainerGap())
+            );
+
+            javax.swing.GroupLayout FontChooserLayout = new javax.swing.GroupLayout(FontChooser.getContentPane());
+            FontChooser.getContentPane().setLayout(FontChooserLayout);
+            FontChooserLayout.setHorizontalGroup(
+                FontChooserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+            FontChooserLayout.setVerticalGroup(
+                FontChooserLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
 
             setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
             setTitle("Windows Simulator");
@@ -2221,20 +2483,20 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_archivesMouseClicked
 
     private void consoleMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_consoleMouseClicked
+        currentpath = "./Sistema/" + USER.getNombre();
+        pathaesthetic = "Sistema:\\\\" + USER.getNombre() + ">";
         ConsoleText.append("Mini Windows [Versión 1.00]\n"
                 + "(c) 2018 Andrea J. Mendoza. Todos los derechos reservados.\n\nSistema:\\" + USER.getNombre() + ">");
         Console.pack();
         Console.setLocationRelativeTo(this);
         Console.setVisible(true);
-
     }//GEN-LAST:event_consoleMouseClicked
 
     private void texteditorMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_texteditorMouseClicked
+        txt.setContentType("text/html");
         TextEditor.pack();
         TextEditor.setLocationRelativeTo(this);
         TextEditor.setVisible(true);
-
-
     }//GEN-LAST:event_texteditorMouseClicked
 
     private void calendarMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_calendarMouseClicked
@@ -2353,6 +2615,11 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_musicMouseClicked
 
     private void imMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_imMouseClicked
+        DefaultListModel m = (DefaultListModel) Contacts.getModel();
+        m.removeAllElements();
+        for (Usuario U : Users) {
+            m.addElement(U);
+        }
         Messenger.pack();
         Messenger.setLocationRelativeTo(this);
         Messenger.setVisible(true);
@@ -2983,8 +3250,6 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_RestoreActionPerformed
 
     private void ConsoleTextKeyPressed(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_ConsoleTextKeyPressed
-        String currentpath = "\n\nSistema:/" + USER.getNombre() + ">";
-        String pathaesthetic = "\n\nSistema:\\" + USER.getNombre() + ">";
         boolean a = false;
         Scanner c = new Scanner(ConsoleText.getText());
         String command = "";
@@ -2997,7 +3262,7 @@ public class PP extends javax.swing.JFrame {
             while (c2.hasNext()) {
                 command = c2.next();
             }
-
+            System.out.println(command);
             for (String cw : CodeWords) {
                 if (command.contains(cw) || a == true) {
                     if (command.matches("mkdir<.*")) {
@@ -3053,6 +3318,7 @@ public class PP extends javax.swing.JFrame {
                                 break;
                             }
                         }
+                        break;
                     } else if (command.matches("cd<.*")) {
                         System.out.println("entra cd");
                         String[] temp = command.split("<");
@@ -3061,7 +3327,7 @@ public class PP extends javax.swing.JFrame {
                             if ((!(p.contains(name + "/")) && (p.contains(name)))) {
                                 if ((USER instanceof Administrador) || (p.contains(USER.getNombre()))) {
                                     currentpath = p;
-                                    pathaesthetic = "\n\nSistema:\\"+p.substring(9)+">";
+                                    pathaesthetic = "\nSistema:\\" + p.substring(9) + ">";
                                     break;
                                 } else if (PathsNodes.indexOf(p) == PathsNodes.size() - 1 && (!(p.contains(USER.getNombre())))) {
                                     ConsoleText.append("\nNo se puede localizar el archivo o no tiene acceso a él.");
@@ -3070,14 +3336,21 @@ public class PP extends javax.swing.JFrame {
                             }
                         }
                         break;
-                    } else if (command.matches("cd..")) { // Corregir
+                    } else if (command.equalsIgnoreCase("cd..")) { // Corregir
                         File f = new File(currentpath);
                         if (f.getParent().contains("Sistema")) {
-                            currentpath = f.getParent();
-                            System.out.println(f.getParent());
-                            pathaesthetic = "\n\nSistema:\\"+f.getParent().substring(9)+">";
+                            System.out.println(currentpath);
+                            currentpath = currentpath.substring(0, currentpath.lastIndexOf("\\"));
+                            System.out.println("antes " + currentpath);
+                            int pos = 10;
+                            if (currentpath.equalsIgnoreCase(".\\Sistema")) {
+                                pos = 9;
+                            }
+                            pathaesthetic = "\nSistema:\\\\" + currentpath.substring(pos) + ">";
                         } else {
-                             ConsoleText.append("\nHa llegado al archivo raíz.");
+                            ConsoleText.append("\nHa llegado al archivo raíz.");
+                            currentpath = "./Sistema";
+                            pathaesthetic = "\nSistema:\\\\>";
                         }
                         break;
                     } else if (command.equalsIgnoreCase("time")) {
@@ -3091,6 +3364,31 @@ public class PP extends javax.swing.JFrame {
                         ConsoleText.append("\n La fecha actual es: " + f.format(h) + ".");
                         break;
                     } else if (command.equalsIgnoreCase("dir")) {
+                        ConsoleText.append("\n\nDirectorio de " + pathaesthetic + "\n\n");
+                        File D = new File(currentpath);
+                        File[] Tabla = D.listFiles();
+                        String tipo = "";
+                        int contarchs = 0, bytearchs = 0, contdirs = 0, bytedirs = 0;
+                        try {
+                            for (File file : Tabla) {
+                                BasicFileAttributes attr = Files.readAttributes(Paths.get(file.getPath()), BasicFileAttributes.class);
+                                String size = String.format("%04d", attr.size());
+                                if (attr.isDirectory()) {
+                                    tipo = "<DIR>";
+                                    ++contdirs;
+                                    bytedirs += attr.size();
+                                } else {
+                                    ++contarchs;
+                                    bytearchs += attr.size();
+                                }
+                                DateFormat date = new SimpleDateFormat("dd/mm/yyyy");
+                                DateFormat time = new SimpleDateFormat("HH:mm");
+                                ConsoleText.append(date.format(new Date(attr.creationTime().toMillis())) + "  " + time.format(new Date(attr.creationTime().toMillis())) + "  " + tipo + "  " + size + "  " + file.getName() + "\n");
+
+                            }
+                        } catch (IOException ex) {
+                        }
+                        ConsoleText.append("          " + contarchs + " archivos          " + bytearchs + " bytes\n          " + contdirs + " dirs          " + bytedirs + " bytes\n");
                         break;
                     } else if (command.equalsIgnoreCase("help")) {
                         ConsoleText.append("\n Instrucciones Válidas:\n"
@@ -3103,7 +3401,8 @@ public class PP extends javax.swing.JFrame {
                                 + "  g. Time: Ver hora actual.\n");
                         break;
                     }
-                    ConsoleText.append("\n INTRUCCIÓN INVÁLIDA. Escriba HELP para ver los comandos permitidos.");
+                } else if (CodeWords.indexOf(cw) == CodeWords.size() - 1) {
+                    ConsoleText.append("\n INTRUCCIÓN INVÁLIDA. Escriba HELP para ver los comandos permitidos.\n\n");
                 }
             }
             ConsoleText.append(pathaesthetic);
@@ -3117,12 +3416,117 @@ public class PP extends javax.swing.JFrame {
         MusicPB.setValue(0);
     }//GEN-LAST:event_StopButtonMouseClicked
 
-    private void jTextPane1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jTextPane1MouseClicked
-
+    private void txtMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_txtMouseClicked
         if (evt.isMetaDown()) {
             TextPM.show(TextEditor, evt.getX(), evt.getY());
         }
-    }//GEN-LAST:event_jTextPane1MouseClicked
+    }//GEN-LAST:event_txtMouseClicked
+
+    private void SendMMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SendMMouseClicked
+        if (Contacts.isSelectionEmpty()) {
+            JOptionPane.showMessageDialog(Messenger, "Por favor, selecciona un recepto del mensaje antes de continua.");
+        }
+        if (Message.getText().equals("")) {
+            JOptionPane.showMessageDialog(Messenger, "No puede enviar un mensaje en blanco.");
+        }
+    }//GEN-LAST:event_SendMMouseClicked
+
+    private void EditTextActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_EditTextActionPerformed
+        GraphicsEnvironment ge = GraphicsEnvironment
+                .getLocalGraphicsEnvironment();
+
+        String[] allFonts = ge.getAvailableFontFamilyNames();
+        DefaultListModel m = (DefaultListModel) fonts.getModel();
+        for (String font : allFonts) {
+            m.addElement(font);
+        }
+        FontChooser.pack();
+        FontChooser.setLocationRelativeTo(null);
+        FontChooser.setVisible(true);
+    }//GEN-LAST:event_EditTextActionPerformed
+
+    private void jButton4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton4MouseClicked
+        FontChooser.setVisible(false);
+    }//GEN-LAST:event_jButton4MouseClicked
+
+    private void OkayMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_OkayMouseClicked
+        StyledDocument doc = txt.getStyledDocument();
+        Style estilo = txt.addStyle("miEstilo", null);
+        StyleConstants.setForeground(estilo, muestra.getBackground());
+        StyleConstants.setFontFamily(estilo, fonts.getSelectedValue());
+        if (style.getSelectedValue().equals("Underline")) {
+            StyleConstants.setUnderline(estilo, true);
+        }
+        if (style.getSelectedValue().equals("Bold") || style.getSelectedValue().equals("Bold Italic")) {
+            StyleConstants.setBold(estilo, true);
+        }
+        if (style.getSelectedValue().equals("Italic") || style.getSelectedValue().equals("Bold Italic")) {
+            StyleConstants.setItalic(estilo, true);
+        }
+        StyleConstants.setFontSize(estilo, Integer.parseInt(size.getSelectedValue()));
+        doc.setCharacterAttributes(txt.getSelectionStart(),
+                txt.getSelectionEnd() - txt.getSelectionStart(),
+                txt.getStyle("miEstilo"),
+                true);
+        FontChooser.setVisible(false);
+    }//GEN-LAST:event_OkayMouseClicked
+
+    private void jButton5MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton5MouseClicked
+        Color c = JColorChooser.showDialog(TextEditor, "Seleccione un color.", Color.yellow);
+        muestra.setBackground(c);
+    }//GEN-LAST:event_jButton5MouseClicked
+
+    private void OpenActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_OpenActionPerformed
+        try {
+            JFileChooser FChooser = new JFileChooser("./Sistema/" + USER.getNombre() + "/" + USER.getCDocumentos());
+            FileFilter Filter = new FileNameExtensionFilter("Documentos de Texto",
+                    "txt");
+            FChooser.setFileFilter(Filter);
+            File archive = null;
+            int op = FChooser.showOpenDialog(this);
+            if (op == JFileChooser.APPROVE_OPTION) {
+                archive = FChooser.getSelectedFile();
+            }
+
+            TextDocAdmin TA = new TextDocAdmin(archive, txt);
+            TA.loadArchive();
+        } catch (Exception e) {
+        }
+    }//GEN-LAST:event_OpenActionPerformed
+
+    private void SaveDocActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_SaveDocActionPerformed
+        try {
+            String name = JOptionPane.showInputDialog(TextEditor, "Ingrese un nombre para el documento.");
+            File archive = new File("./Sistema/" + USER.getNombre() + "/" + USER.getCDocumentos() + "/" + name + ".txt");
+            TextDocAdmin TA = new TextDocAdmin(archive, txt);
+            TA.writeArchive();
+        } catch (IOException ex) {
+        } catch (BadLocationException ex) {
+        }
+        JOptionPane.showMessageDialog(TextEditor, "¡Documento guardado exitósamente!");
+    }//GEN-LAST:event_SaveDocActionPerformed
+
+    private void PropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PropActionPerformed
+    StyledDocument doc = txt.getStyledDocument();
+        Style estilo = txt.addStyle("miEstilo", null);
+        StyleConstants.setForeground(estilo, muestra.getBackground());
+        StyleConstants.setFontFamily(estilo, fonts.getSelectedValue());
+        if (style.getSelectedValue().equals("Underline")) {
+            StyleConstants.setUnderline(estilo, true);
+        }
+        if (style.getSelectedValue().equals("Bold") || style.getSelectedValue().equals("Bold Italic")) {
+            StyleConstants.setBold(estilo, true);
+        }
+        if (style.getSelectedValue().equals("Italic") || style.getSelectedValue().equals("Bold Italic")) {
+            StyleConstants.setItalic(estilo, true);
+        }
+        StyleConstants.setFontSize(estilo, Integer.parseInt(size.getSelectedValue()));
+        doc.setCharacterAttributes(txt.getSelectionStart(),
+                txt.getSelectionEnd() - txt.getSelectionStart(),
+                txt.getStyle("miEstilo"),
+                true);
+        FontChooser.setVisible(false);
+    }//GEN-LAST:event_PropActionPerformed
 
     public void PlaySong(File song) {
         p = new Media(song.toURI().toString());
@@ -3158,28 +3562,11 @@ public class PP extends javax.swing.JFrame {
 
         Calendar Cal = new GregorianCalendar(1999, 11, 24);
         Date bday = Cal.getTime();
-        try {
-            Admin = new Administrador(new ArrayList(),
-                    "Andrea Mendoza",
-                    18,
-                    bday,
-                    "andreaj",
-                    "andreA1",
-                    "Rosado",
-                    "andreaj@unitec.com",
-                    "¿Cuál es tu color favorito?",
-                    Color.getHSBColor(0, 0.24F, 0.96F));
-        } catch (Exceptions e) {
-        }
-        if (Admin != null) {
-            BinaryArchivesAdmin BAA = new BinaryArchivesAdmin("./User Information.aj");
-            BAA.loadArchive();
-            BAA.setUsuario(Admin);
-            Users = BAA.getUsers();
-            BAA.overrideArchive();
-            ((Administrador) Admin).setUsuarios(Users);
-            CreateSubDirs(Admin.getNombre());
-        }
+
+        BinaryArchivesAdmin BAA = new BinaryArchivesAdmin("./User Information.aj");
+        BAA.loadArchive();
+        Users = BAA.getUsers();
+        BAA.overrideArchive();
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -3226,6 +3613,8 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JDialog ChangeBG;
     private javax.swing.JDialog Console;
     private javax.swing.JTextArea ConsoleText;
+    private javax.swing.JList<String> Contacts;
+    private javax.swing.JTextArea Convo;
     private javax.swing.JMenuItem Copy;
     private javax.swing.JMenuItem Cut;
     private javax.swing.JMenu Date;
@@ -3234,6 +3623,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JMenu Edit;
     private javax.swing.JMenuItem EditText;
     private javax.swing.JMenu File;
+    private javax.swing.JDialog FontChooser;
     private javax.swing.JMenu Help;
     private javax.swing.JLabel Icon1;
     private javax.swing.JLabel Icon2;
@@ -3247,6 +3637,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JToolBar MainMenu;
     private javax.swing.JTree MainTree;
     private javax.swing.JMenuBar MenuPrincipal;
+    private javax.swing.JTextArea Message;
     private javax.swing.JDialog Messenger;
     private javax.swing.JProgressBar MusicPB;
     private javax.swing.JDialog MusicPlayer;
@@ -3254,11 +3645,14 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JDialog NewBDay;
     private javax.swing.JDialog NewUser;
     private javax.swing.JButton NextSong;
+    private javax.swing.JButton Okay;
+    private javax.swing.JMenuItem Open;
     private javax.swing.JMenuItem Paste;
     private javax.swing.JButton PlayPause;
     private javax.swing.JList<String> Playlist;
     private javax.swing.JPopupMenu PopUpMain;
     private javax.swing.JButton PreviousSong;
+    private javax.swing.JMenuItem Prop;
     private javax.swing.JPopupMenu RBPM;
     private javax.swing.JDialog RecycleBin;
     private javax.swing.JTable RecycleBinTable;
@@ -3266,7 +3660,9 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JMenuItem Restore;
     private javax.swing.JMenuItem Save;
     private javax.swing.JButton SaveBDay;
+    private javax.swing.JMenuItem SaveDoc;
     private javax.swing.JButton SaveNewU;
+    private javax.swing.JButton SendM;
     private javax.swing.JDialog SocialMedia;
     private javax.swing.JLabel SongName;
     private javax.swing.JLabel SongName1;
@@ -3290,12 +3686,15 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JLabel color;
     private javax.swing.JButton console;
     private javax.swing.JButton estcolor;
+    private javax.swing.JList<String> fonts;
     private javax.swing.JMenuItem helpicons;
     private javax.swing.JButton im;
     private javax.swing.JButton images;
     private javax.swing.JButton jButton1;
     private javax.swing.JButton jButton2;
     private javax.swing.JButton jButton3;
+    private javax.swing.JButton jButton4;
+    private javax.swing.JButton jButton5;
     private com.toedter.calendar.JCalendar jCalendar2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
@@ -3368,7 +3767,14 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
+    private javax.swing.JPanel jPanel8;
+    private javax.swing.JPanel jPanel9;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JScrollPane jScrollPane10;
+    private javax.swing.JScrollPane jScrollPane11;
+    private javax.swing.JScrollPane jScrollPane12;
+    private javax.swing.JScrollPane jScrollPane13;
+    private javax.swing.JScrollPane jScrollPane14;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -3376,6 +3782,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane6;
     private javax.swing.JScrollPane jScrollPane7;
     private javax.swing.JScrollPane jScrollPane8;
+    private javax.swing.JScrollPane jScrollPane9;
     private javax.swing.JToolBar.Separator jSeparator1;
     private javax.swing.JToolBar.Separator jSeparator2;
     private javax.swing.JToolBar.Separator jSeparator3;
@@ -3383,7 +3790,6 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
-    private javax.swing.JTextPane jTextPane1;
     private javax.swing.JButton jb_forgotpw;
     private com.toedter.calendar.JDateChooser jd_newbday;
     private javax.swing.JTextField jt_userlogin;
@@ -3404,19 +3810,23 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JMenuItem m_newpw;
     private javax.swing.JMenuItem m_newun;
     private javax.swing.JMenuItem m_newuser;
+    private javax.swing.JLabel muestra;
     private javax.swing.JButton music;
     private javax.swing.JLabel namelockscreen;
     private javax.swing.JButton netbeans;
     private javax.swing.JPasswordField pf_pwlogin;
     private javax.swing.JButton recycle;
     private javax.swing.JSpinner s_edad;
+    private javax.swing.JList<String> size;
     private javax.swing.JButton socials;
+    private javax.swing.JList<String> style;
     private javax.swing.JButton texteditor;
     private javax.swing.JTextField tf_newuemail;
     private javax.swing.JTextField tf_newuname;
     private javax.swing.JTextField tf_newunanswer;
     private javax.swing.JPasswordField tf_newunpw;
     private javax.swing.JTextField tf_newunuser;
+    private javax.swing.JTextPane txt;
     private javax.swing.JLabel warning;
     // End of variables declaration//GEN-END:variables
 private File Sistema;
@@ -3451,5 +3861,7 @@ private File Sistema;
     boolean copyflag = false;
     ArrayList<String[]> Recycle;
     ArrayList<String> CodeWords = new ArrayList();
+    String currentpath;
+    String pathaesthetic;
 
 }
