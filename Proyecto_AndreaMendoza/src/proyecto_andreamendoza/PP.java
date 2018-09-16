@@ -103,9 +103,9 @@ public class PP extends javax.swing.JFrame {
     private void CurrentDateTime() {
         Calendar cal = new GregorianCalendar();
         Date Fecha = new Date();
-        Fecha.setDate(cal.get(Calendar.DAY_OF_MONTH));
-        Fecha.setMonth(cal.get(Calendar.MONTH));
-        Fecha.setYear(cal.get((Calendar.YEAR)));
+        Fecha.setDate(cal.get(cal.DAY_OF_MONTH));
+        Fecha.setMonth(cal.get(cal.MONTH));
+        Fecha.setYear(cal.get((cal.YEAR)));
         DateFormat f = new SimpleDateFormat("dd/MM/YY");
         Date.setText(f.format(Fecha));
     }
@@ -217,11 +217,30 @@ public class PP extends javax.swing.JFrame {
         SaveDoc = new javax.swing.JMenuItem();
         Netbeans = new javax.swing.JDialog();
         Agenda = new javax.swing.JDialog();
-        jPanel5 = new javax.swing.JPanel();
+        jTabbedPane1 = new javax.swing.JTabbedPane();
+        jPanel10 = new javax.swing.JPanel();
+        jPanel6 = new javax.swing.JPanel();
+        cal = new com.toedter.calendar.JCalendar();
         jScrollPane2 = new javax.swing.JScrollPane();
         agenda = new javax.swing.JTable();
-        jPanel6 = new javax.swing.JPanel();
-        jCalendar2 = new com.toedter.calendar.JCalendar();
+        jPanel11 = new javax.swing.JPanel();
+        jPanel12 = new javax.swing.JPanel();
+        jLabel51 = new javax.swing.JLabel();
+        jLabel61 = new javax.swing.JLabel();
+        Type = new javax.swing.JComboBox<>();
+        Title = new javax.swing.JTextField();
+        jLabel62 = new javax.swing.JLabel();
+        Fecha = new com.toedter.calendar.JDateChooser();
+        jLabel63 = new javax.swing.JLabel();
+        jScrollPane15 = new javax.swing.JScrollPane();
+        Content = new javax.swing.JTextArea();
+        start = new javax.swing.JSpinner();
+        end = new javax.swing.JSpinner();
+        jLabel64 = new javax.swing.JLabel();
+        jLabel65 = new javax.swing.JLabel();
+        jLabel66 = new javax.swing.JLabel();
+        Notes = new javax.swing.JButton();
+        savedate = new javax.swing.JButton();
         Images = new javax.swing.JDialog();
         jButton2 = new javax.swing.JButton();
         jButton3 = new javax.swing.JButton();
@@ -929,51 +948,49 @@ public class PP extends javax.swing.JFrame {
             Agenda.setTitle("Calendario & Agenda");
             Agenda.setBackground(new java.awt.Color(255, 255, 255));
 
+            jTabbedPane1.setMinimumSize(new java.awt.Dimension(300, 426));
+            jTabbedPane1.setName(""); // NOI18N
+
+            jPanel6.setBackground(new java.awt.Color(255, 255, 255));
+
+            cal.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    calMouseClicked(evt);
+                }
+            });
+
+            javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
+            jPanel6.setLayout(jPanel6Layout);
+            jPanel6Layout.setHorizontalGroup(
+                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(cal, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+            jPanel6Layout.setVerticalGroup(
+                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(cal, javax.swing.GroupLayout.DEFAULT_SIZE, 160, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+
             agenda.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
             agenda.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
-                    {"12:00 AM", null, null},
-                    {"01:00 AM", null, null},
-                    {"02:00 AM", null, null},
-                    {"03:00 AM", null, null},
-                    {"04:00 AM", null, null},
-                    {"05:00 AM", null, null},
-                    {"06:00 AM", null, null},
-                    {"07:00 AM", null, null},
-                    {"08:00 AM", null, null},
-                    {"09:00 AM", null, null},
-                    {"10:00 AM", null, null},
-                    {"11:00 AM", null, null},
-                    {"12:00 PM", null, null},
-                    {"01:00 PM", null, null},
-                    {"02:00 PM", null, null},
-                    {"03:00 PM", null, null},
-                    {"04:00 PM", null, null},
-                    {"05:00 PM", null, null},
-                    {"06:00 PM", null, null},
-                    {"07:00 PM", null, null},
-                    {"08:00 PM", null, null},
-                    {"09:00 PM", null, null},
-                    {"10:00 PM", null, null},
-                    {null, null, null}
+
                 },
                 new String [] {
-                    "Hora", "Descripción", "¿Recordatorio?"
+                    "Tipo", "Título", "¿Recordatorio?"
                 }
             ) {
                 Class[] types = new Class [] {
-                    java.lang.String.class, java.lang.String.class, java.lang.Boolean.class
-                };
-                boolean[] canEdit = new boolean [] {
-                    false, true, true
+                    java.lang.Object.class, java.lang.String.class, java.lang.Boolean.class
                 };
 
                 public Class getColumnClass(int columnIndex) {
                     return types [columnIndex];
-                }
-
-                public boolean isCellEditable(int rowIndex, int columnIndex) {
-                    return canEdit [columnIndex];
                 }
             });
             agenda.setAutoscrolls(false);
@@ -983,57 +1000,184 @@ public class PP extends javax.swing.JFrame {
             agenda.getTableHeader().setResizingAllowed(false);
             jScrollPane2.setViewportView(agenda);
 
-            javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
-            jPanel5.setLayout(jPanel5Layout);
-            jPanel5Layout.setHorizontalGroup(
-                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel5Layout.createSequentialGroup()
-                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 320, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 0, Short.MAX_VALUE))
-            );
-            jPanel5Layout.setVerticalGroup(
-                jPanel5Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
-            );
-
-            jPanel6.setBackground(new java.awt.Color(255, 255, 255));
-
-            javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
-            jPanel6.setLayout(jPanel6Layout);
-            jPanel6Layout.setHorizontalGroup(
-                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+            javax.swing.GroupLayout jPanel10Layout = new javax.swing.GroupLayout(jPanel10);
+            jPanel10.setLayout(jPanel10Layout);
+            jPanel10Layout.setHorizontalGroup(
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel10Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jCalendar2, javax.swing.GroupLayout.DEFAULT_SIZE, 318, Short.MAX_VALUE)
+                    .addGroup(jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addContainerGap())
             );
-            jPanel6Layout.setVerticalGroup(
-                jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                    .addContainerGap(72, Short.MAX_VALUE)
-                    .addComponent(jCalendar2, javax.swing.GroupLayout.PREFERRED_SIZE, 275, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(44, 44, 44))
+            jPanel10Layout.setVerticalGroup(
+                jPanel10Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel10Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 266, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap())
             );
+
+            jTabbedPane1.addTab("Visualizar Agenda", jPanel10);
+
+            jPanel12.setBackground(new java.awt.Color(255, 255, 255));
+
+            jLabel51.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+            jLabel51.setText("Nueva Actividad");
+
+            jLabel61.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+            jLabel61.setText("Tipo de Actividad");
+
+            Type.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+            Type.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Selecciona un Tipo --", "Evento", "Tarea" }));
+            Type.addItemListener(new java.awt.event.ItemListener() {
+                public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                    TypeItemStateChanged(evt);
+                }
+            });
+
+            Title.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+
+            jLabel62.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+            jLabel62.setText("Título");
+
+            jLabel63.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+            jLabel63.setText("Fecha");
+
+            Content.setColumns(20);
+            Content.setFont(new java.awt.Font("Segoe UI", 0, 11)); // NOI18N
+            Content.setRows(5);
+            Content.setEnabled(false);
+            jScrollPane15.setViewportView(Content);
+
+            start.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(), null, java.util.Calendar.HOUR));
+            start.setEnabled(false);
+
+            end.setModel(new javax.swing.SpinnerDateModel(new java.util.Date(), new java.util.Date(1537083105508L), null, java.util.Calendar.HOUR));
+            end.setEnabled(false);
+
+            jLabel64.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+            jLabel64.setText("Hora de Inicio");
+            jLabel64.setEnabled(false);
+
+            jLabel65.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+            jLabel65.setText("Hora de Finalización");
+            jLabel65.setEnabled(false);
+
+            jLabel66.setFont(new java.awt.Font("Segoe UI", 1, 11)); // NOI18N
+            jLabel66.setText("Contenido");
+            jLabel66.setEnabled(false);
+
+            Notes.setText("Seleccionar Notas");
+            Notes.setEnabled(false);
+
+            savedate.setText("Guardar");
+            savedate.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    savedateMouseClicked(evt);
+                }
+            });
+
+            javax.swing.GroupLayout jPanel12Layout = new javax.swing.GroupLayout(jPanel12);
+            jPanel12.setLayout(jPanel12Layout);
+            jPanel12Layout.setHorizontalGroup(
+                jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel12Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                            .addComponent(jLabel61)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Type, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                            .addComponent(jLabel62)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addGroup(jPanel12Layout.createSequentialGroup()
+                            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel51)
+                                .addComponent(savedate))
+                            .addGap(0, 0, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel12Layout.createSequentialGroup()
+                            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jLabel63)
+                                .addComponent(jLabel64)
+                                .addComponent(jLabel65)
+                                .addComponent(jLabel66))
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                .addComponent(Notes, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addComponent(jScrollPane15, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE)
+                                .addComponent(end, javax.swing.GroupLayout.DEFAULT_SIZE, 165, Short.MAX_VALUE)
+                                .addComponent(start)
+                                .addComponent(Fecha, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                    .addContainerGap())
+            );
+            jPanel12Layout.setVerticalGroup(
+                jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel12Layout.createSequentialGroup()
+                    .addGap(16, 16, 16)
+                    .addComponent(jLabel51)
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(jLabel61)
+                        .addComponent(Type, javax.swing.GroupLayout.PREFERRED_SIZE, 27, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGap(26, 26, 26)
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(Title, javax.swing.GroupLayout.PREFERRED_SIZE, 28, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel62))
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(Fecha, javax.swing.GroupLayout.DEFAULT_SIZE, 28, Short.MAX_VALUE)
+                        .addComponent(jLabel63, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(start, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel64, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(end, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(jLabel65, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addGroup(jPanel12Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel12Layout.createSequentialGroup()
+                            .addGap(46, 46, 46)
+                            .addComponent(jLabel66, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                        .addGroup(jPanel12Layout.createSequentialGroup()
+                            .addGap(18, 18, 18)
+                            .addComponent(jScrollPane15, javax.swing.GroupLayout.DEFAULT_SIZE, 109, Short.MAX_VALUE)
+                            .addGap(11, 11, 11)
+                            .addComponent(Notes)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                    .addComponent(savedate)
+                    .addContainerGap())
+            );
+
+            javax.swing.GroupLayout jPanel11Layout = new javax.swing.GroupLayout(jPanel11);
+            jPanel11.setLayout(jPanel11Layout);
+            jPanel11Layout.setHorizontalGroup(
+                jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+            jPanel11Layout.setVerticalGroup(
+                jPanel11Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel12, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+
+            jTabbedPane1.addTab("Crear Apunte", jPanel11);
 
             javax.swing.GroupLayout AgendaLayout = new javax.swing.GroupLayout(Agenda.getContentPane());
             Agenda.getContentPane().setLayout(AgendaLayout);
             AgendaLayout.setHorizontalGroup(
                 AgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(AgendaLayout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(18, 18, 18)
-                    .addComponent(jPanel5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 311, javax.swing.GroupLayout.PREFERRED_SIZE)
             );
             AgendaLayout.setVerticalGroup(
                 AgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(AgendaLayout.createSequentialGroup()
-                    .addGap(11, 11, 11)
-                    .addGroup(AgendaLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(jPanel6, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(jPanel5, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
 
             Images.setTitle("Visor de Imágenes");
@@ -2402,6 +2546,10 @@ public class PP extends javax.swing.JFrame {
             for (File f : RB.listFiles()) {
                 f.delete();
             }
+            BinaryArchivesAdmin BAA = new BinaryArchivesAdmin("./User Information.aj");
+            BAA.loadArchive();
+            BAA.setUsers(Users);
+            BAA.overrideArchive();
             System.exit(0);
         }
     }//GEN-LAST:event_b_shutdownMouseClicked
@@ -3537,6 +3685,60 @@ public class PP extends javax.swing.JFrame {
         }
     }//GEN-LAST:event_ContactsMouseClicked
 
+    private void TypeItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_TypeItemStateChanged
+        ++cbflag;
+        if (cbflag == 2) {
+            if (Type.getSelectedItem().toString().equals("Evento")) {
+                start.setEnabled(true);
+                end.setEnabled(true);
+                Content.setEnabled(false);
+                Notes.setEnabled(false);
+            } else {
+                Content.setEnabled(true);
+                Notes.setEnabled(true);
+                start.setEnabled(false);
+                end.setEnabled(false);
+            }
+            cbflag = 0;
+        }
+    }//GEN-LAST:event_TypeItemStateChanged
+
+    private void savedateMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_savedateMouseClicked
+        boolean rec = false;
+        int resp = JOptionPane.showConfirmDialog(Agenda, "¿Desea guardar un recordatorio para la actividad?");
+        int mins = 0;
+        if (resp == JOptionPane.YES_OPTION) {
+            rec = true;
+            mins = Integer.parseInt(JOptionPane.showInputDialog(Agenda, "Ingrese cuántos minutos antes de la actividad desea enviar una alarma."));
+        }
+        if (Type.getSelectedItem().toString().equals("Evento")) {
+            USER.addAs(new Eventos(start.toString(), end.toString(), Fecha.getDate(), Title.getText(), rec, mins));
+        } else if (Type.getSelectedIndex() != 0) {
+            USER.addAs(new Tareas(Content.getText(), TempFiles, Fecha.getDate(), Title.getText(), rec, mins));
+        }
+        JOptionPane.showMessageDialog(Agenda, "¡Actividad guardada exitósamente.");
+        Title.setText("");
+        rec = false;
+        mins = 0;
+        Content.setText("");
+        TempFiles = new ArrayList();
+        Content.setEnabled(false);
+        Notes.setEnabled(false);
+        start.setEnabled(false);
+        end.setEnabled(false);
+        Type.setSelectedIndex(0);
+    }//GEN-LAST:event_savedateMouseClicked
+
+    private void calMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_calMouseClicked
+        DefaultTableModel m = (DefaultTableModel) agenda.getModel();
+        for (Actividades a : USER.getAs()) {
+            if (a.getDate().equals(cal.getDate())) {
+                Object[] temp = {a.getClass().toString(), a.getTitle(), a.isReminder()};
+                m.addRow(temp);
+            }
+        }
+    }//GEN-LAST:event_calMouseClicked
+
     public void PlaySong(File song) {
         p = new Media(song.toURI().toString());
         MusicPB.setValue(0);
@@ -3571,16 +3773,22 @@ public class PP extends javax.swing.JFrame {
 
         Calendar Cal = new GregorianCalendar(1999, 11, 24);
         Date bday = Cal.getTime();
+ 
         // ArrayList<Usuario> Usuarios, String Nombre, int Edad, Date Bday, String Username, String PW, String RespPW, String Correo, String Pregunta, Color C) throws Exceptions {
 
+        /*METER ADMIN DONT DELETE JUST IN CASE
         BinaryArchivesAdmin BAA = new BinaryArchivesAdmin("./User Information.aj");
-        BAA.loadArchive();
-        
+        BAA.loadArchive();     
         Administrador A = new Administrador(new ArrayList(), "Andrea J. Mendoza", 18, bday, "andreaj", "andreA1", "Rosado", "andreaj@unitec.edu", "¿Cuál es su color favorito?", new Color(255, 204, 255));
         BAA.getUsers().add(A);
         Users = BAA.getUsers();
         BAA.overrideArchive();
         System.out.println(BAA.getUsers());
+         */
+        
+        BinaryArchivesAdmin BAA = new BinaryArchivesAdmin("./User Information.aj");
+        BAA.loadArchive();
+        Users = BAA.getUsers();
 
         try {
             for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
@@ -3628,6 +3836,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JDialog Console;
     private javax.swing.JTextArea ConsoleText;
     private javax.swing.JList<String> Contacts;
+    private javax.swing.JTextArea Content;
     private javax.swing.JTextArea Convo;
     private javax.swing.JMenuItem Copy;
     private javax.swing.JMenuItem Cut;
@@ -3636,6 +3845,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JMenuItem DeleteP;
     private javax.swing.JMenu Edit;
     private javax.swing.JMenuItem EditText;
+    private com.toedter.calendar.JDateChooser Fecha;
     private javax.swing.JMenu File;
     private javax.swing.JDialog FontChooser;
     private javax.swing.JMenu Help;
@@ -3659,6 +3869,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JDialog NewBDay;
     private javax.swing.JDialog NewUser;
     private javax.swing.JButton NextSong;
+    private javax.swing.JButton Notes;
     private javax.swing.JButton Okay;
     private javax.swing.JMenuItem Open;
     private javax.swing.JMenuItem Paste;
@@ -3684,8 +3895,10 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JDialog TextEditor;
     private javax.swing.JPopupMenu TextPM;
     private javax.swing.JLabel Time;
+    private javax.swing.JTextField Title;
     private javax.swing.JLabel TotalTime;
     private javax.swing.JTree TreeArchives;
+    private javax.swing.JComboBox<String> Type;
     private javax.swing.JTable agenda;
     private javax.swing.JButton archives;
     private javax.swing.JButton b_cancel;
@@ -3694,10 +3907,12 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JLabel bg;
     private javax.swing.JLabel bg1;
     private javax.swing.JMenu blankspace;
+    private com.toedter.calendar.JCalendar cal;
     private javax.swing.JButton calendar;
     private javax.swing.JComboBox<String> cb_question;
     private javax.swing.JLabel color;
     private javax.swing.JButton console;
+    private javax.swing.JSpinner end;
     private javax.swing.JButton estcolor;
     private javax.swing.JList<String> fonts;
     private javax.swing.JMenuItem helpicons;
@@ -3708,7 +3923,6 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private com.toedter.calendar.JCalendar jCalendar2;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -3755,6 +3969,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel49;
     private javax.swing.JLabel jLabel5;
     private javax.swing.JLabel jLabel50;
+    private javax.swing.JLabel jLabel51;
     private javax.swing.JLabel jLabel52;
     private javax.swing.JLabel jLabel53;
     private javax.swing.JLabel jLabel54;
@@ -3765,6 +3980,12 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel59;
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel60;
+    private javax.swing.JLabel jLabel61;
+    private javax.swing.JLabel jLabel62;
+    private javax.swing.JLabel jLabel63;
+    private javax.swing.JLabel jLabel64;
+    private javax.swing.JLabel jLabel65;
+    private javax.swing.JLabel jLabel66;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
@@ -3773,10 +3994,12 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JPanel jPanel1;
+    private javax.swing.JPanel jPanel10;
+    private javax.swing.JPanel jPanel11;
+    private javax.swing.JPanel jPanel12;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
-    private javax.swing.JPanel jPanel5;
     private javax.swing.JPanel jPanel6;
     private javax.swing.JPanel jPanel7;
     private javax.swing.JPanel jPanel8;
@@ -3787,6 +4010,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane12;
     private javax.swing.JScrollPane jScrollPane13;
     private javax.swing.JScrollPane jScrollPane14;
+    private javax.swing.JScrollPane jScrollPane15;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
@@ -3802,6 +4026,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator5;
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
+    private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JButton jb_forgotpw;
     private com.toedter.calendar.JDateChooser jd_newbday;
     private javax.swing.JTextField jt_userlogin;
@@ -3829,8 +4054,10 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JPasswordField pf_pwlogin;
     private javax.swing.JButton recycle;
     private javax.swing.JSpinner s_edad;
+    private javax.swing.JButton savedate;
     private javax.swing.JList<String> size;
     private javax.swing.JButton socials;
+    private javax.swing.JSpinner start;
     private javax.swing.JList<String> style;
     private javax.swing.JButton texteditor;
     private javax.swing.JTextField tf_newuemail;
@@ -3876,4 +4103,7 @@ private File Sistema;
     String currentpath;
     String pathaesthetic;
     Usuario U2;
+    int cbflag = 0;
+    ArrayList<Actividades> As = new ArrayList();
+    ArrayList<File> TempFiles = new ArrayList();
 }

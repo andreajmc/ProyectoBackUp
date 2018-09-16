@@ -2,6 +2,7 @@ package proyecto_andreamendoza;
 
 import java.awt.Color;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Pattern;
 
@@ -23,6 +24,7 @@ public class Usuario implements Serializable {
     private String CCalendario;
     private String CDocumentos;
     private boolean msn;
+    private ArrayList<Actividades> As;
 
     public Usuario() {
     }
@@ -44,6 +46,7 @@ public class Usuario implements Serializable {
         this.CCalendario = "/Mi Calendario";
         this.CDocumentos = "/Mis Documentos";
         msn = false;
+        As = new ArrayList();
     }
 
     public String getNombre() {
@@ -202,6 +205,20 @@ public class Usuario implements Serializable {
     public void setMsn(boolean msn) {
         this.msn = msn;
     }
+
+    public ArrayList<Actividades> getAs() {
+        return As;
+    }
+
+    public void setAs(ArrayList<Actividades> As) {
+        this.As = As;
+    }
+    
+    public void addAs(Actividades A) {
+        this.As.add(A);
+    }
+    
+    
 
     @Override
     public String toString() {
