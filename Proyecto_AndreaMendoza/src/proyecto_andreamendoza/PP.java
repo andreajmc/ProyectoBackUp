@@ -1,6 +1,7 @@
 package proyecto_andreamendoza;
 
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
 import java.awt.HeadlessException;
@@ -56,6 +57,8 @@ import javax.swing.tree.TreeSelectionModel;
 import javafx.scene.media.Media;
 import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
+import javax.swing.JEditorPane;
+import javax.swing.JScrollPane;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Style;
 import javax.swing.text.StyleConstants;
@@ -212,8 +215,6 @@ public class PP extends javax.swing.JFrame {
         jMenu4 = new javax.swing.JMenu();
         Open = new javax.swing.JMenuItem();
         SaveDoc = new javax.swing.JMenuItem();
-        jMenu5 = new javax.swing.JMenu();
-        Prop = new javax.swing.JMenuItem();
         Netbeans = new javax.swing.JDialog();
         Agenda = new javax.swing.JDialog();
         jPanel5 = new javax.swing.JPanel();
@@ -909,20 +910,6 @@ public class PP extends javax.swing.JFrame {
             jMenu4.add(SaveDoc);
 
             jMenuBar3.add(jMenu4);
-
-            jMenu5.setText("Edit");
-
-            Prop.setAccelerator(javax.swing.KeyStroke.getKeyStroke(java.awt.event.KeyEvent.VK_E, java.awt.event.InputEvent.CTRL_MASK));
-            Prop.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/Edit p.png"))); // NOI18N
-            Prop.setText("Editar Texto");
-            Prop.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    PropActionPerformed(evt);
-                }
-            });
-            jMenu5.add(Prop);
-
-            jMenuBar3.add(jMenu5);
 
             TextEditor.setJMenuBar(jMenuBar3);
 
@@ -3506,28 +3493,6 @@ public class PP extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(TextEditor, "¡Documento guardado exitósamente!");
     }//GEN-LAST:event_SaveDocActionPerformed
 
-    private void PropActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_PropActionPerformed
-    StyledDocument doc = txt.getStyledDocument();
-        Style estilo = txt.addStyle("miEstilo", null);
-        StyleConstants.setForeground(estilo, muestra.getBackground());
-        StyleConstants.setFontFamily(estilo, fonts.getSelectedValue());
-        if (style.getSelectedValue().equals("Underline")) {
-            StyleConstants.setUnderline(estilo, true);
-        }
-        if (style.getSelectedValue().equals("Bold") || style.getSelectedValue().equals("Bold Italic")) {
-            StyleConstants.setBold(estilo, true);
-        }
-        if (style.getSelectedValue().equals("Italic") || style.getSelectedValue().equals("Bold Italic")) {
-            StyleConstants.setItalic(estilo, true);
-        }
-        StyleConstants.setFontSize(estilo, Integer.parseInt(size.getSelectedValue()));
-        doc.setCharacterAttributes(txt.getSelectionStart(),
-                txt.getSelectionEnd() - txt.getSelectionStart(),
-                txt.getStyle("miEstilo"),
-                true);
-        FontChooser.setVisible(false);
-    }//GEN-LAST:event_PropActionPerformed
-
     public void PlaySong(File song) {
         p = new Media(song.toURI().toString());
         MusicPB.setValue(0);
@@ -3652,7 +3617,6 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JList<String> Playlist;
     private javax.swing.JPopupMenu PopUpMain;
     private javax.swing.JButton PreviousSong;
-    private javax.swing.JMenuItem Prop;
     private javax.swing.JPopupMenu RBPM;
     private javax.swing.JDialog RecycleBin;
     private javax.swing.JTable RecycleBinTable;
@@ -3757,7 +3721,6 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu4;
-    private javax.swing.JMenu jMenu5;
     private javax.swing.JMenuBar jMenuBar1;
     private javax.swing.JMenuBar jMenuBar3;
     private javax.swing.JPanel jPanel1;

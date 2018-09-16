@@ -16,7 +16,9 @@ import java.util.Scanner;
 import javax.swing.text.BadLocationException;
 import javax.swing.text.Document;
 import javax.swing.text.EditorKit;
+import javax.swing.text.html.HTML;
 import javax.swing.text.html.HTMLDocument;
+import javax.swing.text.html.HTMLEditorKit;
 import javax.swing.text.html.HTMLWriter;
 
 public class TextDocAdmin {
@@ -27,6 +29,7 @@ public class TextDocAdmin {
     public TextDocAdmin(File archive, javax.swing.JTextPane txt) {
         this.archive = archive;
         this.txt = txt;
+        txt.setContentType("text/html");
     }
 
     public File getArchive() {
@@ -38,7 +41,6 @@ public class TextDocAdmin {
     }
 
     public void loadArchive() throws FileNotFoundException, IOException, BadLocationException {
-           txt.setContentType("text/html");
         EditorKit kit = txt.getEditorKit();
         Document doc = kit.createDefaultDocument();
         kit.read(new FileInputStream(new File(archive.getPath())), doc, 0);
@@ -47,11 +49,9 @@ public class TextDocAdmin {
 
     public void writeArchive() throws IOException, BadLocationException {
         try {
-     txt.setContentType("text/html");
-     EditorKit kit = txt.getEditorKit();
             Document doc = txt.getStyledDocument();
+            EditorKit kit = txt.getEditorKit();
             kit.write(new FileOutputStream(new File(archive.getPath())), doc, 0, doc.getLength());
-
         } catch (Exception e) {
         }
     }
