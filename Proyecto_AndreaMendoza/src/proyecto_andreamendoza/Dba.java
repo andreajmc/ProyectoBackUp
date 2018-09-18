@@ -6,7 +6,7 @@ import java.sql.Statement;
 
 public class Dba {
     private String base_datos;
-    private Connection dbcon;
+    public Connection dbcon;
     public Statement query;
     
     public Dba(String base_datos){

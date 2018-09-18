@@ -25,6 +25,11 @@ import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.nio.file.attribute.BasicFileAttributes;
+import java.sql.Connection;
+import java.sql.DriverManager;
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -148,6 +153,40 @@ public class PP extends javax.swing.JFrame {
         f.mkdir();
     }
 
+    private void CreateTable(String name) throws SQLException {
+
+        String url = "jdbc:ucanaccess://./TheSN.accdb";
+        Connection conn = DriverManager.getConnection(url, "", "");
+        String sqlCreate = "CREATE TABLE Amigos'" + name + "'\n" // Si no sirve quitar el USER y ver que ondas
+                + "(\n"
+                + "Nombre varchar(255),\n"
+                + ");";
+
+        Statement stmt = conn.createStatement();
+        stmt.execute(sqlCreate);
+    }
+
+    //public static void CreateTable(String name) throws SQLException {
+// SQLite connection string
+    //  String url = "./TheSN.accdb";
+    // SQL statement for creating a new table
+    /*  Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        String sql = "CREATE TABLE tblCustomers  \n"
+                + "    (CustomerID INTEGER, \n"
+                + "    [Last Name] TEXT(50))";
+        db.query.execute(sql);
+
+        db.commit();
+        db.desconectar();
+
+        /*try (Connection conn = DriverManager.getConnection(url);
+                Statement stmt = conn.createStatement()) {
+            // create a new table
+            stmt.execute(sql);
+        } catch (SQLException e) {
+            System.out.println(e.getMessage());
+        }*/
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -356,7 +395,6 @@ public class PP extends javax.swing.JFrame {
         Okay = new javax.swing.JButton();
         jButton5 = new javax.swing.JButton();
         muestra = new javax.swing.JLabel();
-        jInternalFrame1 = new javax.swing.JInternalFrame();
         Home = new javax.swing.JDialog();
         jPanel5 = new javax.swing.JPanel();
         jPanel13 = new javax.swing.JPanel();
@@ -371,6 +409,8 @@ public class PP extends javax.swing.JFrame {
         jButton23 = new javax.swing.JButton();
         jButton24 = new javax.swing.JButton();
         jButton25 = new javax.swing.JButton();
+        jScrollPane27 = new javax.swing.JScrollPane();
+        Wall = new javax.swing.JTable();
         Status = new javax.swing.JDialog();
         jPanel20 = new javax.swing.JPanel();
         jScrollPane16 = new javax.swing.JScrollPane();
@@ -382,16 +422,16 @@ public class PP extends javax.swing.JFrame {
         jScrollPane17 = new javax.swing.JScrollPane();
         DescPic = new javax.swing.JTextArea();
         SharePic = new javax.swing.JButton();
+        selectpic = new javax.swing.JButton();
         Album = new javax.swing.JDialog();
         jPanel22 = new javax.swing.JPanel();
         jScrollPane18 = new javax.swing.JScrollPane();
         AlbumList = new javax.swing.JList<>();
         AddPics = new javax.swing.JButton();
-        jTextField1 = new javax.swing.JTextField();
+        AlbumTitle = new javax.swing.JTextField();
         jScrollPane19 = new javax.swing.JScrollPane();
-        jTextArea1 = new javax.swing.JTextArea();
+        DescAlbum = new javax.swing.JTextArea();
         ShareAlbum = new javax.swing.JButton();
-        Video = new javax.swing.JDialog();
         PerfilPreview = new javax.swing.JDialog();
         jPanel15 = new javax.swing.JPanel();
         UserPic = new javax.swing.JLabel();
@@ -410,18 +450,40 @@ public class PP extends javax.swing.JFrame {
         jLabel71 = new javax.swing.JLabel();
         ContP1 = new javax.swing.JLabel();
         ChangePP = new javax.swing.JButton();
-        jScrollPane22 = new javax.swing.JScrollPane();
-        jList1 = new javax.swing.JList<>();
+        jScrollPane28 = new javax.swing.JScrollPane();
+        jTable1 = new javax.swing.JTable();
         Notifications = new javax.swing.JDialog();
         jPanel16 = new javax.swing.JPanel();
         jScrollPane21 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        notifs = new javax.swing.JTable();
         AllUsersPV = new javax.swing.JDialog();
         jPanel14 = new javax.swing.JPanel();
         FilterUsuarios = new javax.swing.JComboBox<>();
         jScrollPane20 = new javax.swing.JScrollPane();
         UsuariosLista = new javax.swing.JList<>();
-        jPanel17 = new javax.swing.JPanel();
+        ViewStatus = new javax.swing.JDialog();
+        jPanel23 = new javax.swing.JPanel();
+        jScrollPane23 = new javax.swing.JScrollPane();
+        NewStatus1 = new javax.swing.JTextArea();
+        jLabel72 = new javax.swing.JLabel();
+        LikePost = new javax.swing.JButton();
+        CommentPost = new javax.swing.JButton();
+        ViewPicture = new javax.swing.JDialog();
+        jPanel24 = new javax.swing.JPanel();
+        PreviewPic1 = new javax.swing.JLabel();
+        jScrollPane24 = new javax.swing.JScrollPane();
+        DescPic1 = new javax.swing.JTextArea();
+        LikePic = new javax.swing.JButton();
+        CommentPic = new javax.swing.JButton();
+        ViewAlbum = new javax.swing.JDialog();
+        jPanel25 = new javax.swing.JPanel();
+        jScrollPane25 = new javax.swing.JScrollPane();
+        AlbumList1 = new javax.swing.JList<>();
+        AddPics1 = new javax.swing.JButton();
+        jTextField2 = new javax.swing.JTextField();
+        jScrollPane26 = new javax.swing.JScrollPane();
+        jTextArea2 = new javax.swing.JTextArea();
+        ShareAlbum1 = new javax.swing.JButton();
         MainMenu = new javax.swing.JToolBar();
         archives = new javax.swing.JButton();
         console = new javax.swing.JButton();
@@ -2130,23 +2192,9 @@ public class PP extends javax.swing.JFrame {
                 .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
 
-            jInternalFrame1.setVisible(true);
-
-            javax.swing.GroupLayout jInternalFrame1Layout = new javax.swing.GroupLayout(jInternalFrame1.getContentPane());
-            jInternalFrame1.getContentPane().setLayout(jInternalFrame1Layout);
-            jInternalFrame1Layout.setHorizontalGroup(
-                jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 0, Short.MAX_VALUE)
-            );
-            jInternalFrame1Layout.setVerticalGroup(
-                jInternalFrame1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 0, Short.MAX_VALUE)
-            );
-
             Home.setTitle("Red Social");
             Home.setMaximumSize(new java.awt.Dimension(661, 503));
             Home.setMinimumSize(new java.awt.Dimension(661, 503));
-            Home.setPreferredSize(new java.awt.Dimension(661, 503));
             Home.setResizable(false);
             Home.setSize(new java.awt.Dimension(661, 503));
 
@@ -2173,6 +2221,11 @@ public class PP extends javax.swing.JFrame {
             UsersB.setMinimumSize(new java.awt.Dimension(70, 57));
             UsersB.setPreferredSize(new java.awt.Dimension(70, 57));
             UsersB.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            UsersB.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    UsersBMouseClicked(evt);
+                }
+            });
             jToolBar1.add(UsersB);
 
             NotifsB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icons8-alarm-filled-50.png"))); // NOI18N
@@ -2181,6 +2234,11 @@ public class PP extends javax.swing.JFrame {
             NotifsB.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
             NotifsB.setMaximumSize(new java.awt.Dimension(150, 57));
             NotifsB.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            NotifsB.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    NotifsBMouseClicked(evt);
+                }
+            });
             jToolBar1.add(NotifsB);
 
             PerfilB.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/icons8-customer-filled-50.png"))); // NOI18N
@@ -2189,6 +2247,11 @@ public class PP extends javax.swing.JFrame {
             PerfilB.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
             PerfilB.setMaximumSize(new java.awt.Dimension(150, 57));
             PerfilB.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            PerfilB.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    PerfilBMouseClicked(evt);
+                }
+            });
             jToolBar1.add(PerfilB);
 
             jToolBar5.setRollover(true);
@@ -2205,6 +2268,11 @@ public class PP extends javax.swing.JFrame {
             jButton22.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
             jButton22.setMaximumSize(new java.awt.Dimension(100, 51));
             jButton22.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            jButton22.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    jButton22MouseClicked(evt);
+                }
+            });
             jToolBar5.add(jButton22);
 
             jButton23.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
@@ -2214,6 +2282,11 @@ public class PP extends javax.swing.JFrame {
             jButton23.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
             jButton23.setMaximumSize(new java.awt.Dimension(100, 51));
             jButton23.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            jButton23.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    jButton23MouseClicked(evt);
+                }
+            });
             jToolBar5.add(jButton23);
 
             jButton24.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
@@ -2223,6 +2296,11 @@ public class PP extends javax.swing.JFrame {
             jButton24.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
             jButton24.setMaximumSize(new java.awt.Dimension(150, 51));
             jButton24.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
+            jButton24.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    jButton24MouseClicked(evt);
+                }
+            });
             jToolBar5.add(jButton24);
 
             jButton25.setFont(new java.awt.Font("Segoe UI", 2, 12)); // NOI18N
@@ -2232,12 +2310,51 @@ public class PP extends javax.swing.JFrame {
             jButton25.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
             jButton25.setMaximumSize(new java.awt.Dimension(100, 51));
             jButton25.setVerticalTextPosition(javax.swing.SwingConstants.BOTTOM);
-            jButton25.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    jButton25ActionPerformed(evt);
+            jButton25.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    jButton25MouseClicked(evt);
                 }
             });
             jToolBar5.add(jButton25);
+
+            Wall.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+            Wall.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String [] {
+                    "Fecha de Creación", "Publicado Por", "Publicación", "Likes"
+                }
+            ) {
+                Class[] types = new Class [] {
+                    java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                };
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false
+                };
+
+                public Class getColumnClass(int columnIndex) {
+                    return types [columnIndex];
+                }
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            });
+            Wall.setGridColor(new java.awt.Color(59, 89, 152));
+            Wall.setRowHeight(40);
+            Wall.setRowSelectionAllowed(false);
+            Wall.setShowHorizontalLines(false);
+            jScrollPane27.setViewportView(Wall);
 
             javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
             jPanel13.setLayout(jPanel13Layout);
@@ -2245,6 +2362,10 @@ public class PP extends javax.swing.JFrame {
                 jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addComponent(jToolBar1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jToolBar5, javax.swing.GroupLayout.DEFAULT_SIZE, 661, Short.MAX_VALUE)
+                .addGroup(jPanel13Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane27)
+                    .addContainerGap())
             );
             jPanel13Layout.setVerticalGroup(
                 jPanel13Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2252,7 +2373,9 @@ public class PP extends javax.swing.JFrame {
                     .addComponent(jToolBar1, javax.swing.GroupLayout.PREFERRED_SIZE, 67, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jToolBar5, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(377, Short.MAX_VALUE))
+                    .addGap(18, 18, 18)
+                    .addComponent(jScrollPane27, javax.swing.GroupLayout.DEFAULT_SIZE, 348, Short.MAX_VALUE)
+                    .addContainerGap())
             );
 
             javax.swing.GroupLayout jPanel5Layout = new javax.swing.GroupLayout(jPanel5);
@@ -2281,6 +2404,11 @@ public class PP extends javax.swing.JFrame {
             jScrollPane16.setViewportView(NewStatus);
 
             Share.setText("Compartir");
+            Share.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    ShareMouseClicked(evt);
+                }
+            });
             Share.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
                     ShareActionPerformed(evt);
@@ -2327,6 +2455,7 @@ public class PP extends javax.swing.JFrame {
             jPanel21.setBackground(new java.awt.Color(59, 89, 152));
 
             PreviewPic.setBackground(new java.awt.Color(255, 255, 255));
+            PreviewPic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
             PreviewPic.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             PreviewPic.setOpaque(true);
 
@@ -2337,6 +2466,18 @@ public class PP extends javax.swing.JFrame {
             jScrollPane17.setViewportView(DescPic);
 
             SharePic.setText("Compartir");
+            SharePic.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    SharePicMouseClicked(evt);
+                }
+            });
+
+            selectpic.setText("Seleccionar Imagen");
+            selectpic.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    selectpicMouseClicked(evt);
+                }
+            });
 
             javax.swing.GroupLayout jPanel21Layout = new javax.swing.GroupLayout(jPanel21);
             jPanel21.setLayout(jPanel21Layout);
@@ -2346,25 +2487,30 @@ public class PP extends javax.swing.JFrame {
                     .addGap(19, 19, 19)
                     .addComponent(PreviewPic, javax.swing.GroupLayout.PREFERRED_SIZE, 179, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
-                    .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
-                            .addComponent(SharePic)))
+                    .addComponent(jScrollPane17, javax.swing.GroupLayout.DEFAULT_SIZE, 256, Short.MAX_VALUE)
                     .addContainerGap())
+                .addGroup(jPanel21Layout.createSequentialGroup()
+                    .addGap(44, 44, 44)
+                    .addComponent(selectpic)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(SharePic)
+                    .addGap(25, 25, 25))
             );
             jPanel21Layout.setVerticalGroup(
                 jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel21Layout.createSequentialGroup()
-                    .addGap(31, 31, 31)
-                    .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(PreviewPic, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGroup(jPanel21Layout.createSequentialGroup()
-                            .addGap(24, 24, 24)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
+                    .addGap(0, 26, Short.MAX_VALUE)
+                    .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
+                            .addComponent(PreviewPic, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
                             .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(SharePic)))
-                    .addContainerGap(26, Short.MAX_VALUE))
+                            .addGap(56, 56, 56)))
+                    .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(selectpic)
+                        .addComponent(SharePic))
+                    .addGap(24, 24, 24))
             );
 
             javax.swing.GroupLayout PictureLayout = new javax.swing.GroupLayout(Picture.getContentPane());
@@ -2388,13 +2534,18 @@ public class PP extends javax.swing.JFrame {
             jScrollPane18.setViewportView(AlbumList);
 
             AddPics.setText("Agregar Imágenes");
+            AddPics.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    AddPicsMouseClicked(evt);
+                }
+            });
 
-            jTextField1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nombre del Álbum", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 8))); // NOI18N
+            AlbumTitle.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nombre del Álbum", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 8))); // NOI18N
 
-            jTextArea1.setColumns(20);
-            jTextArea1.setRows(5);
-            jTextArea1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Descripción", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 10))); // NOI18N
-            jScrollPane19.setViewportView(jTextArea1);
+            DescAlbum.setColumns(20);
+            DescAlbum.setRows(5);
+            DescAlbum.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Descripción", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 10))); // NOI18N
+            jScrollPane19.setViewportView(DescAlbum);
 
             ShareAlbum.setText("Compartir");
 
@@ -2410,7 +2561,7 @@ public class PP extends javax.swing.JFrame {
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                     .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AlbumTitle, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addComponent(ShareAlbum, javax.swing.GroupLayout.Alignment.TRAILING))
                         .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(18, Short.MAX_VALUE))
@@ -2421,7 +2572,7 @@ public class PP extends javax.swing.JFrame {
                     .addGap(21, 21, 21)
                     .addGroup(jPanel22Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel22Layout.createSequentialGroup()
-                            .addComponent(jTextField1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(AlbumTitle, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                             .addComponent(jScrollPane19, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(34, 34, 34))
@@ -2445,22 +2596,12 @@ public class PP extends javax.swing.JFrame {
                 .addComponent(jPanel22, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
 
-            javax.swing.GroupLayout VideoLayout = new javax.swing.GroupLayout(Video.getContentPane());
-            Video.getContentPane().setLayout(VideoLayout);
-            VideoLayout.setHorizontalGroup(
-                VideoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 400, Short.MAX_VALUE)
-            );
-            VideoLayout.setVerticalGroup(
-                VideoLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 300, Short.MAX_VALUE)
-            );
-
             PerfilPreview.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             PerfilPreview.setTitle("Perfil de Usuario");
 
             jPanel15.setBackground(new java.awt.Color(59, 89, 152));
 
+            UserPic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
             UserPic.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             UserPic.setOpaque(true);
 
@@ -2485,6 +2626,11 @@ public class PP extends javax.swing.JFrame {
             ContP.setText("08");
 
             AddB.setText("Enviar Solicitud de Amistad");
+            AddB.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    AddBMouseClicked(evt);
+                }
+            });
 
             javax.swing.GroupLayout jPanel15Layout = new javax.swing.GroupLayout(jPanel15);
             jPanel15.setLayout(jPanel15Layout);
@@ -2496,27 +2642,25 @@ public class PP extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(jPanel15Layout.createSequentialGroup()
                     .addGap(27, 27, 27)
-                    .addComponent(UserPic, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(41, 41, 41)
+                    .addComponent(UserPic, javax.swing.GroupLayout.PREFERRED_SIZE, 180, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 25, Short.MAX_VALUE)
                     .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                            .addGap(0, 0, Short.MAX_VALUE)
                             .addComponent(AddB)
                             .addGap(45, 45, 45))
-                        .addGroup(jPanel15Layout.createSequentialGroup()
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
                             .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addComponent(jLabel68)
                                 .addGroup(jPanel15Layout.createSequentialGroup()
                                     .addGap(10, 10, 10)
                                     .addComponent(ContAmigos)))
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGap(18, 18, 18)
                             .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
-                                    .addComponent(jLabel69)
-                                    .addGap(37, 37, 37))
+                                .addComponent(jLabel69, javax.swing.GroupLayout.Alignment.TRAILING)
                                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
                                     .addComponent(ContP)
-                                    .addGap(64, 64, 64))))))
+                                    .addGap(27, 27, 27)))
+                            .addGap(53, 53, 53))))
             );
             jPanel15Layout.setVerticalGroup(
                 jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -2530,11 +2674,11 @@ public class PP extends javax.swing.JFrame {
                         .addGroup(jPanel15Layout.createSequentialGroup()
                             .addGap(40, 40, 40)
                             .addGroup(jPanel15Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel15Layout.createSequentialGroup()
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
                                     .addComponent(ContAmigos)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jLabel68))
-                                .addGroup(jPanel15Layout.createSequentialGroup()
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel15Layout.createSequentialGroup()
                                     .addComponent(ContP)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jLabel69)))
@@ -2556,6 +2700,7 @@ public class PP extends javax.swing.JFrame {
 
             jPanel18.setBackground(new java.awt.Color(59, 89, 152));
 
+            UserPic1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
             UserPic1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             UserPic1.setOpaque(true);
 
@@ -2581,87 +2726,122 @@ public class PP extends javax.swing.JFrame {
 
             ChangePP.setText("Cambiar Foto de Perfil");
 
-            jList1.setModel(new DefaultListModel());
-            jScrollPane22.setViewportView(jList1);
+            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+                new Object [][] {
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null},
+                    {null, null, null, null}
+                },
+                new String [] {
+                    "Fecha de Publicación", "Publicado Por", "Título", "Likes"
+                }
+            ) {
+                Class[] types = new Class [] {
+                    java.lang.Object.class, java.lang.String.class, java.lang.String.class, java.lang.Integer.class
+                };
+                boolean[] canEdit = new boolean [] {
+                    false, false, false, false
+                };
+
+                public Class getColumnClass(int columnIndex) {
+                    return types [columnIndex];
+                }
+
+                public boolean isCellEditable(int rowIndex, int columnIndex) {
+                    return canEdit [columnIndex];
+                }
+            });
+            jTable1.setGridColor(new java.awt.Color(58, 89, 152));
+            jTable1.setRowHeight(40);
+            jTable1.setShowHorizontalLines(false);
+            jScrollPane28.setViewportView(jTable1);
 
             javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
             jPanel18.setLayout(jPanel18Layout);
             jPanel18Layout.setHorizontalGroup(
                 jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel18Layout.createSequentialGroup()
-                    .addGap(138, 138, 138)
-                    .addComponent(UserName1)
-                    .addGap(0, 0, Short.MAX_VALUE))
-                .addGroup(jPanel18Layout.createSequentialGroup()
                     .addGap(27, 27, 27)
                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel18Layout.createSequentialGroup()
-                            .addComponent(jScrollPane22, javax.swing.GroupLayout.PREFERRED_SIZE, 397, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 0, Short.MAX_VALUE))
-                        .addGroup(jPanel18Layout.createSequentialGroup()
-                            .addComponent(UserPic1, javax.swing.GroupLayout.PREFERRED_SIZE, 155, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(UserPic1)
                             .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                 .addGroup(jPanel18Layout.createSequentialGroup()
-                                    .addGap(31, 31, 31)
+                                    .addGap(41, 41, 41)
                                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                                         .addComponent(jLabel70)
                                         .addGroup(jPanel18Layout.createSequentialGroup()
                                             .addGap(10, 10, 10)
                                             .addComponent(ContAmigos1)))
-                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 101, Short.MAX_VALUE)
+                                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
-                                            .addComponent(jLabel71)
-                                            .addGap(37, 37, 37))
+                                        .addComponent(jLabel71, javax.swing.GroupLayout.Alignment.TRAILING)
                                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                                             .addComponent(ContP1)
-                                            .addGap(64, 64, 64))))
+                                            .addGap(27, 27, 27)))
+                                    .addGap(110, 110, 110))
                                 .addGroup(jPanel18Layout.createSequentialGroup()
-                                    .addGap(50, 50, 50)
+                                    .addGap(85, 85, 85)
                                     .addComponent(ChangePP)
-                                    .addGap(0, 0, Short.MAX_VALUE))))))
+                                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                        .addGroup(jPanel18Layout.createSequentialGroup()
+                            .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 538, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGroup(jPanel18Layout.createSequentialGroup()
+                                    .addGap(174, 174, 174)
+                                    .addComponent(UserName1)))
+                            .addGap(0, 27, Short.MAX_VALUE))))
             );
             jPanel18Layout.setVerticalGroup(
                 jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel18Layout.createSequentialGroup()
-                    .addGap(25, 25, 25)
-                    .addComponent(UserName1)
                     .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(jPanel18Layout.createSequentialGroup()
-                            .addGap(18, 18, 18)
+                            .addGap(68, 68, 68)
                             .addComponent(UserPic1, javax.swing.GroupLayout.PREFERRED_SIZE, 145, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGroup(jPanel18Layout.createSequentialGroup()
+                            .addGap(25, 25, 25)
+                            .addComponent(UserName1)
                             .addGap(40, 40, 40)
                             .addGroup(jPanel18Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                .addGroup(jPanel18Layout.createSequentialGroup()
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                                     .addComponent(ContAmigos1)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jLabel70))
-                                .addGroup(jPanel18Layout.createSequentialGroup()
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel18Layout.createSequentialGroup()
                                     .addComponent(ContP1)
                                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                                     .addComponent(jLabel71)))
-                            .addGap(33, 33, 33)
+                            .addGap(26, 26, 26)
                             .addComponent(ChangePP)))
                     .addGap(18, 18, 18)
-                    .addComponent(jScrollPane22, javax.swing.GroupLayout.PREFERRED_SIZE, 218, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addContainerGap(22, Short.MAX_VALUE))
+                    .addComponent(jScrollPane28, javax.swing.GroupLayout.PREFERRED_SIZE, 243, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(19, Short.MAX_VALUE))
             );
 
             javax.swing.GroupLayout MyProfileLayout = new javax.swing.GroupLayout(MyProfile.getContentPane());
             MyProfile.getContentPane().setLayout(MyProfileLayout);
             MyProfileLayout.setHorizontalGroup(
                 MyProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             );
             MyProfileLayout.setVerticalGroup(
                 MyProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel18, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(MyProfileLayout.createSequentialGroup()
+                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 164, Short.MAX_VALUE))
             );
 
             jPanel16.setBackground(new java.awt.Color(59, 89, 152));
 
-            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            notifs.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
 
                 },
@@ -2677,7 +2857,12 @@ public class PP extends javax.swing.JFrame {
                     return canEdit [columnIndex];
                 }
             });
-            jScrollPane21.setViewportView(jTable1);
+            notifs.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    notifsMouseClicked(evt);
+                }
+            });
+            jScrollPane21.setViewportView(notifs);
 
             javax.swing.GroupLayout jPanel16Layout = new javax.swing.GroupLayout(jPanel16);
             jPanel16.setLayout(jPanel16Layout);
@@ -2712,9 +2897,19 @@ public class PP extends javax.swing.JFrame {
 
             jPanel14.setBackground(new java.awt.Color(59, 89, 152));
 
-            FilterUsuarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "Item 1", "Item 2", "Item 3", "Item 4" }));
+            FilterUsuarios.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { "-- Tipos de Usuarios --", "Mis Amigos", "Todos los Usuarios" }));
+            FilterUsuarios.addItemListener(new java.awt.event.ItemListener() {
+                public void itemStateChanged(java.awt.event.ItemEvent evt) {
+                    FilterUsuariosItemStateChanged(evt);
+                }
+            });
 
             UsuariosLista.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+            UsuariosLista.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    UsuariosListaMouseClicked(evt);
+                }
+            });
             jScrollPane20.setViewportView(UsuariosLista);
 
             javax.swing.GroupLayout jPanel14Layout = new javax.swing.GroupLayout(jPanel14);
@@ -2749,15 +2944,207 @@ public class PP extends javax.swing.JFrame {
                 .addComponent(jPanel14, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
 
-            javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
-            jPanel17.setLayout(jPanel17Layout);
-            jPanel17Layout.setHorizontalGroup(
-                jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 100, Short.MAX_VALUE)
+            ViewStatus.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            ViewStatus.setTitle("Nuevo Estado");
+
+            jPanel23.setBackground(new java.awt.Color(59, 89, 152));
+            jPanel23.setForeground(new java.awt.Color(59, 89, 152));
+
+            NewStatus1.setEditable(false);
+            NewStatus1.setColumns(20);
+            NewStatus1.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
+            NewStatus1.setRows(5);
+            jScrollPane23.setViewportView(NewStatus1);
+
+            jLabel72.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+            jLabel72.setForeground(new java.awt.Color(255, 255, 255));
+            jLabel72.setText("Nombre");
+
+            LikePost.setText("Me Gusta");
+
+            CommentPost.setText("Comentar");
+            CommentPost.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    CommentPostActionPerformed(evt);
+                }
+            });
+
+            javax.swing.GroupLayout jPanel23Layout = new javax.swing.GroupLayout(jPanel23);
+            jPanel23.setLayout(jPanel23Layout);
+            jPanel23Layout.setHorizontalGroup(
+                jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel23Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addComponent(jScrollPane23)
+                        .addGroup(jPanel23Layout.createSequentialGroup()
+                            .addComponent(jLabel72, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 207, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
+                            .addGap(0, 0, Short.MAX_VALUE)
+                            .addComponent(LikePost)
+                            .addGap(18, 18, 18)
+                            .addComponent(CommentPost)))
+                    .addContainerGap())
             );
-            jPanel17Layout.setVerticalGroup(
-                jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGap(0, 100, Short.MAX_VALUE)
+            jPanel23Layout.setVerticalGroup(
+                jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jLabel72, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addComponent(jScrollPane23, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(20, 20, 20)
+                    .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(LikePost)
+                        .addComponent(CommentPost))
+                    .addContainerGap())
+            );
+
+            javax.swing.GroupLayout ViewStatusLayout = new javax.swing.GroupLayout(ViewStatus.getContentPane());
+            ViewStatus.getContentPane().setLayout(ViewStatusLayout);
+            ViewStatusLayout.setHorizontalGroup(
+                ViewStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+            ViewStatusLayout.setVerticalGroup(
+                ViewStatusLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel23, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+
+            ViewPicture.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            ViewPicture.setTitle("Nueva Imagen");
+
+            jPanel24.setBackground(new java.awt.Color(59, 89, 152));
+
+            PreviewPic1.setBackground(new java.awt.Color(255, 255, 255));
+            PreviewPic1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+            PreviewPic1.setOpaque(true);
+
+            DescPic1.setEditable(false);
+            DescPic1.setColumns(20);
+            DescPic1.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
+            DescPic1.setRows(5);
+            DescPic1.setText("\n");
+            jScrollPane24.setViewportView(DescPic1);
+
+            LikePic.setText("jButton6");
+
+            CommentPic.setText("jButton6");
+
+            javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
+            jPanel24.setLayout(jPanel24Layout);
+            jPanel24Layout.setHorizontalGroup(
+                jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
+                    .addGap(0, 19, Short.MAX_VALUE)
+                    .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, 448, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap())
+                .addGroup(jPanel24Layout.createSequentialGroup()
+                    .addGap(76, 76, 76)
+                    .addComponent(LikePic, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(80, 80, 80)
+                    .addComponent(CommentPic, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(PreviewPic1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(69, 69, 69))
+            );
+            jPanel24Layout.setVerticalGroup(
+                jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel24Layout.createSequentialGroup()
+                    .addGap(32, 32, 32)
+                    .addComponent(PreviewPic1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(38, 38, 38)
+                    .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(18, 18, 18)
+                    .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(LikePic, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(CommentPic, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(20, Short.MAX_VALUE))
+            );
+
+            javax.swing.GroupLayout ViewPictureLayout = new javax.swing.GroupLayout(ViewPicture.getContentPane());
+            ViewPicture.getContentPane().setLayout(ViewPictureLayout);
+            ViewPictureLayout.setHorizontalGroup(
+                ViewPictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            );
+            ViewPictureLayout.setVerticalGroup(
+                ViewPictureLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(ViewPictureLayout.createSequentialGroup()
+                    .addComponent(jPanel24, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE))
+            );
+
+            ViewAlbum.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            ViewAlbum.setTitle("Nuevo Álbum");
+
+            jPanel25.setBackground(new java.awt.Color(59, 89, 152));
+
+            AlbumList1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Imágenes Agregadas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
+            AlbumList1.setModel(new DefaultListModel());
+            jScrollPane25.setViewportView(AlbumList1);
+
+            AddPics1.setText("Comentar");
+
+            jTextField2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nombre del Álbum", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 8))); // NOI18N
+
+            jTextArea2.setColumns(20);
+            jTextArea2.setRows(5);
+            jTextArea2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Descripción", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 10))); // NOI18N
+            jScrollPane26.setViewportView(jTextArea2);
+
+            ShareAlbum1.setText("Me Gusta");
+
+            javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
+            jPanel25.setLayout(jPanel25Layout);
+            jPanel25Layout.setHorizontalGroup(
+                jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel25Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(jScrollPane25, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                                .addComponent(AddPics1)
+                                .addGap(18, 18, 18)
+                                .addComponent(ShareAlbum1)))
+                        .addComponent(jScrollPane26, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(18, Short.MAX_VALUE))
+            );
+            jPanel25Layout.setVerticalGroup(
+                jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel25Layout.createSequentialGroup()
+                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel25Layout.createSequentialGroup()
+                            .addGap(43, 43, 43)
+                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(18, 18, 18)
+                            .addComponent(jScrollPane26, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(0, 15, Short.MAX_VALUE))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                            .addContainerGap()
+                            .addComponent(jScrollPane25, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(AddPics1)
+                        .addComponent(ShareAlbum1))
+                    .addContainerGap(21, Short.MAX_VALUE))
+            );
+
+            javax.swing.GroupLayout ViewAlbumLayout = new javax.swing.GroupLayout(ViewAlbum.getContentPane());
+            ViewAlbum.getContentPane().setLayout(ViewAlbumLayout);
+            ViewAlbumLayout.setHorizontalGroup(
+                ViewAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+            );
+            ViewAlbumLayout.setVerticalGroup(
+                ViewAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
 
             setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -3495,6 +3882,33 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_imMouseClicked
 
     private void socialsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_socialsMouseClicked
+        ArrayList<String> friends = new ArrayList();
+        DefaultTableModel m = (DefaultTableModel) Wall.getModel();
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        try {
+            db.query.execute("select Nombre from Amigos'" + USER.getNombre() + "'");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                friends.add(rs.getString(1));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        for (String f : friends) {
+            try {
+                db.query.execute("select Autor, Titulo, Likes, Create from Publicaciones where Autor='" + f + "'");
+                ResultSet rs = db.query.getResultSet();
+                while (rs.next()) {
+                    Object[] temp = {rs.getString(2), rs.getString(1), rs.getString(3), rs.getInt(4)};
+                    m.addRow(temp);
+                }
+                Wall.setModel(m);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        db.desconectar();
         Home.pack();
         Home.setLocationRelativeTo(this);
         Home.setVisible(true);
@@ -3536,6 +3950,18 @@ public class PP extends javax.swing.JFrame {
             Users = BAA.getUsers();
             BAA.overrideArchive();
             Admin.setUsuarios(Users);
+
+            Dba db = new Dba("./TheSN.accdb");
+            db.conectar();
+            try {
+                db.query.execute("INSERT INTO Usuarios"
+                        + " (Nombre)"
+                        + " VALUES ('" + tf_newuname.getText() + "')");
+                db.commit();
+            } catch (SQLException ex) {
+            }
+            db.desconectar();
+
             JOptionPane.showMessageDialog(this, "¡Usuario creado exitósamente!");
         } catch (Exceptions e) {
             switch (e.getMessage()) {
@@ -3630,6 +4056,7 @@ public class PP extends javax.swing.JFrame {
         }
         if (i1 == false) {
             Icon1.setIcon((I.get(I.size() - 1)));
+
         } else if (i2 == false) {
             Icon2.setIcon((I.get(I.size() - 1)));
         } else if (i3 == false) {
@@ -4484,8 +4911,8 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_calPropertyChange
 
     private void FechaPropertyChange(java.beans.PropertyChangeEvent evt) {//GEN-FIRST:event_FechaPropertyChange
-     //   SpinnerModel m = (SpinnerDateModel) start.getModel();
-    //    m.setValue(Fecha.getDate());
+        //   SpinnerModel m = (SpinnerDateModel) start.getModel();
+        //    m.setValue(Fecha.getDate());
     }//GEN-LAST:event_FechaPropertyChange
 
     private void NotesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotesMouseClicked
@@ -4503,13 +4930,299 @@ public class PP extends javax.swing.JFrame {
         Notes.setText("Agregar otra nota.");
     }//GEN-LAST:event_NotesMouseClicked
 
-    private void jButton25ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton25ActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_jButton25ActionPerformed
-
     private void ShareActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ShareActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_ShareActionPerformed
+
+    private void CommentPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CommentPostActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_CommentPostActionPerformed
+
+    private void UsersBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UsersBMouseClicked
+        this.AllUsersPV.pack();
+        AllUsersPV.setLocationRelativeTo(null);
+        AllUsersPV.setVisible(true);
+        AllUsersPV.setModal(true);
+    }//GEN-LAST:event_UsersBMouseClicked
+
+    private void NotifsBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotifsBMouseClicked
+        DefaultTableModel m = (DefaultTableModel) notifs.getModel();
+        m.setRowCount(0);
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        try {
+            db.query.execute("select Emisor from Solicitudes where Receptor='" + USER.getNombre() + "'"); // %% no importa que haya antes o despues
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                Object[] temp = {rs.next(), "Solicitud de Amistad"};
+                m.addRow(temp);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        notifs.setModel(m);
+        db.desconectar();
+        this.Notifications.pack();
+        Notifications.setLocationRelativeTo(null);
+        Notifications.setVisible(true);
+        Notifications.setModal(true);
+    }//GEN-LAST:event_NotifsBMouseClicked
+
+    private void PerfilBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PerfilBMouseClicked
+        MyProfile.pack();
+        MyProfile.setLocationRelativeTo(null);
+        MyProfile.setVisible(true);
+        MyProfile.setModal(true);
+    }//GEN-LAST:event_PerfilBMouseClicked
+
+    private void jButton22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton22MouseClicked
+        Status.pack();
+        Status.setLocationRelativeTo(null);
+        Status.setVisible(true);
+        Status.setModal(true);
+    }//GEN-LAST:event_jButton22MouseClicked
+
+    private void jButton23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton23MouseClicked
+        Picture.pack();
+        Picture.setLocationRelativeTo(null);
+        Picture.setVisible(true);
+        Picture.setModal(true);
+    }//GEN-LAST:event_jButton23MouseClicked
+
+    private void jButton24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton24MouseClicked
+        Album.pack();
+        Album.setLocationRelativeTo(null);
+        Album.setVisible(true);
+        Album.setModal(true);
+    }//GEN-LAST:event_jButton24MouseClicked
+
+    private void ShareMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ShareMouseClicked
+        Posts P = new Posts(USER.getNombre(), NewStatus.getText(), 0, new Date());
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        try {
+            db.query.execute("INSERT INTO Publicaciones"
+                    + " (Autor, Titulo, Likes, Tipo, Create)"
+                    + " VALUES ('" + P.getAuthor() + "', '" + P.getTitulo() + "', 0, '" + P.getTipo() + "', '" + P.getCreate() + "')");
+            db.commit();
+        } catch (SQLException ex) {
+        }
+        db.desconectar();
+        JOptionPane.showMessageDialog(Status, "¡Estado compartido exitósamente!");
+    }//GEN-LAST:event_ShareMouseClicked
+
+    private void SharePicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SharePicMouseClicked
+        Posts P = new Posts(USER.getNombre(), DescPic.getText(), imagepath, 0, new Date());
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        try {
+            db.query.execute("INSERT INTO Publicaciones"
+                    + " (Autor, Titulo, Likes, PathFoto, Tipo, Create)"
+                    + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + imagepath + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
+            db.commit();
+        } catch (SQLException ex) {
+        }
+        db.desconectar();
+        JOptionPane.showMessageDialog(Status, "¡Foto compartida exitósamente!");
+    }//GEN-LAST:event_SharePicMouseClicked
+
+    private void selectpicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_selectpicMouseClicked
+        JFileChooser FChooser = new JFileChooser();
+        FileFilter Filter = new FileNameExtensionFilter("Imágenes",
+                "png", "jpg", "jpeg", "gif");
+        FChooser.setFileFilter(Filter);
+        File archive = null;
+        int op = FChooser.showOpenDialog(this);
+        if (op == JFileChooser.APPROVE_OPTION) {
+            archive = FChooser.getSelectedFile();
+        }
+        imagepath = archive.getPath();
+        ImageIcon newBG = new ImageIcon(imagepath);
+        PreviewPic.setIcon(newBG);
+    }//GEN-LAST:event_selectpicMouseClicked
+
+    private void AddPicsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddPicsMouseClicked
+
+        if (AlbumList.getLastVisibleIndex() <= 4) {
+            JFileChooser FChooser = new JFileChooser();
+            FileFilter Filter = new FileNameExtensionFilter("Imágenes",
+                    "png", "jpg", "jpeg", "gif");
+            FChooser.setFileFilter(Filter);
+            File archive = null;
+            int op = FChooser.showOpenDialog(this);
+            if (op == JFileChooser.APPROVE_OPTION) {
+                archive = FChooser.getSelectedFile();
+            }
+            albumpaths.add(archive.getPath());
+        } else {
+            JOptionPane.showMessageDialog(Album, "El máximo de fotos que puede subir es de 4 imágenes por álbum.");
+        }
+        Posts P = new Posts(USER.getNombre(), AlbumTitle.getText(), DescAlbum.getText(), albumpaths, 0, new Date());
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+
+        switch (AlbumList.getLastVisibleIndex()) {
+            case 1:
+                try {
+                    db.query.execute("INSERT INTO Publicaciones"
+                            + " (Autor, Titulo, Likes, PathFoto, Tipo, Create)"
+                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
+                    db.commit();
+                } catch (SQLException ex) {
+                }
+                db.desconectar();
+                break;
+            case 2:
+                try {
+                    db.query.execute("INSERT INTO Publicaciones"
+                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, Tipo, Create)"
+                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getPathFoto2() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
+                    db.commit();
+                } catch (SQLException ex) {
+                }
+                db.desconectar();
+                break;
+            case 3:
+                try {
+                    db.query.execute("INSERT INTO Publicaciones"
+                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, PathFoto3, Tipo, Create)"
+                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getPathFoto2() + "', '" + P.getPathFoto3() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
+                    db.commit();
+                } catch (SQLException ex) {
+                }
+                break;
+            case 4:
+                try {
+                    db.query.execute("INSERT INTO Publicaciones"
+                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, PathFoto3, PathFoto4 tipo)"
+                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getPathFoto2() + "', '" + P.getPathFoto3() + "', '" + P.getPathFoto4() + "', '" + P.getTipo() + "')");
+                    db.commit();
+                } catch (SQLException ex) {
+                }
+                break;
+        }
+        db.desconectar();
+        JOptionPane.showMessageDialog(Status, "¡Àlbum compartido exitósamente!");
+    }//GEN-LAST:event_AddPicsMouseClicked
+
+    private void jButton25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton25MouseClicked
+
+    }//GEN-LAST:event_jButton25MouseClicked
+
+    private void FilterUsuariosItemStateChanged(java.awt.event.ItemEvent evt) {//GEN-FIRST:event_FilterUsuariosItemStateChanged
+        DefaultListModel m = (DefaultListModel) UsuariosLista.getModel();
+        m.removeAllElements();
+        if (cbflag == 2) {
+            Dba db = new Dba("./TheSN.accdb");
+            db.conectar();
+            if (FilterUsuarios.getSelectedIndex() == 1) {
+                try {
+                    db.query.execute("select Nombre from Amigos'" + USER.getNombre() + "'");
+                    ResultSet rs = db.query.getResultSet();
+                    while (rs.next()) {
+                        m.addElement(rs.getString(1));
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            } else if (FilterUsuarios.getSelectedIndex() == 2) {
+                try {
+                    db.query.execute("select Nombre from Usuarios where Nombre not in (select Nombre from Amigos'" + USER.getNombre() + "')");
+                    ResultSet rs = db.query.getResultSet();
+                    while (rs.next()) {
+                        m.addElement(rs.getString(1));
+                    }
+                } catch (SQLException ex) {
+                    ex.printStackTrace();
+                }
+            }
+            db.desconectar();
+        }
+        UsuariosLista.setModel(m);
+    }//GEN-LAST:event_FilterUsuariosItemStateChanged
+
+    private void UsuariosListaMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UsuariosListaMouseClicked
+        int contA = 0;
+        int contP = 0;
+        for (Usuario User : Users) {
+            if (User.getNombre().equals(UsuariosLista.getSelectedValue())) {
+                U2 = User;
+                break;
+            }
+        }
+        UserName.setText(U2.getNombre());
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        try {
+            db.query.execute("select Nombre from Amigos'" + U2.getNombre() + "'");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                ++contA;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+        try {
+            db.query.execute("select Autor from Publicaciones where Autor='" + U2.getNombre() + "'");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                ++contP;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        db.desconectar();
+        ContAmigos.setText(String.valueOf(contA));
+        ContP.setText(String.valueOf(contP));
+    }//GEN-LAST:event_UsuariosListaMouseClicked
+
+    private void AddBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddBMouseClicked
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        try {
+            db.query.execute("INSERT INTO Solicitudes"
+                    + " (Emisor,Receptor)" // String van en ´´
+                    + " VALUES ('" + USER.getNombre() + "', '" + U2.getNombre() + "')");
+            db.commit();
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        db.desconectar();
+        JOptionPane.showMessageDialog(PerfilPreview, "¡Solicitud de Amistad enviada!");
+    }//GEN-LAST:event_AddBMouseClicked
+
+    private void notifsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notifsMouseClicked
+        String User2 = (String) notifs.getValueAt(notifs.getSelectedRow(), notifs.getSelectedColumn());
+        DefaultTableModel m = (DefaultTableModel) notifs.getModel();
+        int resp = JOptionPane.showConfirmDialog(Notifications, "¿Desea agregar a " + User2 + " como su amigo/a?");
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        if (resp == JOptionPane.YES_OPTION) {
+            try {
+                db.query.execute("INSERT INTO Amigos'" + USER.getNombre() + "'"
+                        + " (Nombre)" // String vaselect Nombre from n en ´´
+                        + " VALUES ('" + User2 + "')");
+                db.commit();
+                db.desconectar();
+            } catch (SQLException ex) {
+                Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
+            }
+
+            JOptionPane.showMessageDialog(Notifications, "¡Ahora tu y " + User2 + " son amigos!");
+        } else {
+            JOptionPane.showMessageDialog(Notifications, "Solicitud de Amistad rechazada.");
+        }
+        try {
+            db.query.execute("delete from Solicitudes where Emisor='" + User2 + "' AND Receptor='" + USER.getNombre() + "'");
+            db.commit();
+            m.removeRow(notifs.getSelectedRow());
+            notifs.setModel(m);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+
+    }//GEN-LAST:event_notifsMouseClicked
 
     public void PlaySong(File song) {
         p = new Media(song.toURI().toString());
@@ -4541,7 +5254,7 @@ public class PP extends javax.swing.JFrame {
         }
     }
 
-    public static void main(String args[]) throws Exceptions {
+    public static void main(String args[]) throws Exceptions, SQLException {
 
         Calendar Cal = new GregorianCalendar(1999, 11, 24);
         Date bday = Cal.getTime();
@@ -4555,7 +5268,12 @@ public class PP extends javax.swing.JFrame {
         Users = BAA.getUsers();
         BAA.overrideArchive();
         System.out.println(BAA.getUsers());
-
+        // try {
+//            CreateTable("Andrea");
+        //   } catch (SQLException ex) {
+        //       Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
+        // } 
+// Aqui muere lo de admin just in case
         //BinaryArchivesAdmin BAA = new BinaryArchivesAdmin("./User Information.aj");
         //BAA.loadArchive();
         //Users = BAA.getUsers();
@@ -4597,10 +5315,13 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JButton AddB;
     private javax.swing.JMenuItem AddImages;
     private javax.swing.JButton AddPics;
+    private javax.swing.JButton AddPics1;
     private javax.swing.JDialog AdministrarUsuarios;
     private javax.swing.JDialog Agenda;
     private javax.swing.JDialog Album;
     private javax.swing.JList<String> AlbumList;
+    private javax.swing.JList<String> AlbumList1;
+    private javax.swing.JTextField AlbumTitle;
     private javax.swing.JDialog AllUsersPV;
     private javax.swing.JDialog Archives;
     private javax.swing.JPopupMenu ArchivesPM;
@@ -4608,6 +5329,8 @@ public class PP extends javax.swing.JFrame {
     private com.toedter.calendar.JCalendar CalendarBday;
     private javax.swing.JDialog ChangeBG;
     private javax.swing.JButton ChangePP;
+    private javax.swing.JButton CommentPic;
+    private javax.swing.JButton CommentPost;
     private javax.swing.JDialog Console;
     private javax.swing.JTextArea ConsoleText;
     private javax.swing.JLabel ContAmigos;
@@ -4622,7 +5345,9 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JMenu Date;
     private javax.swing.JMenuItem Delete;
     private javax.swing.JMenuItem DeleteP;
+    private javax.swing.JTextArea DescAlbum;
     private javax.swing.JTextArea DescPic;
+    private javax.swing.JTextArea DescPic1;
     private javax.swing.JMenu Edit;
     private javax.swing.JMenuItem EditText;
     private com.toedter.calendar.JDateChooser Fecha;
@@ -4638,6 +5363,8 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JDialog Icons;
     private javax.swing.JDialog Images;
     private javax.swing.JButton ImportMusic;
+    private javax.swing.JButton LikePic;
+    private javax.swing.JButton LikePost;
     private javax.swing.JDialog LockUser;
     private javax.swing.JFrame LogIn;
     private javax.swing.JLabel MainImage;
@@ -4652,6 +5379,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JDialog Netbeans;
     private javax.swing.JDialog NewBDay;
     private javax.swing.JTextArea NewStatus;
+    private javax.swing.JTextArea NewStatus1;
     private javax.swing.JDialog NewUser;
     private javax.swing.JButton NextSong;
     private javax.swing.JButton Notes;
@@ -4667,6 +5395,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JList<String> Playlist;
     private javax.swing.JPopupMenu PopUpMain;
     private javax.swing.JLabel PreviewPic;
+    private javax.swing.JLabel PreviewPic1;
     private javax.swing.JButton PreviousSong;
     private javax.swing.JPopupMenu RBPM;
     private javax.swing.JDialog RecycleBin;
@@ -4680,6 +5409,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JButton SendM;
     private javax.swing.JButton Share;
     private javax.swing.JButton ShareAlbum;
+    private javax.swing.JButton ShareAlbum1;
     private javax.swing.JButton SharePic;
     private javax.swing.JLabel SongName;
     private javax.swing.JLabel SongName1;
@@ -4699,7 +5429,10 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JLabel UserPic1;
     private javax.swing.JButton UsersB;
     private javax.swing.JList<String> UsuariosLista;
-    private javax.swing.JDialog Video;
+    private javax.swing.JDialog ViewAlbum;
+    private javax.swing.JDialog ViewPicture;
+    private javax.swing.JDialog ViewStatus;
+    private javax.swing.JTable Wall;
     private javax.swing.JTable agenda;
     private javax.swing.JButton archives;
     private javax.swing.JButton b_cancel;
@@ -4728,7 +5461,6 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JButton jButton3;
     private javax.swing.JButton jButton4;
     private javax.swing.JButton jButton5;
-    private javax.swing.JInternalFrame jInternalFrame1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel10;
     private javax.swing.JLabel jLabel11;
@@ -4798,9 +5530,9 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
+    private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
-    private javax.swing.JList<String> jList1;
     private javax.swing.JMenu jMenu1;
     private javax.swing.JMenu jMenu4;
     private javax.swing.JMenuBar jMenuBar1;
@@ -4813,12 +5545,14 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
-    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
     private javax.swing.JPanel jPanel21;
     private javax.swing.JPanel jPanel22;
+    private javax.swing.JPanel jPanel23;
+    private javax.swing.JPanel jPanel24;
+    private javax.swing.JPanel jPanel25;
     private javax.swing.JPanel jPanel3;
     private javax.swing.JPanel jPanel4;
     private javax.swing.JPanel jPanel5;
@@ -4840,7 +5574,12 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JScrollPane jScrollPane20;
     private javax.swing.JScrollPane jScrollPane21;
-    private javax.swing.JScrollPane jScrollPane22;
+    private javax.swing.JScrollPane jScrollPane23;
+    private javax.swing.JScrollPane jScrollPane24;
+    private javax.swing.JScrollPane jScrollPane25;
+    private javax.swing.JScrollPane jScrollPane26;
+    private javax.swing.JScrollPane jScrollPane27;
+    private javax.swing.JScrollPane jScrollPane28;
     private javax.swing.JScrollPane jScrollPane3;
     private javax.swing.JScrollPane jScrollPane4;
     private javax.swing.JScrollPane jScrollPane5;
@@ -4857,8 +5596,8 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane1;
     private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea1;
-    private javax.swing.JTextField jTextField1;
+    private javax.swing.JTextArea jTextArea2;
+    private javax.swing.JTextField jTextField2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar5;
     private javax.swing.JButton jb_forgotpw;
@@ -4885,10 +5624,12 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JButton music;
     private javax.swing.JLabel namelockscreen;
     private javax.swing.JButton netbeans;
+    private javax.swing.JTable notifs;
     private javax.swing.JPasswordField pf_pwlogin;
     private javax.swing.JButton recycle;
     private javax.swing.JSpinner s_edad;
     private javax.swing.JButton savedate;
+    private javax.swing.JButton selectpic;
     private javax.swing.JList<String> size;
     private javax.swing.JButton socials;
     private javax.swing.JSpinner start;
@@ -4940,4 +5681,6 @@ private File Sistema;
     int cbflag = 0;
     ArrayList<Actividades> As = new ArrayList();
     ArrayList<File> TempFiles = new ArrayList();
+    String imagepath = "";
+    ArrayList albumpaths = new ArrayList();
 }
