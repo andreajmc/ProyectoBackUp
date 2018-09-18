@@ -604,6 +604,7 @@ public class PP extends javax.swing.JFrame {
         });
         PopUpMain.add(m_help);
 
+        NewUser.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         NewUser.setTitle("Nuevo Usuario");
 
         jPanel1.setBackground(new java.awt.Color(255, 255, 255));
@@ -810,6 +811,7 @@ public class PP extends javax.swing.JFrame {
 
         NewUser.getContentPane().add(jPanel1, java.awt.BorderLayout.CENTER);
 
+        AdministrarUsuarios.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
         AdministrarUsuarios.setTitle("Administrar Usuarios");
 
         javax.swing.tree.DefaultMutableTreeNode treeNode1 = new javax.swing.tree.DefaultMutableTreeNode("Z:\\");
@@ -844,6 +846,7 @@ public class PP extends javax.swing.JFrame {
                     .addContainerGap())
             );
 
+            LockUser.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             LockUser.setTitle("Pantalla Bloqueada");
             LockUser.setMinimumSize(new java.awt.Dimension(1043, 680));
             LockUser.setResizable(false);
@@ -1001,6 +1004,7 @@ public class PP extends javax.swing.JFrame {
 
             Console.getContentPane().add(jScrollPane6, java.awt.BorderLayout.CENTER);
 
+            TextEditor.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             TextEditor.setTitle("Editor de Texto");
 
             txt.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -1047,8 +1051,10 @@ public class PP extends javax.swing.JFrame {
                 .addComponent(jScrollPane8, javax.swing.GroupLayout.DEFAULT_SIZE, 476, Short.MAX_VALUE)
             );
 
+            Netbeans.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             Netbeans.setTitle("NetBeans");
 
+            Agenda.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             Agenda.setTitle("Calendario & Agenda");
             Agenda.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1309,6 +1315,7 @@ public class PP extends javax.swing.JFrame {
                 .addComponent(jTabbedPane1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
 
+            Images.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             Images.setTitle("Visor de Imágenes");
             Images.setBackground(new java.awt.Color(255, 255, 255));
             Images.setResizable(false);
@@ -1426,6 +1433,7 @@ public class PP extends javax.swing.JFrame {
                     .addGap(21, 21, 21))
             );
 
+            MusicPlayer.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             MusicPlayer.setTitle("Reproductor de Música");
             MusicPlayer.setMinimumSize(new java.awt.Dimension(360, 330));
             MusicPlayer.setResizable(false);
@@ -1570,6 +1578,7 @@ public class PP extends javax.swing.JFrame {
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             );
 
+            Messenger.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             Messenger.setTitle("Mensajería");
             Messenger.setBackground(new java.awt.Color(255, 255, 255));
 
@@ -1672,6 +1681,7 @@ public class PP extends javax.swing.JFrame {
                 .addComponent(jPanel2, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
 
+            Icons.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             Icons.setTitle("Ayuda");
             Icons.setBackground(new java.awt.Color(255, 255, 255));
             Icons.setMinimumSize(new java.awt.Dimension(750, 580));
@@ -1870,8 +1880,10 @@ public class PP extends javax.swing.JFrame {
             Icons.getContentPane().add(bg1);
             bg1.setBounds(0, 70, 760, 460);
 
+            ChangeBG.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             ChangeBG.setTitle("Cambiar Fondo de Pantalla");
 
+            NewBDay.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             NewBDay.setTitle("Modificar Cumpleaños");
             NewBDay.setBackground(new java.awt.Color(253, 240, 240));
             NewBDay.setForeground(new java.awt.Color(255, 153, 0));
@@ -1911,6 +1923,7 @@ public class PP extends javax.swing.JFrame {
             NewBDay.getContentPane().add(jLabel4);
             jLabel4.setBounds(0, 0, 440, 210);
 
+            RecycleBin.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             RecycleBin.setTitle("Papelera de Reciclaje");
 
             jScrollPane7.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -2057,6 +2070,7 @@ public class PP extends javax.swing.JFrame {
             Save.setText("Save");
             TextPM.add(Save);
 
+            FontChooser.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
             FontChooser.setTitle("Edit Text");
 
             jPanel9.setBackground(new java.awt.Color(218, 212, 206));
@@ -2167,7 +2181,8 @@ public class PP extends javax.swing.JFrame {
                 .addComponent(jPanel9, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
 
-            Home.setTitle("Red Social");
+            Home.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            Home.setTitle("The SN.");
             Home.setMaximumSize(new java.awt.Dimension(661, 503));
             Home.setMinimumSize(new java.awt.Dimension(661, 503));
             Home.setResizable(false);
@@ -2440,6 +2455,7 @@ public class PP extends javax.swing.JFrame {
             jPanel21.setBackground(new java.awt.Color(59, 89, 152));
 
             PreviewPic.setBackground(new java.awt.Color(255, 255, 255));
+            PreviewPic.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             PreviewPic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
             PreviewPic.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             PreviewPic.setOpaque(true);
@@ -2492,11 +2508,11 @@ public class PP extends javax.swing.JFrame {
                     .addGap(0, 26, Short.MAX_VALUE)
                     .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
-                            .addComponent(PreviewPic, javax.swing.GroupLayout.PREFERRED_SIZE, 164, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
                             .addComponent(jScrollPane17, javax.swing.GroupLayout.PREFERRED_SIZE, 66, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(56, 56, 56)))
+                            .addGap(56, 56, 56))
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel21Layout.createSequentialGroup()
+                            .addComponent(PreviewPic, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(10, 10, 10)))
                     .addGroup(jPanel21Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(selectpic)
                         .addComponent(SharePic))
@@ -2539,6 +2555,11 @@ public class PP extends javax.swing.JFrame {
             jScrollPane19.setViewportView(DescAlbum);
 
             ShareAlbum.setText("Compartir");
+            ShareAlbum.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    ShareAlbumMouseClicked(evt);
+                }
+            });
 
             javax.swing.GroupLayout jPanel22Layout = new javax.swing.GroupLayout(jPanel22);
             jPanel22.setLayout(jPanel22Layout);
@@ -2592,6 +2613,7 @@ public class PP extends javax.swing.JFrame {
 
             jPanel15.setBackground(new java.awt.Color(59, 89, 152));
 
+            UserPic.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             UserPic.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
             UserPic.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             UserPic.setOpaque(true);
@@ -2690,9 +2712,11 @@ public class PP extends javax.swing.JFrame {
             );
 
             MyProfile.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            MyProfile.setTitle("Mi Perfil");
 
             jPanel18.setBackground(new java.awt.Color(59, 89, 152));
 
+            UserPic1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             UserPic1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
             UserPic1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             UserPic1.setOpaque(true);
@@ -2824,14 +2848,15 @@ public class PP extends javax.swing.JFrame {
             MyProfile.getContentPane().setLayout(MyProfileLayout);
             MyProfileLayout.setHorizontalGroup(
                 MyProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             );
             MyProfileLayout.setVerticalGroup(
                 MyProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jPanel18, javax.swing.GroupLayout.Alignment.TRAILING, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             );
 
             Notifications.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            Notifications.setTitle("Solicitud de Amistad");
 
             jPanel16.setBackground(new java.awt.Color(59, 89, 152));
 
@@ -3014,11 +3039,12 @@ public class PP extends javax.swing.JFrame {
             );
 
             ViewPicture.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-            ViewPicture.setTitle("Nueva Imagen");
+            ViewPicture.setTitle("Ver Imagen");
 
             jPanel24.setBackground(new java.awt.Color(59, 89, 152));
 
             PreviewPic1.setBackground(new java.awt.Color(255, 255, 255));
+            PreviewPic1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             PreviewPic1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             PreviewPic1.setOpaque(true);
 
@@ -3090,7 +3116,7 @@ public class PP extends javax.swing.JFrame {
             );
 
             ViewAlbum.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
-            ViewAlbum.setTitle("Nuevo Álbum");
+            ViewAlbum.setTitle("Ver Álbum");
 
             jPanel25.setBackground(new java.awt.Color(59, 89, 152));
 
@@ -3115,6 +3141,7 @@ public class PP extends javax.swing.JFrame {
                 }
             });
 
+            pic1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             pic1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
             pic1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             pic1.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -3123,6 +3150,7 @@ public class PP extends javax.swing.JFrame {
                 }
             });
 
+            pic2.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             pic2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
             pic2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             pic2.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -3131,6 +3159,7 @@ public class PP extends javax.swing.JFrame {
                 }
             });
 
+            pic3.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             pic3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
             pic3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             pic3.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -3139,6 +3168,7 @@ public class PP extends javax.swing.JFrame {
                 }
             });
 
+            pic4.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             pic4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
             pic4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
             pic4.addMouseListener(new java.awt.event.MouseAdapter() {
@@ -3214,6 +3244,7 @@ public class PP extends javax.swing.JFrame {
                     .addGap(0, 0, Short.MAX_VALUE))
             );
 
+            View.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/full.png"))); // NOI18N
             View.setText("Ver Publicación");
             View.addActionListener(new java.awt.event.ActionListener() {
                 public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -3222,8 +3253,12 @@ public class PP extends javax.swing.JFrame {
             });
             PMPosts.add(View);
 
+            IndPic.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+            IndPic.setTitle("Visor de Imágenes");
+
             jPanel17.setBackground(new java.awt.Color(59, 89, 152));
 
+            mainpicv.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
             mainpicv.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
             javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
@@ -5144,14 +5179,16 @@ public class PP extends javax.swing.JFrame {
         if (op == JFileChooser.APPROVE_OPTION) {
             archive = FChooser.getSelectedFile();
         }
-        imagepath = archive.getPath();
-        ImageIcon newBG = new ImageIcon(imagepath);
-        PreviewPic.setIcon(newBG);
+        ImageIcon imageIcon = new ImageIcon(archive.getPath());
+        Image image = imageIcon.getImage();
+        Image newimg = image.getScaledInstance(-1, 165, java.awt.Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(newimg);
+        PreviewPic.setIcon(imageIcon);
     }//GEN-LAST:event_selectpicMouseClicked
 
     private void AddPicsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddPicsMouseClicked
-
-        if (AlbumList.getLastVisibleIndex() <= 4) {
+        DefaultListModel m = (DefaultListModel) AlbumList.getModel();
+        if (m.size() <= 4) {
             JFileChooser FChooser = new JFileChooser();
             FileFilter Filter = new FileNameExtensionFilter("Imágenes",
                     "png", "jpg", "jpeg", "gif");
@@ -5160,57 +5197,15 @@ public class PP extends javax.swing.JFrame {
             int op = FChooser.showOpenDialog(this);
             if (op == JFileChooser.APPROVE_OPTION) {
                 archive = FChooser.getSelectedFile();
+                albumpaths.add(archive.getPath());
+                m.addElement(archive.getName());
+                AlbumList.setModel(m);
+                JOptionPane.showMessageDialog(Album, "¡Imagen agregada exitósamente!");
             }
-            albumpaths.add(archive.getPath());
         } else {
             JOptionPane.showMessageDialog(Album, "El máximo de fotos que puede subir es de 4 imágenes por álbum.");
         }
-        Posts P = new Posts(USER.getUsername(), AlbumTitle.getText(), DescAlbum.getText(), albumpaths, 0, new Date());
-        Dba db = new Dba("./TheSN.accdb");
-        db.conectar();
 
-        switch (AlbumList.getLastVisibleIndex()) {
-            case 1:
-                try {
-                    db.query.execute("INSERT INTO Publicaciones"
-                            + " (Autor, Titulo, Likes, PathFoto, Tipo, Fecha)"
-                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
-                    db.commit();
-                } catch (SQLException ex) {
-                }
-                db.desconectar();
-                break;
-            case 2:
-                try {
-                    db.query.execute("INSERT INTO Publicaciones"
-                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, Tipo, Fecha)"
-                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getPathFoto2() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
-                    db.commit();
-                } catch (SQLException ex) {
-                }
-                db.desconectar();
-                break;
-            case 3:
-                try {
-                    db.query.execute("INSERT INTO Publicaciones"
-                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, PathFoto3, Tipo, Fecha)"
-                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getPathFoto2() + "', '" + P.getPathFoto3() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
-                    db.commit();
-                } catch (SQLException ex) {
-                }
-                break;
-            case 4:
-                try {
-                    db.query.execute("INSERT INTO Publicaciones"
-                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, PathFoto3, PathFoto4 tipo)"
-                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getPathFoto2() + "', '" + P.getPathFoto3() + "', '" + P.getPathFoto4() + "', '" + P.getTipo() + "')");
-                    db.commit();
-                } catch (SQLException ex) {
-                }
-                break;
-        }
-        db.desconectar();
-        JOptionPane.showMessageDialog(Status, "¡Àlbum compartido exitósamente!");
     }//GEN-LAST:event_AddPicsMouseClicked
 
     private void jButton25MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton25MouseClicked
@@ -5345,8 +5340,11 @@ public class PP extends javax.swing.JFrame {
         if (op == JFileChooser.APPROVE_OPTION) {
             archive = FChooser.getSelectedFile();
         }
-        ImageIcon newBG = new ImageIcon(archive.getPath());
-        UserPic1.setIcon(newBG);
+        ImageIcon imageIcon = new ImageIcon(archive.getPath());
+        Image image = imageIcon.getImage();
+        Image newimg = image.getScaledInstance(-1, 145, java.awt.Image.SCALE_SMOOTH);
+        imageIcon = new ImageIcon(newimg);
+        UserPic1.setIcon(imageIcon);
         JOptionPane.showMessageDialog(this, "¡Cambios aplicados exitósamente!");
     }//GEN-LAST:event_ChangePPMouseClicked
 
@@ -5365,6 +5363,7 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_WallMouseClicked
 
     private void ViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewActionPerformed
+        MyProfile.setVisible(false);
         FullPost((JTable) source);
     }//GEN-LAST:event_ViewActionPerformed
 
@@ -5436,12 +5435,61 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_CommentPostMouseClicked
 
     private void NewStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NewStatusMouseClicked
-    NewStatus.setText("");
+        NewStatus.setText("");
     }//GEN-LAST:event_NewStatusMouseClicked
 
     private void DescPicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DescPicMouseClicked
-    DescPic.setText("");
+        DescPic.setText("");
     }//GEN-LAST:event_DescPicMouseClicked
+
+    private void ShareAlbumMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ShareAlbumMouseClicked
+        Posts P = new Posts(USER.getUsername(), AlbumTitle.getText(), DescAlbum.getText(), albumpaths, 0, new Date());
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        DefaultListModel m = (DefaultListModel) AlbumList.getModel();
+        switch (m.size()) {
+            case 1:
+                try {
+                    db.query.execute("INSERT INTO Publicaciones"
+                            + " (Autor, Titulo, Likes, PathFoto, Tipo, Fecha)"
+                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
+                    db.commit();
+                } catch (SQLException ex) {
+                }
+                db.desconectar();
+                break;
+            case 2:
+                try {
+                    db.query.execute("INSERT INTO Publicaciones"
+                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, Tipo, Fecha)"
+                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getPathFoto2() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
+                    db.commit();
+                } catch (SQLException ex) {
+                }
+                db.desconectar();
+                break;
+            case 3:
+                try {
+                    db.query.execute("INSERT INTO Publicaciones"
+                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, PathFoto3, Tipo, Fecha)"
+                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getPathFoto2() + "', '" + P.getPathFoto3() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
+                    db.commit();
+                } catch (SQLException ex) {
+                }
+                break;
+            case 4:
+                try {
+                    db.query.execute("INSERT INTO Publicaciones"
+                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, PathFoto3, PathFoto4 tipo)"
+                            + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getPathFoto2() + "', '" + P.getPathFoto3() + "', '" + P.getPathFoto4() + "', '" + P.getTipo() + "')");
+                    db.commit();
+                } catch (SQLException ex) {
+                }
+                break;
+        }
+        db.desconectar();
+        JOptionPane.showMessageDialog(Status, "¡Imagen agregada exitósamente!");
+    }//GEN-LAST:event_ShareAlbumMouseClicked
 
     public void FullPost(JTable table) {
         String name = (String) table.getValueAt(table.getSelectedRow(), 2);

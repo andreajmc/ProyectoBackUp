@@ -40,19 +40,19 @@ public class Posts {
         this.desc = desc;
         this.paths = paths;
         if (paths.size() == 1) {
-            PathFoto1 = paths.get(1);
+            PathFoto1 = paths.get(0);
         } else if (paths.size() == 2) {
-            PathFoto1 = paths.get(1);
-            PathFoto2 = paths.get(2);
+            PathFoto1 = paths.get(0);
+            PathFoto2 = paths.get(1);
         } else if (paths.size() == 3) {
-            PathFoto1 = paths.get(1);
-            PathFoto2 = paths.get(2);
-            PathFoto3 = paths.get(3);
+            PathFoto1 = paths.get(0);
+            PathFoto2 = paths.get(1);
+            PathFoto3 = paths.get(2);
         } else if (paths.size() == 4) {
-            PathFoto1 = paths.get(1);
-            PathFoto2 = paths.get(2);
-            PathFoto3 = paths.get(3);
-            PathFoto4 = paths.get(4);
+            PathFoto1 = paths.get(0);
+            PathFoto2 = paths.get(1);
+            PathFoto3 = paths.get(2);
+            PathFoto4 = paths.get(3);
         }
         this.likes = likes;
         tipo = "albm";
