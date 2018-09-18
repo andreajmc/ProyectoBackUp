@@ -1,6 +1,7 @@
 package proyecto_andreamendoza;
 
 import java.awt.Color;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.Font;
 import java.awt.GraphicsEnvironment;
@@ -64,6 +65,7 @@ import javafx.scene.media.MediaPlayer;
 import javafx.scene.media.MediaPlayer.Status;
 import javax.swing.JEditorPane;
 import javax.swing.JScrollPane;
+import javax.swing.JTable;
 import javax.swing.SpinnerDateModel;
 import javax.swing.SpinnerModel;
 import javax.swing.text.BadLocationException;
@@ -153,40 +155,6 @@ public class PP extends javax.swing.JFrame {
         f.mkdir();
     }
 
-    private void CreateTable(String name) throws SQLException {
-
-        String url = "jdbc:ucanaccess://./TheSN.accdb";
-        Connection conn = DriverManager.getConnection(url, "", "");
-        String sqlCreate = "CREATE TABLE Amigos'" + name + "'\n" // Si no sirve quitar el USER y ver que ondas
-                + "(\n"
-                + "Nombre varchar(255),\n"
-                + ");";
-
-        Statement stmt = conn.createStatement();
-        stmt.execute(sqlCreate);
-    }
-
-    //public static void CreateTable(String name) throws SQLException {
-// SQLite connection string
-    //  String url = "./TheSN.accdb";
-    // SQL statement for creating a new table
-    /*  Dba db = new Dba("./TheSN.accdb");
-        db.conectar();
-        String sql = "CREATE TABLE tblCustomers  \n"
-                + "    (CustomerID INTEGER, \n"
-                + "    [Last Name] TEXT(50))";
-        db.query.execute(sql);
-
-        db.commit();
-        db.desconectar();
-
-        /*try (Connection conn = DriverManager.getConnection(url);
-                Statement stmt = conn.createStatement()) {
-            // create a new table
-            stmt.execute(sql);
-        } catch (SQLException e) {
-            System.out.println(e.getMessage());
-        }*/
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -451,7 +419,7 @@ public class PP extends javax.swing.JFrame {
         ContP1 = new javax.swing.JLabel();
         ChangePP = new javax.swing.JButton();
         jScrollPane28 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        mywall = new javax.swing.JTable();
         Notifications = new javax.swing.JDialog();
         jPanel16 = new javax.swing.JPanel();
         jScrollPane21 = new javax.swing.JScrollPane();
@@ -465,7 +433,7 @@ public class PP extends javax.swing.JFrame {
         jPanel23 = new javax.swing.JPanel();
         jScrollPane23 = new javax.swing.JScrollPane();
         NewStatus1 = new javax.swing.JTextArea();
-        jLabel72 = new javax.swing.JLabel();
+        namepost = new javax.swing.JLabel();
         LikePost = new javax.swing.JButton();
         CommentPost = new javax.swing.JButton();
         ViewPicture = new javax.swing.JDialog();
@@ -473,17 +441,24 @@ public class PP extends javax.swing.JFrame {
         PreviewPic1 = new javax.swing.JLabel();
         jScrollPane24 = new javax.swing.JScrollPane();
         DescPic1 = new javax.swing.JTextArea();
-        LikePic = new javax.swing.JButton();
-        CommentPic = new javax.swing.JButton();
+        commentp = new javax.swing.JButton();
+        likep = new javax.swing.JButton();
         ViewAlbum = new javax.swing.JDialog();
         jPanel25 = new javax.swing.JPanel();
-        jScrollPane25 = new javax.swing.JScrollPane();
-        AlbumList1 = new javax.swing.JList<>();
         AddPics1 = new javax.swing.JButton();
-        jTextField2 = new javax.swing.JTextField();
+        albmt = new javax.swing.JTextField();
         jScrollPane26 = new javax.swing.JScrollPane();
-        jTextArea2 = new javax.swing.JTextArea();
+        albmdesc = new javax.swing.JTextArea();
         ShareAlbum1 = new javax.swing.JButton();
+        pic1 = new javax.swing.JLabel();
+        pic2 = new javax.swing.JLabel();
+        pic3 = new javax.swing.JLabel();
+        pic4 = new javax.swing.JLabel();
+        PMPosts = new javax.swing.JPopupMenu();
+        View = new javax.swing.JMenuItem();
+        IndPic = new javax.swing.JDialog();
+        jPanel17 = new javax.swing.JPanel();
+        mainpicv = new javax.swing.JLabel();
         MainMenu = new javax.swing.JToolBar();
         archives = new javax.swing.JButton();
         console = new javax.swing.JButton();
@@ -2354,6 +2329,11 @@ public class PP extends javax.swing.JFrame {
             Wall.setRowHeight(40);
             Wall.setRowSelectionAllowed(false);
             Wall.setShowHorizontalLines(false);
+            Wall.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    WallMouseClicked(evt);
+                }
+            });
             jScrollPane27.setViewportView(Wall);
 
             javax.swing.GroupLayout jPanel13Layout = new javax.swing.GroupLayout(jPanel13);
@@ -2401,6 +2381,11 @@ public class PP extends javax.swing.JFrame {
             NewStatus.setFont(new java.awt.Font("Segoe UI", 0, 14)); // NOI18N
             NewStatus.setRows(5);
             NewStatus.setText("¿Qué estás pensando?\n");
+            NewStatus.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    NewStatusMouseClicked(evt);
+                }
+            });
             jScrollPane16.setViewportView(NewStatus);
 
             Share.setText("Compartir");
@@ -2463,6 +2448,11 @@ public class PP extends javax.swing.JFrame {
             DescPic.setFont(new java.awt.Font("Segoe UI", 0, 12)); // NOI18N
             DescPic.setRows(5);
             DescPic.setText("Cuéntanos más de esta imagen.\n¡Escribe una descripción!");
+            DescPic.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    DescPicMouseClicked(evt);
+                }
+            });
             jScrollPane17.setViewportView(DescPic);
 
             SharePic.setText("Compartir");
@@ -2531,6 +2521,7 @@ public class PP extends javax.swing.JFrame {
 
             AlbumList.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Imágenes Agregadas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
             AlbumList.setModel(new DefaultListModel());
+            AlbumList.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
             jScrollPane18.setViewportView(AlbumList);
 
             AddPics.setText("Agregar Imágenes");
@@ -2698,6 +2689,8 @@ public class PP extends javax.swing.JFrame {
                 .addComponent(jPanel15, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
 
+            MyProfile.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
             jPanel18.setBackground(new java.awt.Color(59, 89, 152));
 
             UserPic1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
@@ -2725,19 +2718,15 @@ public class PP extends javax.swing.JFrame {
             ContP1.setText("08");
 
             ChangePP.setText("Cambiar Foto de Perfil");
+            ChangePP.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    ChangePPMouseClicked(evt);
+                }
+            });
 
-            jTable1.setModel(new javax.swing.table.DefaultTableModel(
+            mywall.setModel(new javax.swing.table.DefaultTableModel(
                 new Object [][] {
-                    {null, null, null, null},
-                    {null, null, null, null},
-                    {null, null, null, null},
-                    {null, null, null, null},
-                    {null, null, null, null},
-                    {null, null, null, null},
-                    {null, null, null, null},
-                    {null, null, null, null},
-                    {null, null, null, null},
-                    {null, null, null, null}
+
                 },
                 new String [] {
                     "Fecha de Publicación", "Publicado Por", "Título", "Likes"
@@ -2758,10 +2747,15 @@ public class PP extends javax.swing.JFrame {
                     return canEdit [columnIndex];
                 }
             });
-            jTable1.setGridColor(new java.awt.Color(58, 89, 152));
-            jTable1.setRowHeight(40);
-            jTable1.setShowHorizontalLines(false);
-            jScrollPane28.setViewportView(jTable1);
+            mywall.setGridColor(new java.awt.Color(58, 89, 152));
+            mywall.setRowHeight(40);
+            mywall.setShowHorizontalLines(false);
+            mywall.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    mywallMouseClicked(evt);
+                }
+            });
+            jScrollPane28.setViewportView(mywall);
 
             javax.swing.GroupLayout jPanel18Layout = new javax.swing.GroupLayout(jPanel18);
             jPanel18.setLayout(jPanel18Layout);
@@ -2834,10 +2828,10 @@ public class PP extends javax.swing.JFrame {
             );
             MyProfileLayout.setVerticalGroup(
                 MyProfileLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(MyProfileLayout.createSequentialGroup()
-                    .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(0, 164, Short.MAX_VALUE))
+                .addComponent(jPanel18, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
             );
+
+            Notifications.setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
             jPanel16.setBackground(new java.awt.Color(59, 89, 152));
 
@@ -2905,6 +2899,8 @@ public class PP extends javax.swing.JFrame {
             });
 
             UsuariosLista.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+            UsuariosLista.setModel(new DefaultListModel());
+            UsuariosLista.setSelectionMode(javax.swing.ListSelectionModel.SINGLE_INTERVAL_SELECTION);
             UsuariosLista.addMouseListener(new java.awt.event.MouseAdapter() {
                 public void mouseClicked(java.awt.event.MouseEvent evt) {
                     UsuariosListaMouseClicked(evt);
@@ -2956,16 +2952,21 @@ public class PP extends javax.swing.JFrame {
             NewStatus1.setRows(5);
             jScrollPane23.setViewportView(NewStatus1);
 
-            jLabel72.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
-            jLabel72.setForeground(new java.awt.Color(255, 255, 255));
-            jLabel72.setText("Nombre");
+            namepost.setFont(new java.awt.Font("Segoe UI", 3, 18)); // NOI18N
+            namepost.setForeground(new java.awt.Color(255, 255, 255));
+            namepost.setText("Nombre");
 
             LikePost.setText("Me Gusta");
+            LikePost.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    LikePostMouseClicked(evt);
+                }
+            });
 
             CommentPost.setText("Comentar");
-            CommentPost.addActionListener(new java.awt.event.ActionListener() {
-                public void actionPerformed(java.awt.event.ActionEvent evt) {
-                    CommentPostActionPerformed(evt);
+            CommentPost.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    CommentPostMouseClicked(evt);
                 }
             });
 
@@ -2978,7 +2979,7 @@ public class PP extends javax.swing.JFrame {
                     .addGroup(jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                         .addComponent(jScrollPane23)
                         .addGroup(jPanel23Layout.createSequentialGroup()
-                            .addComponent(jLabel72, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(namepost, javax.swing.GroupLayout.PREFERRED_SIZE, 301, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGap(0, 207, Short.MAX_VALUE))
                         .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
                             .addGap(0, 0, Short.MAX_VALUE)
@@ -2991,7 +2992,7 @@ public class PP extends javax.swing.JFrame {
                 jPanel23Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel23Layout.createSequentialGroup()
                     .addContainerGap()
-                    .addComponent(jLabel72, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
+                    .addComponent(namepost, javax.swing.GroupLayout.DEFAULT_SIZE, 41, Short.MAX_VALUE)
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addComponent(jScrollPane23, javax.swing.GroupLayout.PREFERRED_SIZE, 89, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(20, 20, 20)
@@ -3028,9 +3029,19 @@ public class PP extends javax.swing.JFrame {
             DescPic1.setText("\n");
             jScrollPane24.setViewportView(DescPic1);
 
-            LikePic.setText("jButton6");
+            commentp.setText("Comentar");
+            commentp.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    commentpMouseClicked(evt);
+                }
+            });
 
-            CommentPic.setText("jButton6");
+            likep.setText("Me Gusta");
+            likep.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    likepMouseClicked(evt);
+                }
+            });
 
             javax.swing.GroupLayout jPanel24Layout = new javax.swing.GroupLayout(jPanel24);
             jPanel24.setLayout(jPanel24Layout);
@@ -3042,26 +3053,26 @@ public class PP extends javax.swing.JFrame {
                     .addContainerGap())
                 .addGroup(jPanel24Layout.createSequentialGroup()
                     .addGap(76, 76, 76)
-                    .addComponent(LikePic, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(commentp, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(80, 80, 80)
-                    .addComponent(CommentPic, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(likep, javax.swing.GroupLayout.PREFERRED_SIZE, 119, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel24Layout.createSequentialGroup()
                     .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addComponent(PreviewPic1, javax.swing.GroupLayout.PREFERRED_SIZE, 328, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(69, 69, 69))
+                    .addComponent(PreviewPic1, javax.swing.GroupLayout.PREFERRED_SIZE, 323, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(74, 74, 74))
             );
             jPanel24Layout.setVerticalGroup(
                 jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                 .addGroup(jPanel24Layout.createSequentialGroup()
                     .addGap(32, 32, 32)
-                    .addComponent(PreviewPic1, javax.swing.GroupLayout.PREFERRED_SIZE, 220, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addGap(38, 38, 38)
+                    .addComponent(PreviewPic1, javax.swing.GroupLayout.PREFERRED_SIZE, 221, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(37, 37, 37)
                     .addComponent(jScrollPane24, javax.swing.GroupLayout.PREFERRED_SIZE, 70, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addGap(18, 18, 18)
                     .addGroup(jPanel24Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(LikePic, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addComponent(CommentPic, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addComponent(commentp, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(likep, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addContainerGap(20, Short.MAX_VALUE))
             );
 
@@ -3083,57 +3094,111 @@ public class PP extends javax.swing.JFrame {
 
             jPanel25.setBackground(new java.awt.Color(59, 89, 152));
 
-            AlbumList1.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Imágenes Agregadas", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 1, 12))); // NOI18N
-            AlbumList1.setModel(new DefaultListModel());
-            jScrollPane25.setViewportView(AlbumList1);
-
             AddPics1.setText("Comentar");
+            AddPics1.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    AddPics1MouseClicked(evt);
+                }
+            });
 
-            jTextField2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nombre del Álbum", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 8))); // NOI18N
+            albmt.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Nombre del Álbum", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 8))); // NOI18N
 
-            jTextArea2.setColumns(20);
-            jTextArea2.setRows(5);
-            jTextArea2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Descripción", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 10))); // NOI18N
-            jScrollPane26.setViewportView(jTextArea2);
+            albmdesc.setColumns(20);
+            albmdesc.setRows(5);
+            albmdesc.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Descripción", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Segoe UI", 3, 10))); // NOI18N
+            jScrollPane26.setViewportView(albmdesc);
 
             ShareAlbum1.setText("Me Gusta");
+            ShareAlbum1.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    ShareAlbum1MouseClicked(evt);
+                }
+            });
+
+            pic1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
+            pic1.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+            pic1.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    pic1MouseClicked(evt);
+                }
+            });
+
+            pic2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
+            pic2.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+            pic2.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    pic2MouseClicked(evt);
+                }
+            });
+
+            pic3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
+            pic3.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+            pic3.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    pic3MouseClicked(evt);
+                }
+            });
+
+            pic4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png"))); // NOI18N
+            pic4.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+            pic4.addMouseListener(new java.awt.event.MouseAdapter() {
+                public void mouseClicked(java.awt.event.MouseEvent evt) {
+                    pic4MouseClicked(evt);
+                }
+            });
 
             javax.swing.GroupLayout jPanel25Layout = new javax.swing.GroupLayout(jPanel25);
             jPanel25.setLayout(jPanel25Layout);
             jPanel25Layout.setHorizontalGroup(
                 jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addGroup(jPanel25Layout.createSequentialGroup()
-                    .addContainerGap()
-                    .addComponent(jScrollPane25, javax.swing.GroupLayout.PREFERRED_SIZE, 142, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                    .addGap(26, 26, 26)
+                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(pic3, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pic1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                        .addComponent(pic4, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                        .addComponent(pic2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                     .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
-                                .addComponent(AddPics1)
-                                .addGap(18, 18, 18)
-                                .addComponent(ShareAlbum1)))
-                        .addComponent(jScrollPane26, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addContainerGap(18, Short.MAX_VALUE))
+                        .addGroup(jPanel25Layout.createSequentialGroup()
+                            .addGap(26, 26, 26)
+                            .addComponent(jScrollPane26, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addContainerGap())
+                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                                    .addComponent(AddPics1)
+                                    .addGap(18, 18, 18)
+                                    .addComponent(ShareAlbum1)
+                                    .addGap(23, 23, 23))
+                                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                                    .addComponent(albmt, javax.swing.GroupLayout.PREFERRED_SIZE, 287, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addContainerGap())))))
             );
             jPanel25Layout.setVerticalGroup(
                 jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
+                    .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(albmt, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(45, 45, 45)
+                    .addComponent(jScrollPane26, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(37, 37, 37)
+                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(ShareAlbum1)
+                        .addComponent(AddPics1))
+                    .addGap(24, 24, 24))
                 .addGroup(jPanel25Layout.createSequentialGroup()
-                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                        .addGroup(jPanel25Layout.createSequentialGroup()
-                            .addGap(43, 43, 43)
-                            .addComponent(jTextField2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(18, 18, 18)
-                            .addComponent(jScrollPane26, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addGap(0, 15, Short.MAX_VALUE))
-                        .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel25Layout.createSequentialGroup()
-                            .addContainerGap()
-                            .addComponent(jScrollPane25, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGap(40, 40, 40)
+                    .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                        .addComponent(pic1, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pic2, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                     .addGroup(jPanel25Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                        .addComponent(AddPics1)
-                        .addComponent(ShareAlbum1))
-                    .addContainerGap(21, Short.MAX_VALUE))
+                        .addComponent(pic3, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE)
+                        .addComponent(pic4, javax.swing.GroupLayout.PREFERRED_SIZE, 130, javax.swing.GroupLayout.PREFERRED_SIZE))
+                    .addContainerGap(43, Short.MAX_VALUE))
             );
 
             javax.swing.GroupLayout ViewAlbumLayout = new javax.swing.GroupLayout(ViewAlbum.getContentPane());
@@ -3144,7 +3209,49 @@ public class PP extends javax.swing.JFrame {
             );
             ViewAlbumLayout.setVerticalGroup(
                 ViewAlbumLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                .addComponent(jPanel25, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addGroup(ViewAlbumLayout.createSequentialGroup()
+                    .addComponent(jPanel25, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addGap(0, 0, Short.MAX_VALUE))
+            );
+
+            View.setText("Ver Publicación");
+            View.addActionListener(new java.awt.event.ActionListener() {
+                public void actionPerformed(java.awt.event.ActionEvent evt) {
+                    ViewActionPerformed(evt);
+                }
+            });
+            PMPosts.add(View);
+
+            jPanel17.setBackground(new java.awt.Color(59, 89, 152));
+
+            mainpicv.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
+
+            javax.swing.GroupLayout jPanel17Layout = new javax.swing.GroupLayout(jPanel17);
+            jPanel17.setLayout(jPanel17Layout);
+            jPanel17Layout.setHorizontalGroup(
+                jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel17Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(mainpicv, javax.swing.GroupLayout.DEFAULT_SIZE, 470, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+            jPanel17Layout.setVerticalGroup(
+                jPanel17Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel17Layout.createSequentialGroup()
+                    .addContainerGap()
+                    .addComponent(mainpicv, javax.swing.GroupLayout.DEFAULT_SIZE, 468, Short.MAX_VALUE)
+                    .addContainerGap())
+            );
+
+            javax.swing.GroupLayout IndPicLayout = new javax.swing.GroupLayout(IndPic.getContentPane());
+            IndPic.getContentPane().setLayout(IndPicLayout);
+            IndPicLayout.setHorizontalGroup(
+                IndPicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel17, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+            );
+            IndPicLayout.setVerticalGroup(
+                IndPicLayout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addComponent(jPanel17, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
             );
 
             setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -3882,33 +3989,9 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_imMouseClicked
 
     private void socialsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_socialsMouseClicked
-        ArrayList<String> friends = new ArrayList();
         DefaultTableModel m = (DefaultTableModel) Wall.getModel();
-        Dba db = new Dba("./TheSN.accdb");
-        db.conectar();
-        try {
-            db.query.execute("select Nombre from Amigos'" + USER.getNombre() + "'");
-            ResultSet rs = db.query.getResultSet();
-            while (rs.next()) {
-                friends.add(rs.getString(1));
-            }
-        } catch (SQLException ex) {
-            ex.printStackTrace();
-        }
-        for (String f : friends) {
-            try {
-                db.query.execute("select Autor, Titulo, Likes, Create from Publicaciones where Autor='" + f + "'");
-                ResultSet rs = db.query.getResultSet();
-                while (rs.next()) {
-                    Object[] temp = {rs.getString(2), rs.getString(1), rs.getString(3), rs.getInt(4)};
-                    m.addRow(temp);
-                }
-                Wall.setModel(m);
-            } catch (SQLException ex) {
-                ex.printStackTrace();
-            }
-        }
-        db.desconectar();
+        m.setRowCount(0);
+        RefreshGeneralWall();
         Home.pack();
         Home.setLocationRelativeTo(this);
         Home.setVisible(true);
@@ -3956,7 +4039,7 @@ public class PP extends javax.swing.JFrame {
             try {
                 db.query.execute("INSERT INTO Usuarios"
                         + " (Nombre)"
-                        + " VALUES ('" + tf_newuname.getText() + "')");
+                        + " VALUES ('" + tf_newunuser.getText() + "')");
                 db.commit();
             } catch (SQLException ex) {
             }
@@ -4934,15 +5017,10 @@ public class PP extends javax.swing.JFrame {
         // TODO add your handling code here:
     }//GEN-LAST:event_ShareActionPerformed
 
-    private void CommentPostActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_CommentPostActionPerformed
-        // TODO add your handling code here:
-    }//GEN-LAST:event_CommentPostActionPerformed
-
     private void UsersBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_UsersBMouseClicked
         this.AllUsersPV.pack();
         AllUsersPV.setLocationRelativeTo(null);
         AllUsersPV.setVisible(true);
-        AllUsersPV.setModal(true);
     }//GEN-LAST:event_UsersBMouseClicked
 
     private void NotifsBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NotifsBMouseClicked
@@ -4951,7 +5029,7 @@ public class PP extends javax.swing.JFrame {
         Dba db = new Dba("./TheSN.accdb");
         db.conectar();
         try {
-            db.query.execute("select Emisor from Solicitudes where Receptor='" + USER.getNombre() + "'"); // %% no importa que haya antes o despues
+            db.query.execute("select Emisor from Solicitudes where Receptor='" + USER.getUsername() + "'");
             ResultSet rs = db.query.getResultSet();
             while (rs.next()) {
                 Object[] temp = {rs.next(), "Solicitud de Amistad"};
@@ -4965,60 +5043,90 @@ public class PP extends javax.swing.JFrame {
         this.Notifications.pack();
         Notifications.setLocationRelativeTo(null);
         Notifications.setVisible(true);
-        Notifications.setModal(true);
     }//GEN-LAST:event_NotifsBMouseClicked
 
     private void PerfilBMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_PerfilBMouseClicked
+        UserName1.setText(USER.getNombre());
+        int contA = 0;
+        int contP = 0;
+        UserPic1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png")));
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        try {
+            db.query.execute("select A1 from Amigos where A1='" + USER.getUsername() + "'");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                ++contA;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        try {
+            db.query.execute("select Autor,Titulo,Fecha,Likes from Publicaciones where Autor='" + USER.getUsername() + "'");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                ++contP;
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        DefaultTableModel m = (DefaultTableModel) mywall.getModel();
+        m.setRowCount(0);
+        RefreshMyWall();
+        db.desconectar();
+        ContAmigos1.setText(String.valueOf(contA));
+        ContP1.setText(String.valueOf(contP));
+
         MyProfile.pack();
         MyProfile.setLocationRelativeTo(null);
         MyProfile.setVisible(true);
-        MyProfile.setModal(true);
     }//GEN-LAST:event_PerfilBMouseClicked
 
     private void jButton22MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton22MouseClicked
         Status.pack();
         Status.setLocationRelativeTo(null);
         Status.setVisible(true);
-        Status.setModal(true);
     }//GEN-LAST:event_jButton22MouseClicked
 
     private void jButton23MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton23MouseClicked
         Picture.pack();
         Picture.setLocationRelativeTo(null);
         Picture.setVisible(true);
-        Picture.setModal(true);
     }//GEN-LAST:event_jButton23MouseClicked
 
     private void jButton24MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_jButton24MouseClicked
         Album.pack();
         Album.setLocationRelativeTo(null);
         Album.setVisible(true);
-        Album.setModal(true);
     }//GEN-LAST:event_jButton24MouseClicked
 
     private void ShareMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ShareMouseClicked
-        Posts P = new Posts(USER.getNombre(), NewStatus.getText(), 0, new Date());
+        Posts P = new Posts(USER.getUsername(), NewStatus.getText(), 0, new Date());
         Dba db = new Dba("./TheSN.accdb");
         db.conectar();
+        DateFormat f = new SimpleDateFormat("dd/mm/yy hh:mm:ss");
         try {
             db.query.execute("INSERT INTO Publicaciones"
-                    + " (Autor, Titulo, Likes, Tipo, Create)"
-                    + " VALUES ('" + P.getAuthor() + "', '" + P.getTitulo() + "', 0, '" + P.getTipo() + "', '" + P.getCreate() + "')");
+                    + " (Autor, Titulo, Likes, Tipo, Fecha)"
+                    + " VALUES ('" + P.getAuthor() + "', '" + P.getTitulo() + "', 0, '" + P.getTipo() + "', '" + f.format(P.getCreate()) + "')");
             db.commit();
+            JOptionPane.showMessageDialog(Status, "¡Estado compartido exitósamente!");
         } catch (SQLException ex) {
+            ex.printStackTrace();
         }
         db.desconectar();
-        JOptionPane.showMessageDialog(Status, "¡Estado compartido exitósamente!");
+
     }//GEN-LAST:event_ShareMouseClicked
 
     private void SharePicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_SharePicMouseClicked
-        Posts P = new Posts(USER.getNombre(), DescPic.getText(), imagepath, 0, new Date());
+        Posts P = new Posts(USER.getUsername(), DescPic.getText(), imagepath, 0, new Date());
         Dba db = new Dba("./TheSN.accdb");
         db.conectar();
+        DateFormat f = new SimpleDateFormat("dd/mm/yy hh:mm:ss");
         try {
             db.query.execute("INSERT INTO Publicaciones"
-                    + " (Autor, Titulo, Likes, PathFoto, Tipo, Create)"
-                    + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + imagepath + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
+                    + " (Autor, Titulo, Likes, PathFoto, Tipo, Fecha)"
+                    + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + imagepath + "', '" + P.getTipo() + "', '" + f.format(P.getCreate()) + "')");
             db.commit();
         } catch (SQLException ex) {
         }
@@ -5057,7 +5165,7 @@ public class PP extends javax.swing.JFrame {
         } else {
             JOptionPane.showMessageDialog(Album, "El máximo de fotos que puede subir es de 4 imágenes por álbum.");
         }
-        Posts P = new Posts(USER.getNombre(), AlbumTitle.getText(), DescAlbum.getText(), albumpaths, 0, new Date());
+        Posts P = new Posts(USER.getUsername(), AlbumTitle.getText(), DescAlbum.getText(), albumpaths, 0, new Date());
         Dba db = new Dba("./TheSN.accdb");
         db.conectar();
 
@@ -5065,7 +5173,7 @@ public class PP extends javax.swing.JFrame {
             case 1:
                 try {
                     db.query.execute("INSERT INTO Publicaciones"
-                            + " (Autor, Titulo, Likes, PathFoto, Tipo, Create)"
+                            + " (Autor, Titulo, Likes, PathFoto, Tipo, Fecha)"
                             + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
                     db.commit();
                 } catch (SQLException ex) {
@@ -5075,7 +5183,7 @@ public class PP extends javax.swing.JFrame {
             case 2:
                 try {
                     db.query.execute("INSERT INTO Publicaciones"
-                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, Tipo, Create)"
+                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, Tipo, Fecha)"
                             + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getPathFoto2() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
                     db.commit();
                 } catch (SQLException ex) {
@@ -5085,7 +5193,7 @@ public class PP extends javax.swing.JFrame {
             case 3:
                 try {
                     db.query.execute("INSERT INTO Publicaciones"
-                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, PathFoto3, Tipo, Create)"
+                            + " (Autor, Titulo, Likes, PathFoto, PathFoto2, PathFoto3, Tipo, Fecha)"
                             + " VALUES ('" + P.getAuthor() + "', '" + P.getDesc() + "', 0, '" + P.getPathFoto1() + "', '" + P.getPathFoto2() + "', '" + P.getPathFoto3() + "', '" + P.getTipo() + "', '" + P.getCreate() + "')");
                     db.commit();
                 } catch (SQLException ex) {
@@ -5117,7 +5225,7 @@ public class PP extends javax.swing.JFrame {
             db.conectar();
             if (FilterUsuarios.getSelectedIndex() == 1) {
                 try {
-                    db.query.execute("select Nombre from Amigos'" + USER.getNombre() + "'");
+                    db.query.execute("select A2 from Amigos where A1='" + USER.getUsername() + "'");
                     ResultSet rs = db.query.getResultSet();
                     while (rs.next()) {
                         m.addElement(rs.getString(1));
@@ -5127,7 +5235,7 @@ public class PP extends javax.swing.JFrame {
                 }
             } else if (FilterUsuarios.getSelectedIndex() == 2) {
                 try {
-                    db.query.execute("select Nombre from Usuarios where Nombre not in (select Nombre from Amigos'" + USER.getNombre() + "')");
+                    db.query.execute("select Nombre from Usuarios where Nombre not in (select A2 from Amigos where A1='" + USER.getUsername() + "')");
                     ResultSet rs = db.query.getResultSet();
                     while (rs.next()) {
                         m.addElement(rs.getString(1));
@@ -5150,11 +5258,11 @@ public class PP extends javax.swing.JFrame {
                 break;
             }
         }
-        UserName.setText(U2.getNombre());
+        UserName.setText(U2.getUsername());
         Dba db = new Dba("./TheSN.accdb");
         db.conectar();
         try {
-            db.query.execute("select Nombre from Amigos'" + U2.getNombre() + "'");
+            db.query.execute("select A1 from Amigos where A1='" + U2.getUsername() + "'");
             ResultSet rs = db.query.getResultSet();
             while (rs.next()) {
                 ++contA;
@@ -5164,7 +5272,7 @@ public class PP extends javax.swing.JFrame {
         }
 
         try {
-            db.query.execute("select Autor from Publicaciones where Autor='" + U2.getNombre() + "'");
+            db.query.execute("select Autor from Publicaciones where Autor='" + U2.getUsername() + "'");
             ResultSet rs = db.query.getResultSet();
             while (rs.next()) {
                 ++contP;
@@ -5183,7 +5291,7 @@ public class PP extends javax.swing.JFrame {
         try {
             db.query.execute("INSERT INTO Solicitudes"
                     + " (Emisor,Receptor)" // String van en ´´
-                    + " VALUES ('" + USER.getNombre() + "', '" + U2.getNombre() + "')");
+                    + " VALUES ('" + USER.getNombre() + "', '" + U2.getUsername() + "')");
             db.commit();
         } catch (SQLException ex) {
             ex.printStackTrace();
@@ -5193,16 +5301,19 @@ public class PP extends javax.swing.JFrame {
     }//GEN-LAST:event_AddBMouseClicked
 
     private void notifsMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_notifsMouseClicked
-        String User2 = (String) notifs.getValueAt(notifs.getSelectedRow(), notifs.getSelectedColumn());
+        String User2 = (String) notifs.getValueAt(notifs.getSelectedRow(), 0);
         DefaultTableModel m = (DefaultTableModel) notifs.getModel();
         int resp = JOptionPane.showConfirmDialog(Notifications, "¿Desea agregar a " + User2 + " como su amigo/a?");
         Dba db = new Dba("./TheSN.accdb");
         db.conectar();
         if (resp == JOptionPane.YES_OPTION) {
             try {
-                db.query.execute("INSERT INTO Amigos'" + USER.getNombre() + "'"
-                        + " (Nombre)" // String vaselect Nombre from n en ´´
-                        + " VALUES ('" + User2 + "')");
+                db.query.execute("INSERT INTO Amigos"
+                        + " (A1, A2)"
+                        + " VALUES ('" + User2 + "', '" + USER.getUsername() + "')");
+                db.query.execute("INSERT INTO Amigos"
+                        + " (A1, A2)" // String vaselect Nombre from n en ´´
+                        + " VALUES ('" + USER.getUsername() + "', '" + User2 + "')");
                 db.commit();
                 db.desconectar();
             } catch (SQLException ex) {
@@ -5214,7 +5325,7 @@ public class PP extends javax.swing.JFrame {
             JOptionPane.showMessageDialog(Notifications, "Solicitud de Amistad rechazada.");
         }
         try {
-            db.query.execute("delete from Solicitudes where Emisor='" + User2 + "' AND Receptor='" + USER.getNombre() + "'");
+            db.query.execute("delete from Solicitudes where Emisor='" + User2 + "' AND Receptor='" + USER.getUsername() + "'");
             db.commit();
             m.removeRow(notifs.getSelectedRow());
             notifs.setModel(m);
@@ -5223,6 +5334,233 @@ public class PP extends javax.swing.JFrame {
         }
 
     }//GEN-LAST:event_notifsMouseClicked
+
+    private void ChangePPMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ChangePPMouseClicked
+        JFileChooser FChooser = new JFileChooser();
+        FileFilter Filter = new FileNameExtensionFilter("Imágenes",
+                "png", "jpg", "jpeg", "gif");
+        FChooser.setFileFilter(Filter);
+        File archive = null;
+        int op = FChooser.showOpenDialog(this);
+        if (op == JFileChooser.APPROVE_OPTION) {
+            archive = FChooser.getSelectedFile();
+        }
+        ImageIcon newBG = new ImageIcon(archive.getPath());
+        UserPic1.setIcon(newBG);
+        JOptionPane.showMessageDialog(this, "¡Cambios aplicados exitósamente!");
+    }//GEN-LAST:event_ChangePPMouseClicked
+
+    private void mywallMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_mywallMouseClicked
+        if (evt.isMetaDown()) {
+            source = evt.getSource();
+            PMPosts.show((Component) source, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_mywallMouseClicked
+
+    private void WallMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_WallMouseClicked
+        if (evt.isMetaDown()) {
+            source = evt.getSource();
+            PMPosts.show((Component) source, evt.getX(), evt.getY());
+        }
+    }//GEN-LAST:event_WallMouseClicked
+
+    private void ViewActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ViewActionPerformed
+        FullPost((JTable) source);
+    }//GEN-LAST:event_ViewActionPerformed
+
+    private void pic1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pic1MouseClicked
+        Image image = ((ImageIcon) pic1.getIcon()).getImage();
+        Image newimg = image.getScaledInstance(-1, 468, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(newimg);
+        mainpicv.setIcon(imageIcon);
+        IndPic.pack();
+        IndPic.setLocationRelativeTo(null);
+        IndPic.setVisible(true);
+    }//GEN-LAST:event_pic1MouseClicked
+
+    private void pic2MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pic2MouseClicked
+        Image image = ((ImageIcon) pic2.getIcon()).getImage();
+        Image newimg = image.getScaledInstance(-1, 468, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(newimg);
+        mainpicv.setIcon(imageIcon);
+        IndPic.pack();
+        IndPic.setLocationRelativeTo(null);
+        IndPic.setVisible(true);
+    }//GEN-LAST:event_pic2MouseClicked
+
+    private void pic3MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pic3MouseClicked
+        Image image = ((ImageIcon) pic3.getIcon()).getImage();
+        Image newimg = image.getScaledInstance(-1, 468, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(newimg);
+        mainpicv.setIcon(imageIcon);
+        IndPic.pack();
+        IndPic.setLocationRelativeTo(null);
+        IndPic.setVisible(true);
+    }//GEN-LAST:event_pic3MouseClicked
+
+    private void pic4MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_pic4MouseClicked
+        Image image = ((ImageIcon) pic4.getIcon()).getImage();
+        Image newimg = image.getScaledInstance(-1, 468, java.awt.Image.SCALE_SMOOTH);
+        ImageIcon imageIcon = new ImageIcon(newimg);
+        mainpicv.setIcon(imageIcon);
+        IndPic.pack();
+        IndPic.setLocationRelativeTo(null);
+        IndPic.setVisible(true);
+    }//GEN-LAST:event_pic4MouseClicked
+
+    private void AddPics1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_AddPics1MouseClicked
+        Comment(albmt.getText());
+    }//GEN-LAST:event_AddPics1MouseClicked
+
+    private void ShareAlbum1MouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_ShareAlbum1MouseClicked
+        Like(albmt.getText());
+    }//GEN-LAST:event_ShareAlbum1MouseClicked
+
+    private void commentpMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_commentpMouseClicked
+        Comment(DescPic1.getText());
+    }//GEN-LAST:event_commentpMouseClicked
+
+    private void likepMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_likepMouseClicked
+        Like(DescPic1.getText());
+    }//GEN-LAST:event_likepMouseClicked
+
+    private void LikePostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_LikePostMouseClicked
+        Like(NewStatus1.getText());
+        DefaultTableModel m = (DefaultTableModel) Wall.getModel();
+        DefaultTableModel m2 = (DefaultTableModel) mywall.getModel();
+        m.setRowCount(0);
+    }//GEN-LAST:event_LikePostMouseClicked
+
+    private void CommentPostMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_CommentPostMouseClicked
+        Comment(NewStatus1.getText());
+    }//GEN-LAST:event_CommentPostMouseClicked
+
+    private void NewStatusMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_NewStatusMouseClicked
+    NewStatus.setText("");
+    }//GEN-LAST:event_NewStatusMouseClicked
+
+    private void DescPicMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_DescPicMouseClicked
+    DescPic.setText("");
+    }//GEN-LAST:event_DescPicMouseClicked
+
+    public void FullPost(JTable table) {
+        String name = (String) table.getValueAt(table.getSelectedRow(), 2);
+        String author = (String) table.getValueAt(table.getSelectedRow(), 1);
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        try {
+            db.query.execute("select Tipo,Autor,Titulo,PathFoto,PathFoto2,PathFoto3,PathFoto4,Desc from Publicaciones where Autor='" + author + "' AND Titulo='" + name + "'"); // %% no importa que haya antes o despues
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                switch (rs.getString(1)) {
+                    case "txt":
+                        namepost.setText(rs.getString(2));
+                        NewStatus1.setText(rs.getString(3));
+                        ViewStatus.pack();
+                        ViewStatus.setLocationRelativeTo(null);
+                        ViewStatus.setVisible(true);
+                        break;
+                    case "albm":
+                        if (rs.getString(4) != null) {
+                            Image img = Toolkit.getDefaultToolkit().createImage(
+                                    rs.getString(4));
+                            ImageIcon imageIcon = new ImageIcon(img);
+                            Image image = imageIcon.getImage();
+                            Image newimg = image.getScaledInstance(-1, 130, java.awt.Image.SCALE_SMOOTH);
+                            imageIcon = new ImageIcon(newimg);
+                            pic1.setIcon(imageIcon);
+                            pic2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png")));
+                            pic3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png")));
+                            pic4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png")));
+                        }
+                        if (rs.getString(5) != null) {
+                            Image img = Toolkit.getDefaultToolkit().createImage(
+                                    rs.getString(5));
+                            ImageIcon imageIcon = new ImageIcon(img);
+                            Image image = imageIcon.getImage();
+                            Image newimg = image.getScaledInstance(-1, 130, java.awt.Image.SCALE_SMOOTH);
+                            imageIcon = new ImageIcon(newimg);
+                            pic2.setIcon(imageIcon);
+                            pic3.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png")));
+                            pic4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png")));
+                        }
+                        if (rs.getString(6) != null) {
+                            Image img = Toolkit.getDefaultToolkit().createImage(
+                                    rs.getString(6));
+                            ImageIcon imageIcon = new ImageIcon(img);
+                            Image image = imageIcon.getImage();
+                            Image newimg = image.getScaledInstance(-1, 130, java.awt.Image.SCALE_SMOOTH);
+                            imageIcon = new ImageIcon(newimg);
+                            pic3.setIcon(imageIcon);
+                            pic4.setIcon(new javax.swing.ImageIcon(getClass().getResource("/Imagenes/noimage.png")));
+                        }
+                        if (rs.getString(7) != null) {
+                            Image img = Toolkit.getDefaultToolkit().createImage(
+                                    rs.getString(7));
+                            ImageIcon imageIcon = new ImageIcon(img);
+                            Image image = imageIcon.getImage();
+                            Image newimg = image.getScaledInstance(-1, 130, java.awt.Image.SCALE_SMOOTH);
+                            imageIcon = new ImageIcon(newimg);
+                            pic4.setIcon(imageIcon);
+                        }
+                        albmt.setText(rs.getString(3));
+                        albmdesc.setText(rs.getString(8));
+                        ViewAlbum.pack();
+                        ViewAlbum.setLocationRelativeTo(null);
+                        ViewAlbum.setVisible(true);
+                        break;
+                    case "img":
+                        Image img = Toolkit.getDefaultToolkit().createImage(
+                                rs.getString(4));
+                        ImageIcon imageIcon = new ImageIcon(img);
+                        Image image = imageIcon.getImage();
+                        Image newimg = image.getScaledInstance(-1, 221, java.awt.Image.SCALE_SMOOTH);
+                        imageIcon = new ImageIcon(newimg);
+                        PreviewPic1.setIcon(imageIcon);
+                        DescPic1.setText(rs.getString(3));
+                        ViewPicture.pack();
+                        ViewPicture.setLocationRelativeTo(null);
+                        ViewPicture.setVisible(true);
+                        break;
+                }
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        db.desconectar();
+    }
+
+    public void Comment(String title) {
+        String comment = JOptionPane.showInputDialog("Escribe tu comentario.");
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        try {
+            db.query.execute("INSERT INTO Comentarios"
+                    + " (Comentario,Titulo)" // String van en ´´
+                    + " VALUES ('" + comment + "', '" + title + "')");
+            db.commit();
+            JOptionPane.showMessageDialog(null, "¡Comentario enviado!");
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        db.desconectar();
+    }
+
+    public void Like(String title) {
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        try {
+            db.query.execute("select Likes from Publicaciones where Titulo='" + title + "'"); // %% no importa que haya antes o despues
+            db.query.execute("update Publicaciones set Likes=Likes+1 where Titulo='" + title + "'");
+            db.commit();
+            JOptionPane.showMessageDialog(null, "¡Te gusta esta publicación!");
+            RefreshMyWall();
+            //  contlike = rs.getInt(1);
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        db.desconectar();
+    }
 
     public void PlaySong(File song) {
         p = new Media(song.toURI().toString());
@@ -5254,6 +5592,54 @@ public class PP extends javax.swing.JFrame {
         }
     }
 
+    public void RefreshMyWall() {
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        DefaultTableModel m = (DefaultTableModel) mywall.getModel();
+        try {
+            db.query.execute("select Autor,Titulo,Fecha,Likes from Publicaciones where Autor='" + USER.getUsername() + "'");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                Object[] temp = {rs.getString(3), rs.getString(1), rs.getString(2), rs.getInt(4)};
+                m.addRow(temp);
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        mywall.setModel(m);
+    }
+
+    public void RefreshGeneralWall() {
+        DefaultTableModel m = (DefaultTableModel) Wall.getModel();
+        Dba db = new Dba("./TheSN.accdb");
+        db.conectar();
+        ArrayList<String> friends = new ArrayList();
+        try {
+            db.query.execute("select A1 from Amigos where A1='" + USER.getUsername() + "'");
+            ResultSet rs = db.query.getResultSet();
+            while (rs.next()) {
+                friends.add(rs.getString(1));
+            }
+        } catch (SQLException ex) {
+            ex.printStackTrace();
+        }
+        for (String f : friends) {
+            try {
+                db.query.execute("select Autor, Titulo, Likes, Fecha from Publicaciones where Autor='" + f + "'");
+                ResultSet rs = db.query.getResultSet();
+                while (rs.next()) {
+                    Object[] temp = {rs.getString(2), rs.getString(1), rs.getString(3), rs.getInt(4)};
+                    m.addRow(temp);
+                }
+                Wall.setModel(m);
+            } catch (SQLException ex) {
+                ex.printStackTrace();
+            }
+        }
+        db.desconectar();
+
+    }
+
     public static void main(String args[]) throws Exceptions, SQLException {
 
         Calendar Cal = new GregorianCalendar(1999, 11, 24);
@@ -5268,11 +5654,7 @@ public class PP extends javax.swing.JFrame {
         Users = BAA.getUsers();
         BAA.overrideArchive();
         System.out.println(BAA.getUsers());
-        // try {
-//            CreateTable("Andrea");
-        //   } catch (SQLException ex) {
-        //       Logger.getLogger(PP.class.getName()).log(Level.SEVERE, null, ex);
-        // } 
+
 // Aqui muere lo de admin just in case
         //BinaryArchivesAdmin BAA = new BinaryArchivesAdmin("./User Information.aj");
         //BAA.loadArchive();
@@ -5320,7 +5702,6 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JDialog Agenda;
     private javax.swing.JDialog Album;
     private javax.swing.JList<String> AlbumList;
-    private javax.swing.JList<String> AlbumList1;
     private javax.swing.JTextField AlbumTitle;
     private javax.swing.JDialog AllUsersPV;
     private javax.swing.JDialog Archives;
@@ -5329,7 +5710,6 @@ public class PP extends javax.swing.JFrame {
     private com.toedter.calendar.JCalendar CalendarBday;
     private javax.swing.JDialog ChangeBG;
     private javax.swing.JButton ChangePP;
-    private javax.swing.JButton CommentPic;
     private javax.swing.JButton CommentPost;
     private javax.swing.JDialog Console;
     private javax.swing.JTextArea ConsoleText;
@@ -5363,7 +5743,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JDialog Icons;
     private javax.swing.JDialog Images;
     private javax.swing.JButton ImportMusic;
-    private javax.swing.JButton LikePic;
+    private javax.swing.JDialog IndPic;
     private javax.swing.JButton LikePost;
     private javax.swing.JDialog LockUser;
     private javax.swing.JFrame LogIn;
@@ -5387,6 +5767,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JButton NotifsB;
     private javax.swing.JButton Okay;
     private javax.swing.JMenuItem Open;
+    private javax.swing.JPopupMenu PMPosts;
     private javax.swing.JMenuItem Paste;
     private javax.swing.JButton PerfilB;
     private javax.swing.JDialog PerfilPreview;
@@ -5429,11 +5810,14 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JLabel UserPic1;
     private javax.swing.JButton UsersB;
     private javax.swing.JList<String> UsuariosLista;
+    private javax.swing.JMenuItem View;
     private javax.swing.JDialog ViewAlbum;
     private javax.swing.JDialog ViewPicture;
     private javax.swing.JDialog ViewStatus;
     private javax.swing.JTable Wall;
     private javax.swing.JTable agenda;
+    private javax.swing.JTextArea albmdesc;
+    private javax.swing.JTextField albmt;
     private javax.swing.JButton archives;
     private javax.swing.JButton b_cancel;
     private javax.swing.JButton b_login;
@@ -5445,6 +5829,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JButton calendar;
     private javax.swing.JComboBox<String> cb_question;
     private javax.swing.JLabel color;
+    private javax.swing.JButton commentp;
     private javax.swing.JButton console;
     private javax.swing.JSpinner end;
     private javax.swing.JButton estcolor;
@@ -5530,7 +5915,6 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel70;
     private javax.swing.JLabel jLabel71;
-    private javax.swing.JLabel jLabel72;
     private javax.swing.JLabel jLabel8;
     private javax.swing.JLabel jLabel9;
     private javax.swing.JMenu jMenu1;
@@ -5545,6 +5929,7 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JPanel jPanel14;
     private javax.swing.JPanel jPanel15;
     private javax.swing.JPanel jPanel16;
+    private javax.swing.JPanel jPanel17;
     private javax.swing.JPanel jPanel18;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JPanel jPanel20;
@@ -5576,7 +5961,6 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JScrollPane jScrollPane21;
     private javax.swing.JScrollPane jScrollPane23;
     private javax.swing.JScrollPane jScrollPane24;
-    private javax.swing.JScrollPane jScrollPane25;
     private javax.swing.JScrollPane jScrollPane26;
     private javax.swing.JScrollPane jScrollPane27;
     private javax.swing.JScrollPane jScrollPane28;
@@ -5595,14 +5979,12 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JSeparator jSeparator6;
     private javax.swing.JSeparator jSeparator7;
     private javax.swing.JTabbedPane jTabbedPane1;
-    private javax.swing.JTable jTable1;
-    private javax.swing.JTextArea jTextArea2;
-    private javax.swing.JTextField jTextField2;
     private javax.swing.JToolBar jToolBar1;
     private javax.swing.JToolBar jToolBar5;
     private javax.swing.JButton jb_forgotpw;
     private com.toedter.calendar.JDateChooser jd_newbday;
     private javax.swing.JTextField jt_userlogin;
+    private javax.swing.JButton likep;
     private javax.swing.JPasswordField lockscreenpw;
     private javax.swing.JMenu m_admin;
     private javax.swing.JMenu m_ajustes;
@@ -5620,12 +6002,19 @@ public class PP extends javax.swing.JFrame {
     private javax.swing.JMenuItem m_newpw;
     private javax.swing.JMenuItem m_newun;
     private javax.swing.JMenuItem m_newuser;
+    private javax.swing.JLabel mainpicv;
     private javax.swing.JLabel muestra;
     private javax.swing.JButton music;
+    private javax.swing.JTable mywall;
     private javax.swing.JLabel namelockscreen;
+    private javax.swing.JLabel namepost;
     private javax.swing.JButton netbeans;
     private javax.swing.JTable notifs;
     private javax.swing.JPasswordField pf_pwlogin;
+    private javax.swing.JLabel pic1;
+    private javax.swing.JLabel pic2;
+    private javax.swing.JLabel pic3;
+    private javax.swing.JLabel pic4;
     private javax.swing.JButton recycle;
     private javax.swing.JSpinner s_edad;
     private javax.swing.JButton savedate;
@@ -5683,4 +6072,5 @@ private File Sistema;
     ArrayList<File> TempFiles = new ArrayList();
     String imagepath = "";
     ArrayList albumpaths = new ArrayList();
+    Object source;
 }
